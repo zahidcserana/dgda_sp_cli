@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
 export class HomeComponent implements OnInit {
   constructor( private _script: ScriptLoaderService,
     private router: Router) {
-      this.router.navigate(['/login']);
+      this.router.navigate(['/']);
   }
 
   ngOnInit() {
