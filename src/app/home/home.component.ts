@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {Helpers} from '../helpers';
 import {ScriptLoaderService} from '../_services/script-loader.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -8,11 +9,13 @@ import {ScriptLoaderService} from '../_services/script-loader.service';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-
-  constructor( private _script: ScriptLoaderService) {
+  constructor( private _script: ScriptLoaderService,
+    private router: Router) {
+      this.router.navigate(['/login']);
   }
 
   ngOnInit() {
+    
     this.getSettings();
   }
   getSettings() {
