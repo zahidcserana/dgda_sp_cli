@@ -45,7 +45,7 @@ export class LoginComponent implements OnInit {
       'assets/js/jquery-2.1.4.min.js',
     ])
         .then(result => {
-          Helpers.setLoading(false);
+          //Helpers.setLoading(false);
         });
   }
 }
