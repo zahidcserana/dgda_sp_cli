@@ -30,9 +30,6 @@ export class LoginComponent implements OnInit {
     const password = '123456';
     //const password = form.value.password;
     this.authService.signinUser(email, password);
-    
-    // console.log('login');
-    // this.router.navigate(['/'])
   }
   getSettings() {
     Helpers.loadStyles('head', 'assets/css/bootstrap.min.css');

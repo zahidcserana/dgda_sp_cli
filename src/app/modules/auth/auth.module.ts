@@ -3,8 +3,5 @@ export interface UserData {
     name: string;
     email: string;
     token: string;
-    location_id: string;
-    terminal_id: string;
     user_type_id: number;
-    store_id: number;
 }
