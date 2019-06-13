@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Helpers } from 'src/app/helpers';
 import { ScriptLoaderService } from 'src/app/_services/script-loader.service';
 import {Router} from "@angular/router"
+import { Helpers } from 'src/app/helpers';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-login',
@@ -11,7 +12,8 @@ import {Router} from "@angular/router"
 export class LoginComponent implements OnInit {
 
   constructor( private _script: ScriptLoaderService,
-    private router: Router
+    private router: Router,
+    private authService: AuthService
     ) {
   }
 
@@ -20,9 +22,14 @@ export class LoginComponent implements OnInit {
   }
 
   login(){
+    //const email = form.value.email;
+    const email = 'zahid@gmail.com';
+    const password = '123456';
+    //const password = form.value.password;
+    this.authService.signinUser(email, password);
     
-    console.log('login');
-    this.router.navigate(['/'])
+    // console.log('login');
+    // this.router.navigate(['/'])
   }
   getSettings() {
     Helpers.loadStyles('head', 'assets/css/bootstrap.min.css');

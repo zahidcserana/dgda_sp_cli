@@ -5,6 +5,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import {ScriptLoaderService} from './_services/script-loader.service';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { AuthGuard } from './auth/auth-guard.service';
+import { AuthService } from './auth/auth.service';
 
 @NgModule({
   declarations: [
@@ -15,7 +17,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
     BrowserModule,
     AppRoutingModule
   ],
-  providers: [ScriptLoaderService],
+  providers: [ScriptLoaderService, AuthService, AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
