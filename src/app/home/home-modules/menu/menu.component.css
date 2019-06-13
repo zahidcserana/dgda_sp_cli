@@ -1,3 +1,6 @@
 .router-link {
     cursor: pointer;
 }
+.logout-menu {
+    float: right !important;
+}
