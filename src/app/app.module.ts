@@ -7,6 +7,7 @@ import {ScriptLoaderService} from './_services/script-loader.service';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { AuthGuard } from './auth/auth-guard.service';
 import { AuthService } from './auth/auth.service';
+import { LoginModule } from './auth/login/login.module';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { AuthService } from './auth/auth.service';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    LoginModule
   ],
   providers: [ScriptLoaderService, AuthService, AuthGuard],
   bootstrap: [AppComponent]
