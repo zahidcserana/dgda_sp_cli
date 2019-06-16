@@ -11,7 +11,7 @@ import * as $ from 'jquery';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-
+  loading = false;
   constructor( private _script: ScriptLoaderService,
     private router: Router,
     private authService: AuthService
@@ -28,6 +28,8 @@ export class LoginComponent implements OnInit {
 
 
   login(){
+    this.loading = true;
+    Helpers.setLoading(true);
     //const email = form.value.email;
     const email = 'zahid@gmail.com';
     const password = '123456';
