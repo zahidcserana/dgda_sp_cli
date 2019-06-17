@@ -49,7 +49,7 @@ export class HomeComponent implements OnInit {
       'assets/js/ace.min.js',
     ])
         .then(result => {
-          Helpers.setLoading(false);
+          //Helpers.setLoading(false);
         });
   }
 }
