@@ -13,7 +13,29 @@
   <link rel="icon" type="image/x-icon" href="favicon.ico">
 </head>
 <!-- body_class for login: login-layout light-login -->
-<body class="no-skin">
-  <app-root></app-root>
+<body class="no-skin"  onload="myFunction()" style="margin:0;">
+  <div id="loader"></div>
+
+  <div style="display:none;" id="myDiv" class="animate-bottom">
+    <app-root></app-root>
+  </div>
+
+  
+  
 </body>
 </html>
+
+
+
+<script>
+  var myVar;
+  
+  function myFunction() {
+    myVar = setTimeout(showPage, 3000);
+  }
+  
+  function showPage() {
+    document.getElementById("loader").style.display = "none";
+    document.getElementById("myDiv").style.display = "block";
+  }
+  </script>

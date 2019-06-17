@@ -12,12 +12,13 @@ import * as $ from 'jquery';
 export class HomeComponent implements OnInit {
   constructor( private _script: ScriptLoaderService,
     private router: Router) {
+      this.getSettings();
       $('body').attr('class', 'no-skin');
   }
 
   ngOnInit() {
     
-    this.getSettings();
+    
   }
   getSettings() {
     Helpers.loadStyles('head', 'assets/css/bootstrap.min.css');

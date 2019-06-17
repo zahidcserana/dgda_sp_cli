@@ -17,13 +17,14 @@ export class LoginComponent implements OnInit {
     private authService: AuthService
     ) {
       $('body').attr('class', 'login-layout light-login');
+      this.getSettings();
   }
 
   ngOnInit() {
     if(this.authService.authenticated){
       this.router.navigate(['/home']);
     }
-    this.getSettings();
+    
   }
 
 
