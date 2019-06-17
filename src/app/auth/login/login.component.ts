@@ -1,54 +1,80 @@
-import { Component, OnInit } from '@angular/core';
-import { ScriptLoaderService } from 'src/app/_services/script-loader.service';
-import {Router} from "@angular/router"
-import { Helpers } from 'src/app/helpers';
-import { AuthService } from '../auth.service';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {ScriptLoaderService} from 'src/app/_services/script-loader.service';
+import {Helpers} from 'src/app/helpers';
+import {AuthService} from '../auth.service';
 import * as $ from 'jquery';
+import {Router} from '@angular/router';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+    selector: 'app-login',
+    templateUrl: './login.component.html',
+    styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  loading = false;
-  constructor( private _script: ScriptLoaderService,
-    private router: Router,
-    private authService: AuthService
+    model: any = {
+        email: '',
+        password: ''
+    };
+    loading = false;
+    @ViewChild('hasAlert') alertContainer: ElementRef;
+
+    constructor(private _script: ScriptLoaderService,
+                private router: Router,
+                private authService: AuthService
     ) {
-      $('body').attr('class', 'login-layout light-login');
-      this.getSettings();
-  }
-
-  ngOnInit() {
-    if(this.authService.authenticated){
-      this.router.navigate(['/home']);
+        $('body').attr('class', 'login-layout light-login');
+        this.getSettings();
     }
-    
-  }
 
+    ngOnInit() {
+        if (this.authService.authenticated) {
+            this.router.navigate(['/home']);
+        }
 
-  login(){
-    this.loading = true;
-    Helpers.setLoading(true);
-    //const email = form.value.email;
-    const email = 'zahid@gmail.com';
-    const password = '123456';
-    //const password = form.value.password;
-    this.authService.signinUser(email, password);
-  }
-  getSettings() {
-    Helpers.loadStyles('head', 'assets/css/bootstrap.min.css');
-    Helpers.loadStyles('head', 'assets/font-awesome/4.5.0/css/font-awesome.min.css');
-    Helpers.loadStyles('head', 'assets/css/fonts.googleapis.com.css');
-    Helpers.loadStyles('head', 'assets/css/ace.min.css');
-    Helpers.loadStyles('head', 'assets/css/ace-rtl.min.css');
+    }
 
-    this._script.loadScripts('body', [
-      'assets/js/jquery-2.1.4.min.js',
-    ])
-        .then(result => {
-          //Helpers.setLoading(false);
-        });
-  }
+    signIn() {
+        this.loading = true;
+        this.authService.login(this.model).subscribe(
+            data => {
+                console.log(data)
+                if (data.status == '200') {
+                    let user = data.data;
+                    this.authService.setUser(user, true);
+                    //Helpers.setLoading(true);
+                    this.router.navigate(['/home']);
+                    this.loading = false;
+                } else {
+                    // this.alert.error(this.alertContainer, data.result.error, true, 5000);
+                    this.loading = false;
+                }
+            },
+            error => {
+                console.log(error.result.error);
+                // $('custom-alert').css('display', 'block');
+                // this.alert.error(
+                //     this.alertContainer,
+                //     this.authService.getErrorMessage(error),
+                //     true,
+                //     5000
+                // );
+                this.loading = false;
+            }
+        );
+    }
+
+    getSettings() {
+        Helpers.loadStyles('head', 'assets/css/bootstrap.min.css');
+        Helpers.loadStyles('head', 'assets/font-awesome/4.5.0/css/font-awesome.min.css');
+        Helpers.loadStyles('head', 'assets/css/fonts.googleapis.com.css');
+        Helpers.loadStyles('head', 'assets/css/ace.min.css');
+        Helpers.loadStyles('head', 'assets/css/ace-rtl.min.css');
+
+        this._script.loadScripts('body', [
+            'assets/js/jquery-2.1.4.min.js',
+        ])
+            .then(result => {
+                //Helpers.setLoading(false);
+            });
+    }
 }

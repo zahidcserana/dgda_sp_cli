@@ -3,5 +3,5 @@ export interface UserData {
     name: string;
     email: string;
     token: string;
-    user_type_id: number;
+    user_type: number;
 }

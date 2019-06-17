@@ -8,6 +8,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { AuthGuard } from './auth/auth-guard.service';
 import { AuthService } from './auth/auth.service';
 import { LoginModule } from './auth/login/login.module';
+import {HttpWithInjectorModule} from './modules/http-with-injector/http-with-injector.module';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { LoginModule } from './auth/login/login.module';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    LoginModule
+    LoginModule,
+    HttpWithInjectorModule.forRoot({endPoint: ''})
   ],
   providers: [ScriptLoaderService, AuthService, AuthGuard],
   bootstrap: [AppComponent]

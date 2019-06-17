@@ -3,7 +3,12 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  api_url: 'http://dgdasp.local/',
+  protocal: 'http://',
+  storeHoshName: 'localhost:4200',
+  patnerHoshName: 'localhost:4200',
+  partner: 'localhost'
 };
 
 /*

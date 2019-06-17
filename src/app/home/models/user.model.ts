@@ -5,7 +5,7 @@ export class User{
     avatar?:string;
     email:string;
     phone: string;
-    user_type_id: string = null;
+    user_type: string = null;
     created?:string;
     status?:number = null;
     social_type?:string;
@@ -18,7 +18,7 @@ export class User_login{
     name:string;
     token:string;
     user_id:number;
-    user_type_id:number;
+    user_type:number;
     email:string;
     image:string;
     location_id: number;
