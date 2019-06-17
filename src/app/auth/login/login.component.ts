@@ -37,10 +37,10 @@ export class LoginComponent implements OnInit {
         this.loading = true;
         this.authService.login(this.model).subscribe(
             data => {
-                console.log(data)
+                console.log(data);
                 if (data.status == '200') {
                     let user = data.data;
-                    this.authService.setUser(user, true);
+                    this.authService.setUser(user);
                     //Helpers.setLoading(true);
                     this.router.navigate(['/home']);
                     this.loading = false;

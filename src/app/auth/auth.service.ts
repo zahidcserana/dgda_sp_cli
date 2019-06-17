@@ -4,6 +4,7 @@ import {UserData} from '../modules/auth/auth.module';
 import {Observable} from 'rxjs';
 import {HttpErrorResponse} from '@angular/common/http';
 import {HttpService} from '../modules/http-with-injector/http.service';
+import {dcrypt} from '../globals/_classes/functions';
 
 @Injectable()
 export class AuthService {
