@@ -1,6 +1,7 @@
-import { environment } from "../../../environments/environment";
 
 // local server
+
+import {environment} from '../../../environments/environment';
 
 export const storeHoshName = environment.storeHoshName;
 
