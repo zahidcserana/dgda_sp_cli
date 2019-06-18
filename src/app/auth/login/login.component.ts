@@ -30,7 +30,7 @@ export class LoginComponent implements OnInit {
 
     ngOnInit() {
         if (this.authService.authenticated) {
-            this.router.navigate(['/home']);
+            this.router.navigate(['/login']);
         }
 
     }
@@ -44,7 +44,7 @@ export class LoginComponent implements OnInit {
                     let user = data.data;
                     this.authService.setUser(user);
                     // Helpers.setLoading(true);
-                    this.router.navigate(['/home']);
+                    this.router.navigate(['/']);
                     this.loading = false;
                 } else {
                     console.log(data);
