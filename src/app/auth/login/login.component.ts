@@ -29,6 +29,8 @@ export class LoginComponent implements OnInit {
     }
 
     ngOnInit() {
+        $('#spinner-load').css('display', 'none');
+
         if (this.authService.authenticated) {
             this.router.navigate(['/login']);
         }
@@ -36,6 +38,9 @@ export class LoginComponent implements OnInit {
     }
 
     signIn() {
+        $('#spinner-load').css('display', 'block');
+        $('#login-span').css('display', 'none');
+
         this.loading = true;
         this.authService.login(this.model).subscribe(
             data => {
@@ -44,8 +49,12 @@ export class LoginComponent implements OnInit {
                     let user = data.data;
                     this.authService.setUser(user);
                     // Helpers.setLoading(true);
-                    this.router.navigate(['/']);
                     this.loading = false;
+                    setTimeout(function() {
+                        $('#spinner-load').css('display', 'block');
+                    }, 3000);
+                    this.router.navigate(['/']);
+
                 } else {
                     console.log(data);
                     this.alert.error(this.alertContainer, data.error, true, 5000);
@@ -53,6 +62,9 @@ export class LoginComponent implements OnInit {
                 }
             },
             error => {
+                $('#spinner-load').css('display', 'none');
+                $('#login-span').css('display', 'block');
+
                 console.log(error.error);
                 $('custom-alert').css('display', 'block');
                 this.alert.error(
@@ -67,6 +79,7 @@ export class LoginComponent implements OnInit {
     }
 
     getSettings() {
+        Helpers.loadStyles('head', 'https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css');
         Helpers.loadStyles('head', 'assets/css/bootstrap.min.css');
         Helpers.loadStyles('head', 'assets/font-awesome/4.5.0/css/font-awesome.min.css');
         Helpers.loadStyles('head', 'assets/css/fonts.googleapis.com.css');
@@ -74,6 +87,8 @@ export class LoginComponent implements OnInit {
         Helpers.loadStyles('head', 'assets/css/ace-rtl.min.css');
 
         this._script.loadScripts('body', [
+            'https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js',
+            'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js',
             'assets/js/jquery-2.1.4.min.js',
         ])
             .then(result => {

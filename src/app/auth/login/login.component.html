@@ -47,8 +47,16 @@
                                                 <button type="submit" [disabled]="loading || !f.form.valid" id="login-btn"
                                                         class="width-35 pull-right btn btn-sm btn-primary" [ngClass]="{'m-loader m-loader--skin-dark m-loader--right': loading}" style="margin-top: 0px;">
                                                     <i class="ace-icon fa fa-key"></i>
-                                                    <span class="bigger-110">Login</span>
+
+                                                    <span  id="login-span" class="bigger-110">Login</span>
+
+                                                    <div class="spinner-border text-primary" id="spinner-load" role="status">
+                                                        <span class="sr-only">Loading...</span>
+                                                    </div>
                                                 </button>
+
+
+
                                             </div>
                                             <div class="space-4"></div>
                                         </fieldset>
