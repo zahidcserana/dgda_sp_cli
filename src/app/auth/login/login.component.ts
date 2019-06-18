@@ -4,6 +4,7 @@ import {Helpers} from 'src/app/helpers';
 import {AuthService} from '../auth.service';
 import * as $ from 'jquery';
 import {Router} from '@angular/router';
+import {AlertService} from '../../modules/alert/alert.service';
 
 @Component({
     selector: 'app-login',
@@ -20,6 +21,7 @@ export class LoginComponent implements OnInit {
 
     constructor(private _script: ScriptLoaderService,
                 private router: Router,
+                private alert: AlertService,
                 private authService: AuthService
     ) {
         $('body').attr('class', 'login-layout light-login');
@@ -41,23 +43,24 @@ export class LoginComponent implements OnInit {
                 if (data.status == '200') {
                     let user = data.data;
                     this.authService.setUser(user);
-                    //Helpers.setLoading(true);
+                    // Helpers.setLoading(true);
                     this.router.navigate(['/home']);
                     this.loading = false;
                 } else {
-                    // this.alert.error(this.alertContainer, data.result.error, true, 5000);
+                    console.log(data);
+                    this.alert.error(this.alertContainer, data.error, true, 5000);
                     this.loading = false;
                 }
             },
             error => {
-                console.log(error.result.error);
-                // $('custom-alert').css('display', 'block');
-                // this.alert.error(
-                //     this.alertContainer,
-                //     this.authService.getErrorMessage(error),
-                //     true,
-                //     5000
-                // );
+                console.log(error.error);
+                $('custom-alert').css('display', 'block');
+                this.alert.error(
+                    this.alertContainer,
+                    this.authService.getErrorMessage(error),
+                    true,
+                    5000
+                );
                 this.loading = false;
             }
         );
@@ -74,7 +77,7 @@ export class LoginComponent implements OnInit {
             'assets/js/jquery-2.1.4.min.js',
         ])
             .then(result => {
-                //Helpers.setLoading(false);
+                // Helpers.setLoading(false);
             });
     }
 }

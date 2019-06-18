@@ -9,6 +9,7 @@ import { AuthGuard } from './auth/auth-guard.service';
 import { AuthService } from './auth/auth.service';
 import { LoginModule } from './auth/login/login.module';
 import {HttpWithInjectorModule} from './modules/http-with-injector/http-with-injector.module';
+import {AlertModule} from './modules/alert/alert.module';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import {HttpWithInjectorModule} from './modules/http-with-injector/http-with-inj
     BrowserModule,
     AppRoutingModule,
     LoginModule,
+    AlertModule.forRoot({main: 'something'}),
     HttpWithInjectorModule.forRoot({endPoint: ''})
   ],
   providers: [ScriptLoaderService, AuthService, AuthGuard],

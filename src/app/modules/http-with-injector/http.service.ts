@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import 'rxjs/add/operator/toPromise';
-import { EndPoint } from '../../globals/endPoint/config';
+import {EndPoint} from '../../globals/endPoint/config';
 
 @Injectable()
 export class HttpService {
@@ -36,13 +36,10 @@ export class HttpService {
 
     getErrorMessage(err: HttpErrorResponse) {
         let message = '';
-        console.log(err);
+        console.log('err');
+        console.log(err.error);
         if (err.error) {
-            if (err.error.result) {
-                message = err.error.result.error ? (err.error.result.error.email ? err.error.result.error.email : err.error.result.error) : err.error.result.message;
-            } else {
-                message = err.message ? err.message : err.statusText;
-            }
+            message = err.error.error ? err.error.error : 'Something went wrong!';
         }
         return message;
     }

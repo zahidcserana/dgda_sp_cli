@@ -10,9 +10,7 @@
                             <span class="white" id="id-text2"> Smart Pharmacy</span>
                         </h1>
                     </div>
-
                     <div class="space-6"></div>
-
                     <div class="position-relative">
                         <div id="login-box" class="login-box visible widget-box no-border">
                             <div class="widget-body">
@@ -20,86 +18,70 @@
                                     <h4 class="header blue lighter bigger">
                                         <i class="ace-icon"></i>
                                         Sign in
+
                                     </h4>
                                     <div class="space-6"></div>
-
                                     <div class="custom-alert" #hasAlert></div>
-
-                                    <form (ngSubmit)="signIn()" #f="ngForm" class="m-login__form m-form" autocomplete="off">
-
-                                    <fieldset>
+                                    <form (ngSubmit)="signIn()" #f="ngForm" autocomplete="off">
+                                        <fieldset>
                                             <label class="block clearfix">
-                        <span class="block input-icon input-icon-right">
-
-                            <input class="form-control" autofocus type="email" placeholder="Email" name="email" [(ngModel)]="model.email"
-                                   #email="ngModel" autocomplete="nope" required>
-
-                          <i class="ace-icon fa fa-user"></i>
-                        </span>
+												<span class="block input-icon input-icon-right">
+													<input class="form-control" autofocus type="email" placeholder="Email" name="email" [(ngModel)]="model.email"
+                                                           #email="ngModel" autocomplete="nope" required>
+														<i class="ace-icon fa fa-user"></i>
+													</span>
                                             </label>
-
                                             <label class="block clearfix">
-                        <span class="block input-icon input-icon-right">
-
-                            <input class="form-control" type="password" placeholder="Password"
-                                   autocomplete="new-password" name="password" [(ngModel)]="model.password" #password="ngModel" required>
-
-                          <i class="ace-icon fa fa-lock"></i>
-                        </span>
+													<span class="block input-icon input-icon-right">
+														<input class="form-control" type="password" placeholder="Password"
+                                                               autocomplete="new-password" name="password" [(ngModel)]="model.password" #password="ngModel" required>
+															<i class="ace-icon fa fa-lock"></i>
+														</span>
                                             </label>
-
                                             <div class="space"></div>
-
                                             <div class="clearfix">
                                                 <label class="inline">
                                                     <input type="checkbox" class="ace"/>
                                                     <span class="lbl"> Remember Me</span>
                                                 </label>
-
                                                 <button type="submit" [disabled]="loading || !f.form.valid" id="login-btn"
                                                         class="width-35 pull-right btn btn-sm btn-primary" [ngClass]="{'m-loader m-loader--skin-dark m-loader--right': loading}" style="margin-top: 0px;">
                                                     <i class="ace-icon fa fa-key"></i>
                                                     <span class="bigger-110">Login</span>
                                                 </button>
-
                                             </div>
-
                                             <div class="space-4"></div>
                                         </fieldset>
                                     </form>
-                                </div><!-- /.widget-main -->
-
-                            </div><!-- /.widget-body -->
-                        </div><!-- /.login-box -->
-                    </div><!-- /.position-relative -->
+                                </div>
+                                <!-- /.widget-main -->
+                            </div>
+                            <!-- /.widget-body -->
+                        </div>
+                        <!-- /.login-box -->
+                    </div>
+                    <!-- /.position-relative -->
                 </div>
-            </div><!-- /.col -->
-        </div><!-- /.row -->
-    </div><!-- /.main-content -->
-</div><!-- /.main-container -->
-
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.main-content -->
+</div>
+<!-- /.main-container -->
 <div class="footer-logo">
     <h5 class="blue" id="id-company-text">&copy; cerebrum technology ltd</h5>
 </div>
 <!-- basic scripts -->
-
-<!-- <![endif]-->
-
+<!--
+<![endif]-->
 <!--[if IE]>
 <script src="assets/js/jquery-1.11.3.min.js"></script>
 <![endif]-->
 <script type="text/javascript">
-    if ('ontouchstart' in document.documentElement) document.write("<script src='assets/js/jquery.mobile.custom.min.js'>" + "<" + "/script>");
+    if ('ontouchstart' in document.documentElement) document.write("
+        <script src='assets/js/jquery.mobile.custom.min.js'>" + "<" + "/script>");
+
 </script>
 
-<!-- inline scripts related to this page -->
-<script type="text/javascript">
-    jQuery(function ($) {
-        $(document).on('click', '.toolbar a[data-target]', function (e) {
-            e.preventDefault();
-            var target = $(this).data('target');
-            $('.widget-box.visible').removeClass('visible');//hide others
-            $(target).addClass('visible');//show target
-        });
-    });
-</script>
