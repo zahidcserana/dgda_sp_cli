@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Helpers} from '../../helpers';
 import {ScriptLoaderService} from '../../_services/script-loader.service';
 import {Router} from '@angular/router';
+import * as $ from 'jquery';
 
 @Component({
     selector: 'app-purchase',
@@ -13,12 +14,16 @@ export class PurchaseComponent implements OnInit {
     constructor(private _script: ScriptLoaderService,
                 private router: Router) {
         this.getSettings();
+
     }
 
     ngOnInit() {
+
     }
 
     getSettings() {
+
+        Helpers.loadStyles('head', 'assets/css/select2.min.css');
         Helpers.loadStyles('head', 'assets/css/jquery-ui.custom.min.css');
         Helpers.loadStyles('head', 'assets/css/chosen.min.css');
         Helpers.loadStyles('head', 'assets/css/bootstrap-datepicker3.min.css');
@@ -28,6 +33,8 @@ export class PurchaseComponent implements OnInit {
         Helpers.loadStyles('head', 'assets/css/bootstrap-colorpicker.min.css');
 
         this._script.loadScripts('body', [
+            'assets/js/jquery-2.1.4.min.js',
+            'assets/js/select2.min.js',
             'assets/js/chosen.jquery.min.js',
             'assets/js/spinbox.min.js',
             'assets/js/bootstrap-datepicker.min.js',
@@ -41,9 +48,12 @@ export class PurchaseComponent implements OnInit {
             'assets/js/jquery.inputlimiter.min.js',
             'assets/js/jquery.maskedinput.min.js',
             'assets/js/bootstrap-tag.min.js',
+            'assets/js/custom.js',
         ])
             .then(result => {
                 // Helpers.setLoading(false);
             });
+
+
     }
 }

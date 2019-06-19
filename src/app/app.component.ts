@@ -41,7 +41,7 @@ export class AppComponent {
       'assets/js/jquery.flot.pie.min.js',
       'assets/js/jquery.flot.resize.min.js',
       'assets/js/ace-elements.min.js',
-      'assets/js/ace.min.js',
+      'assets/js/ace.min.js'
     ])
         .then(result => {
           // Helpers.setLoading(false);
