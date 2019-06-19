@@ -1,0 +1,22 @@
+.form-actions {
+    display: block;
+    background-color: #ffffff;
+    border-top: none;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    padding: 19px 20px 20px;
+}
+
+#checkout-cart {
+    padding-left: 25%;
+    padding-right: 25%;
+    border-top: 0 !important;
+}
+
+table > caption {
+    padding-top: 8px;
+    padding-bottom: 8px;
+    color: #777;
+    text-align: center;
+    font-weight: bold;
+}
