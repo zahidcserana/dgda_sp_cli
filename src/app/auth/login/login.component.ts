@@ -39,7 +39,6 @@ export class LoginComponent implements OnInit {
 
     signIn() {
         $('#spinner-load').css('display', 'block');
-        $('#login-span').css('display', 'none');
 
         this.loading = true;
         this.authService.login(this.model).subscribe(
@@ -63,7 +62,6 @@ export class LoginComponent implements OnInit {
             },
             error => {
                 $('#spinner-load').css('display', 'none');
-                $('#login-span').css('display', 'block');
 
                 console.log(error.error);
                 $('custom-alert').css('display', 'block');

@@ -40,22 +40,21 @@
                                             </label>
                                             <div class="space"></div>
                                             <div class="clearfix">
-                                                <label class="inline">
+                                                <label class="inline" id="remember-me">
                                                     <input type="checkbox" class="ace"/>
                                                     <span class="lbl"> Remember Me</span>
                                                 </label>
+
+                                                <div class="pull-right spinner-border text-primary" id="spinner-load" role="status">
+                                                    <span class="sr-only">Loading...</span>
+                                                </div>
+
                                                 <button type="submit" [disabled]="loading || !f.form.valid" id="login-btn"
-                                                        class="width-35 pull-right btn btn-sm btn-primary" [ngClass]="{'m-loader m-loader--skin-dark m-loader--right': loading}" style="margin-top: 0px;">
+                                                        class="width-35 pull-right btn btn-sm btn-primary">
                                                     <i class="ace-icon fa fa-key"></i>
 
                                                     <span  id="login-span" class="bigger-110">Login</span>
-
-                                                    <div class="spinner-border text-primary" id="spinner-load" role="status">
-                                                        <span class="sr-only">Loading...</span>
-                                                    </div>
                                                 </button>
-
-
 
                                             </div>
                                             <div class="space-4"></div>
