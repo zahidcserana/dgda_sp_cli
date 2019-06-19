@@ -24,17 +24,26 @@ export class LoginComponent implements OnInit {
                 private alert: AlertService,
                 private authService: AuthService
     ) {
+        document.getElementById('loader').style.display = 'block';
+        document.getElementById('myDiv').style.display = 'none';
         $('body').attr('class', 'login-layout light-login');
         this.getSettings();
     }
 
     ngOnInit() {
+        setTimeout(this.showPage, 3000);
+
         $('#spinner-load').css('display', 'none');
 
         if (this.authService.authenticated) {
             this.router.navigate(['/login']);
         }
 
+    }
+
+    showPage() {
+        document.getElementById('loader').style.display = 'none';
+        document.getElementById('myDiv').style.display = 'block';
     }
 
     signIn() {
