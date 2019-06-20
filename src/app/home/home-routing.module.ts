@@ -17,7 +17,10 @@ const routes: Routes = [
                 path: 'purchase',
                 loadChildren: './purchase/purchase.module#PurchaseModule',
             },
-
+            {
+                path: 'sale',
+                loadChildren: './sale/sale.module#SaleModule',
+            },
         ],
     },
 
