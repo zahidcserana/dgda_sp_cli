@@ -26,7 +26,6 @@ export class HttpInspectorService implements HttpInterceptor {
             });
             return next.handle(authReq) as any;
         } else if (this.auth.authenticated) {
-            ;
             const token = this.auth.getToken() ? this.auth.getToken() : '';
             const authReq = req.clone({
                 headers: req.headers.set('Authorization', 'Bearer ' + token)

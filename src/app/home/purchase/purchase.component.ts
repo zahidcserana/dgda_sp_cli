@@ -3,6 +3,9 @@ import {Helpers} from '../../helpers';
 import {ScriptLoaderService} from '../../_services/script-loader.service';
 import {Router} from '@angular/router';
 import * as $ from 'jquery';
+import {catchError, debounceTime, distinctUntilChanged, map, switchMap, tap} from 'rxjs/operators';
+import {Observable} from 'rxjs';
+import {CartService} from '../cart-service/cart.service';
 
 @Component({
     selector: 'app-purchase',
@@ -11,8 +14,14 @@ import * as $ from 'jquery';
 })
 export class PurchaseComponent implements OnInit {
 
+    public model: any;
+    loader_sub: boolean;
+    loader: boolean;
+    searchData: any[] = [];
     constructor(private _script: ScriptLoaderService,
-                private router: Router) {
+                private router: Router,
+                private cartS: CartService,
+                ) {
         this.getSettings();
 
     }
@@ -21,8 +30,41 @@ export class PurchaseComponent implements OnInit {
 
     }
 
-    getSettings() {
+    search = (text$: Observable<string>) => {
+        return text$.pipe(
+            debounceTime(300),
+            distinctUntilChanged(),
+            tap(() => {
+                 this.searchData = [];
+                 this.loader_sub = true;
+            }),
+            switchMap(term => {
+                this.loader_sub = true;
+                return this.getMedicineList(term);
+            }),
+        );
+    }
 
+    private getMedicineList(params): any {
+        if (!params && params === "") {
+            this.loader_sub = false;
+            return [];
+        }
+        const search = "search=" + params.trim();
+        return this.cartS.searchProduct(search).pipe(
+            map(res => {
+                this.loader_sub = false;
+                this.searchData = res;
+                return this.searchData;
+            }),
+            catchError(() => {
+                this.loader_sub = false;
+                return [];
+            })
+        );
+    }
+
+    getSettings() {
         Helpers.loadStyles('head', 'assets/css/select2.min.css');
         Helpers.loadStyles('head', 'assets/css/jquery-ui.custom.min.css');
         Helpers.loadStyles('head', 'assets/css/chosen.min.css');
@@ -31,7 +73,7 @@ export class PurchaseComponent implements OnInit {
         Helpers.loadStyles('head', 'assets/css/daterangepicker.min.css');
         Helpers.loadStyles('head', 'assets/css/bootstrap-datetimepicker.min.css');
         Helpers.loadStyles('head', 'assets/css/bootstrap-colorpicker.min.css');
-
+        Helpers.loadStyles('head', 'assets/css/custom.css');
         this._script.loadScripts('body', [
             'assets/js/jquery-2.1.4.min.js',
             'assets/js/select2.min.js',

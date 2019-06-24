@@ -61,7 +61,8 @@ export class AuthService {
             const token = splitToken.map((m, i) => {
                 return (i + 1) % 2 === 0 ? dcrypt(m, 'upper') : dcrypt(m);
             }).join('.');
-            return token.trim();
+            //return token.trim();
+            return current_user.token;
         }
         return false;
     }
