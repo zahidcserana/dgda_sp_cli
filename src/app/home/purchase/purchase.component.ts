@@ -16,7 +16,7 @@ export class PurchaseComponent implements OnInit {
     cartItem: any = {
         medicine: '',
         company: '',
-        quantity: 0
+        quantity: ''
     };
     public model: any;
     loader_sub: boolean;
