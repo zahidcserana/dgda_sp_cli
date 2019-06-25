@@ -348,5 +348,9 @@ export class CartService {
     getShippingList() {
         return this.http.get(`shipping-carrier-list`).pipe(map(res => res.result.data), catchError( e => of([])));
     }
+    /** add to cart */
+    addtoCart(data: any) {
+        return this.http.post("carts/add-to-cart", data).toPromise();
+    }
 
 }

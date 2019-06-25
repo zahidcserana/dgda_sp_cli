@@ -1,11 +1,11 @@
-import {Component, OnInit} from '@angular/core';
-import {Helpers} from '../../helpers';
-import {ScriptLoaderService} from '../../_services/script-loader.service';
-import {Router} from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { Helpers } from '../../helpers';
+import { ScriptLoaderService } from '../../_services/script-loader.service';
+import { Router, ActivatedRoute } from '@angular/router';
 import * as $ from 'jquery';
-import {catchError, debounceTime, distinctUntilChanged, map, switchMap, tap} from 'rxjs/operators';
-import {Observable} from 'rxjs';
-import {CartService} from '../cart-service/cart.service';
+import { catchError, debounceTime, distinctUntilChanged, map, switchMap, tap } from 'rxjs/operators';
+import { Observable, Subscription } from 'rxjs';
+import { CartService } from '../cart-service/cart.service';
 
 @Component({
     selector: 'app-purchase',
@@ -13,30 +13,74 @@ import {CartService} from '../cart-service/cart.service';
     styleUrls: ['./purchase.component.css']
 })
 export class PurchaseComponent implements OnInit {
-
+    cartItem: any = {
+        medicine: '',
+        company: '',
+        quantity: 0
+    };
     public model: any;
     loader_sub: boolean;
     loader: boolean;
     searchData: any[] = [];
-    constructor(private _script: ScriptLoaderService,
-                private router: Router,
-                private cartS: CartService,
-                ) {
+    companyList: any[] = [];
+    sub: Subscription
+    loading = false;
+
+    constructor(
+        private _script: ScriptLoaderService,
+        private router: Router,
+        private cartS: CartService,
+        private route: ActivatedRoute
+    ) {
         this.getSettings();
 
     }
 
-    ngOnInit() {
-
+    addToCart() {
+        this.cartS.addtoCart(this.cartItem).then(
+            res => {
+                // if(res.status === 'OK') {
+                //     if(res.result.error) {
+                //         this.alertS.error(this.alertContainer, res.result.error, true, 5000);
+                //     } else {
+                //         this.alertS.success(this.alertContainer, 'Product has been added to cart', true, 5000);
+                //     }
+                //     this.cartS.saveCartsInlocalStorage(res.result.data);
+                //     this.cartS.cartReload.next({ reload: true, items: res.result.data.cart_items });
+                //     localStorage.setItem('token', res.result.data.token);
+                //     this.cartLoad = false;
+                // }
+            }
+        ).catch(
+            err => {
+                // this.cartLoad = false;
+                // this.alertS.error(this.alertContainer, 'Product has not been added to cart', true, 5000);
+            }
+        );
     }
+
+    ngOnInit() {
+        this.sub = this.route.data.subscribe(
+            val => {
+                this.companyList = val && val['companies'] ? val['companies'] : [];
+            }
+        );
+    }
+    company_search = (company$: Observable<string>) =>
+        company$.pipe(
+      debounceTime(200),
+      distinctUntilChanged(),
+      map(term => term.length < 2 ? []
+        : this.companyList.filter(v => v.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10))
+    )
 
     search = (text$: Observable<string>) => {
         return text$.pipe(
             debounceTime(300),
             distinctUntilChanged(),
             tap(() => {
-                 this.searchData = [];
-                 this.loader_sub = true;
+                this.searchData = [];
+                this.loader_sub = true;
             }),
             switchMap(term => {
                 this.loader_sub = true;

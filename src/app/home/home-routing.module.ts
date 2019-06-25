@@ -3,6 +3,7 @@ import {Routes, RouterModule} from '@angular/router';
 import {HomeComponent} from './home.component';
 import {LoginComponent} from '../auth/login/login.component';
 import {AuthGuard} from '../auth/auth-guard.service';
+import { HomeResolveService } from './service/home-resolve.service';
 
 const routes: Routes = [
     {
@@ -16,6 +17,7 @@ const routes: Routes = [
             {
                 path: 'purchase',
                 loadChildren: './purchase/purchase.module#PurchaseModule',
+                resolve: {'companies': HomeResolveService}
             },
             {
                 path: 'sale',

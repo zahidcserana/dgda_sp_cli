@@ -10,6 +10,8 @@ import { AuthService } from './auth/auth.service';
 import { LoginModule } from './auth/login/login.module';
 import {HttpWithInjectorModule} from './modules/http-with-injector/http-with-injector.module';
 import {AlertModule} from './modules/alert/alert.module';
+import { HomeService } from './home/service/home.service';
+import { HomeResolveService } from './home/service/home-resolve.service';
 
 @NgModule({
   declarations: [
@@ -23,7 +25,7 @@ import {AlertModule} from './modules/alert/alert.module';
     AlertModule.forRoot({main: 'something'}),
     HttpWithInjectorModule.forRoot({endPoint: ''})
   ],
-  providers: [ScriptLoaderService, AuthService, AuthGuard],
+  providers: [ScriptLoaderService, AuthService, AuthGuard, HomeService, HomeResolveService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
