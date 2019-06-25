@@ -11,11 +11,29 @@ export interface CartDiscountConfig {
 }
 
 declare let $: any;
-
+export interface CartviewSubjectConfig {
+    reload?: boolean;
+    items?: CartItem[];
+}
 
 @Injectable()
 export class CartService {
 
+    /** add to cart */
+
+    private cartsubject: CartviewSubjectConfig = { reload: false };
+    cartReload = new BehaviorSubject(this.cartsubject);
+
+    addtoCart(data: any) {
+        return this.http.post("carts/add-to-cart", data).toPromise();
+    }
+
+    saveCartsInlocalStorage(data) {
+        localStorage.setItem("user_cart", JSON.stringify(data));
+    }
+
+
+    /** *** *** *** */
     config: CartServiceConfig;
     private discountSubject: CartDiscountConfig = { reload: false };
     cartDiscount = new BehaviorSubject(this.discountSubject);
@@ -348,9 +366,6 @@ export class CartService {
     getShippingList() {
         return this.http.get(`shipping-carrier-list`).pipe(map(res => res.result.data), catchError( e => of([])));
     }
-    /** add to cart */
-    addtoCart(data: any) {
-        return this.http.post("carts/add-to-cart", data).toPromise();
-    }
+
 
 }

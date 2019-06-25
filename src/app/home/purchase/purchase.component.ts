@@ -18,6 +18,7 @@ export class PurchaseComponent implements OnInit {
         company: '',
         quantity: ''
     };
+    cartLoad: boolean;
     public model: any;
     loader_sub: boolean;
     loader: boolean;
@@ -39,17 +40,17 @@ export class PurchaseComponent implements OnInit {
     addToCart() {
         this.cartS.addtoCart(this.cartItem).then(
             res => {
-                // if(res.status === 'OK') {
-                //     if(res.result.error) {
-                //         this.alertS.error(this.alertContainer, res.result.error, true, 5000);
-                //     } else {
-                //         this.alertS.success(this.alertContainer, 'Product has been added to cart', true, 5000);
-                //     }
-                //     this.cartS.saveCartsInlocalStorage(res.result.data);
-                //     this.cartS.cartReload.next({ reload: true, items: res.result.data.cart_items });
-                //     localStorage.setItem('token', res.result.data.token);
-                //     this.cartLoad = false;
-                // }
+                if(res.success === true) {
+                    // if(res.result.error) {
+                    //     this.alertS.error(this.alertContainer, res.result.error, true, 5000);
+                    // } else {
+                    //     this.alertS.success(this.alertContainer, 'Product has been added to cart', true, 5000);
+                    // }
+                    this.cartS.saveCartsInlocalStorage(res.data);
+                    // this.cartS.cartReload.next({ reload: true, items: res.result.data.cart_items });
+                    localStorage.setItem('token', res.data.token);
+                    this.cartLoad = false;
+                }
             }
         ).catch(
             err => {
