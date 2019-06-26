@@ -81,7 +81,7 @@ export class PurchaseComponent implements OnInit {
     addToCart() {
         const token = localStorage.getItem('token');
         this.cartItem.token = token ? token : '';
-        
+
         this.cartS.addtoCart(this.cartItem).then(
             res => {
                 if (res.success === true) {
@@ -98,7 +98,7 @@ export class PurchaseComponent implements OnInit {
         ).catch(
             err => {
                 this.cartLoad = false;
-                this.alertS.error(this.alertContainer, err.error.error, true, 3000);
+                this.alertS.error(this.alertContainer, 'Medicine has not been added to cart', true, 300);
             }
         );
     }
