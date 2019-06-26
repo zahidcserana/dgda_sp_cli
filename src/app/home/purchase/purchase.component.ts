@@ -1,11 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { Helpers } from '../../helpers';
-import { ScriptLoaderService } from '../../_services/script-loader.service';
-import { Router, ActivatedRoute } from '@angular/router';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Helpers} from '../../helpers';
+import {ScriptLoaderService} from '../../_services/script-loader.service';
+import {Router, ActivatedRoute} from '@angular/router';
 import * as $ from 'jquery';
-import { catchError, debounceTime, distinctUntilChanged, map, switchMap, tap } from 'rxjs/operators';
-import { Observable, Subscription } from 'rxjs';
-import { CartService } from '../cart-service/cart.service';
+import {catchError, debounceTime, distinctUntilChanged, map, switchMap, tap} from 'rxjs/operators';
+import {Observable, Subscription} from 'rxjs';
+import {CartService} from '../cart-service/cart.service';
+import {AlertService} from '../../modules/alert/alert.service';
 
 @Component({
     selector: 'app-purchase',
@@ -16,7 +17,8 @@ export class PurchaseComponent implements OnInit {
     cartItem: any = {
         medicine: '',
         company: '',
-        quantity: ''
+        quantity: '',
+        token: ''
     };
     cartLoad: boolean;
     public model: any;
@@ -24,38 +26,42 @@ export class PurchaseComponent implements OnInit {
     loader: boolean;
     searchData: any[] = [];
     companyList: any[] = [];
-    sub: Subscription
+    sub: Subscription;
     loading = false;
+    productList;
+    @ViewChild('hasAlert') alertContainer: ElementRef;
 
     constructor(
         private _script: ScriptLoaderService,
         private router: Router,
         private cartS: CartService,
-        private route: ActivatedRoute
+        private route: ActivatedRoute,
+        private alertS: AlertService
     ) {
         this.getSettings();
 
     }
 
     addToCart() {
+        const token = localStorage.getItem('token');
+        this.cartItem.token = token ? token : '';
         this.cartS.addtoCart(this.cartItem).then(
             res => {
-                if(res.success === true) {
-                    // if(res.result.error) {
-                    //     this.alertS.error(this.alertContainer, res.result.error, true, 5000);
-                    // } else {
-                    //     this.alertS.success(this.alertContainer, 'Product has been added to cart', true, 5000);
-                    // }
+                if (res.success === true) {
+                    this.alertS.success(this.alertContainer, 'Medicine has been added to cart', true, 5000);
                     this.cartS.saveCartsInlocalStorage(res.data);
-                    // this.cartS.cartReload.next({ reload: true, items: res.result.data.cart_items });
                     localStorage.setItem('token', res.data.token);
+
+                    this.productList = res.data;
+
+                    // this.cartS.cartReload.next({ reload: true, items: res.result.data.cart_items });
                     this.cartLoad = false;
                 }
             }
         ).catch(
             err => {
-                // this.cartLoad = false;
-                // this.alertS.error(this.alertContainer, 'Product has not been added to cart', true, 5000);
+                this.cartLoad = false;
+                this.alertS.error(this.alertContainer, 'Medicine has not been added to cart', true, 5000);
             }
         );
     }
@@ -67,13 +73,14 @@ export class PurchaseComponent implements OnInit {
             }
         );
     }
+
     company_search = (company$: Observable<string>) =>
         company$.pipe(
-      debounceTime(200),
-      distinctUntilChanged(),
-      map(term => term.length < 2 ? []
-        : this.companyList.filter(v => v.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10))
-    )
+            debounceTime(200),
+            distinctUntilChanged(),
+            map(term => term.length < 2 ? []
+                : this.companyList.filter(v => v.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10))
+        );
 
     search = (text$: Observable<string>) => {
         return text$.pipe(
@@ -88,14 +95,14 @@ export class PurchaseComponent implements OnInit {
                 return this.getMedicineList(term);
             }),
         );
-    }
+    };
 
     private getMedicineList(params): any {
-        if (!params && params === "") {
+        if (!params && params === '') {
             this.loader_sub = false;
             return [];
         }
-        const search = "search=" + params.trim();
+        const search = 'search=' + params.trim();
         return this.cartS.searchProduct(search).pipe(
             map(res => {
                 this.loader_sub = false;
