@@ -28,12 +28,19 @@ export class CartService {
         return this.http.post("carts/add-to-cart", data).toPromise();
     }
 
+    makeOrder(data: any) {
+        return this.http.post("orders", data).toPromise();
+    }
+
+    cartDetails(token: any) {
+        return this.http.get(`carts/${token}`).pipe(map( res => res));
+    }
+
     saveCartsInlocalStorage(data) {
         localStorage.setItem("user_cart", JSON.stringify(data));
     }
-
-
     /** *** *** *** */
+
     config: CartServiceConfig;
     private discountSubject: CartDiscountConfig = { reload: false };
     cartDiscount = new BehaviorSubject(this.discountSubject);

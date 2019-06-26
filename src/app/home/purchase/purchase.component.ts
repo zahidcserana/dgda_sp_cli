@@ -20,6 +20,9 @@ export class PurchaseComponent implements OnInit {
         quantity: '',
         token: ''
     };
+    order: any = {
+        token: ''
+    }
     cartLoad: boolean;
     public model: any;
     loader_sub: boolean;
@@ -42,13 +45,47 @@ export class PurchaseComponent implements OnInit {
 
     }
 
+    ngOnInit() {
+        this.sub = this.route.data.subscribe(
+            val => {
+                this.companyList = val && val['companies'] ? val['companies'] : [];
+            }
+        );
+
+        const token = localStorage.getItem('token');
+        this.cartItem.token = token ? token : '';
+        console.log('token');
+        if (this.cartItem.token !== '') {
+            this.cartS.cartDetails(this.cartItem.token).subscribe((data) => this.productList = data);
+        }
+    }
+
+    submitOrder(){
+        this.order.token = localStorage.getItem('token');
+        this.cartS.makeOrder(this.order).then(
+            res => {
+                if(res.success === true){
+                    this.alertS.success(this.alertContainer, 'Orders successfully submitted.', true, 3000);
+                    localStorage.removeItem('user_cart');
+                    localStorage.removeItem('token');
+                    this.productList = [];
+                }
+            }
+        ).catch(
+            err => {
+                this.alertS.error(this.alertContainer, err.error.error, true, 300);
+            }
+        )
+    }
+
     addToCart() {
         const token = localStorage.getItem('token');
         this.cartItem.token = token ? token : '';
+        
         this.cartS.addtoCart(this.cartItem).then(
             res => {
                 if (res.success === true) {
-                    this.alertS.success(this.alertContainer, 'Medicine has been added to cart', true, 5000);
+                    this.alertS.success(this.alertContainer, 'Medicine has been added to cart', true, 3000);
                     this.cartS.saveCartsInlocalStorage(res.data);
                     localStorage.setItem('token', res.data.token);
 
@@ -61,15 +98,7 @@ export class PurchaseComponent implements OnInit {
         ).catch(
             err => {
                 this.cartLoad = false;
-                this.alertS.error(this.alertContainer, 'Medicine has not been added to cart', true, 5000);
-            }
-        );
-    }
-
-    ngOnInit() {
-        this.sub = this.route.data.subscribe(
-            val => {
-                this.companyList = val && val['companies'] ? val['companies'] : [];
+                this.alertS.error(this.alertContainer, err.error.error, true, 3000);
             }
         );
     }
