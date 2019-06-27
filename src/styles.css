@@ -53,14 +53,6 @@
 
 /* End - Center the loader */
 
-.animate-bottom {
-  position: inherit;
-  -webkit-animation-name: animatebottom;
-  -webkit-animation-duration: 1s;
-  animation-name: animatebottom;
-  animation-duration: 1s;
-}
-
 .navbar {
   position: relative;
   display: -ms-flexbox;
