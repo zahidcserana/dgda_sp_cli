@@ -10,3 +10,7 @@ button {
     background-color: transparent;
     border: 0;
 }
+
+button:hover {
+    background-color: #EDEEF0;
+  }
