@@ -23,6 +23,10 @@ export class PurchaseComponent implements OnInit {
     order: any = {
         token: ''
     }
+    medicineSearch: any = {
+        company: '',
+        search: ''
+    }
     cartLoad: boolean;
     public model: any;
     loader_sub: boolean;
@@ -118,7 +122,7 @@ export class PurchaseComponent implements OnInit {
         ).catch(
             err => {
                 this.cartLoad = false;
-                this.alertS.error(this.alertContainer, 'Medicine has not been added to cart', true, 300);
+                this.alertS.error(this.alertContainer, 'Medicine has not been added to cart', true, 3000);
             }
         );
     }
@@ -141,7 +145,10 @@ export class PurchaseComponent implements OnInit {
             }),
             switchMap(term => {
                 this.loader_sub = true;
-                return this.getMedicineList(term);
+                this.medicineSearch.company = this.cartItem.company;
+                this.medicineSearch.search = term.trim();
+            
+                return this.getMedicineList(this.medicineSearch);
             }),
         );
     };
@@ -151,8 +158,8 @@ export class PurchaseComponent implements OnInit {
             this.loader_sub = false;
             return [];
         }
-        const search = 'search=' + params.trim();
-        return this.cartS.searchProduct(search).pipe(
+        
+        return this.cartS.searchMedicine(params).pipe(
             map(res => {
                 this.loader_sub = false;
                 this.searchData = res;

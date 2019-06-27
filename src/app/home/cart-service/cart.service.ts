@@ -305,9 +305,9 @@ export class CartService {
         return this.http.get(`stores/delivery-settings`).pipe(map(res => res.result), catchError(err =>  of(null))).toPromise();
     }
 
-     searchProduct(search) {
+     searchMedicine(search) {
         const loc = GET_USER().location_id;
-        return this.http.get(`medicines/search?${search}`);
+        return this.http.get('medicines/search',{params:search});
     }
 
     getProduct(attr_id) {
