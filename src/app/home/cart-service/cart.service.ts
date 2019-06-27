@@ -319,7 +319,7 @@ export class CartService {
     }
 
     deleteCart(item_id, token) {
-        return this.http.post('carts/cart-remove-item', { token: token, item_id: item_id}).toPromise();
+        return this.http.post('carts/delete-item', { token: token, item_id: item_id}).toPromise();
     }
 
     addPayment(paymnet) {

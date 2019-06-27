@@ -60,9 +60,23 @@ export class PurchaseComponent implements OnInit {
         }
     }
 
-    remove(item_id){
+    removeItem(item_id){
         console.log(item_id);
-        this.cartS.deleteCart(item_id);
+        this.cartS.deleteCart(item_id, localStorage.getItem('token')).then(
+            res => {
+                if(res.success === true){
+                    this.alertS.success(this.alertContainer, 'Item successfull deleted', true, 3000);
+                    this.cartS.saveCartsInlocalStorage(res.data);
+                    localStorage.setItem('token', res.data.token);
+
+                    this.productList = res.data;
+                }
+            }
+        ).catch (
+            err => {
+                this.alertS.error(this.alertContainer, err.error.error, true, 300);
+            }
+        )
     }
 
     submitOrder(){
