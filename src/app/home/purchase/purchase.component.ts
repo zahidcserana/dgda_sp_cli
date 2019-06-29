@@ -202,7 +202,7 @@ export class PurchaseComponent implements OnInit {
             distinctUntilChanged(),
             map(term => term.length < 2 ? []
                 : this.companyList.filter(v => v.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10))
-        );
+        )
 
     search = (text$: Observable<string>) => {
         return text$.pipe(
@@ -220,7 +220,7 @@ export class PurchaseComponent implements OnInit {
                 return this.getMedicineList(this.medicineSearch);
             }),
         );
-    };
+    }
 
     private getMedicineList(params): any {
         if (!params && params === '') {
