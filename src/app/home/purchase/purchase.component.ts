@@ -22,11 +22,11 @@ export class PurchaseComponent implements OnInit {
     };
     order: any = {
         token: ''
-    }
+    };
     medicineSearch: any = {
         company: '',
         search: ''
-    }
+    };
     cartLoad: boolean;
     public model: any;
     loader_sub: boolean;
@@ -64,11 +64,10 @@ export class PurchaseComponent implements OnInit {
         }
     }
 
-    removeItem(item_id){
-        console.log(item_id);
-        this.cartS.deleteCart(item_id, localStorage.getItem('token')).then(
+    removeItem(itemId) {
+        this.cartS.deleteCart(itemId, localStorage.getItem('token')).then(
             res => {
-                if(res.success === true){
+                if (res.success === true) {
                     this.alertS.success(this.alertContainer, 'Item successfull deleted', true, 3000);
                     this.cartS.saveCartsInlocalStorage(res.data);
                     localStorage.setItem('token', res.data.token);
@@ -76,18 +75,18 @@ export class PurchaseComponent implements OnInit {
                     this.productList = res.data;
                 }
             }
-        ).catch (
+        ).catch(
             err => {
-                this.alertS.error(this.alertContainer, err.error.error, true, 300);
+                this.alertS.error(this.alertContainer, err.error.error, true, 3000);
             }
-        )
+        );
     }
 
-    submitOrder(){
+    submitOrder() {
         this.order.token = localStorage.getItem('token');
         this.cartS.makeOrder(this.order).then(
             res => {
-                if(res.success === true){
+                if (res.success === true) {
                     this.alertS.success(this.alertContainer, 'Orders successfully submitted.', true, 3000);
                     localStorage.removeItem('user_cart');
                     localStorage.removeItem('token');
@@ -96,9 +95,9 @@ export class PurchaseComponent implements OnInit {
             }
         ).catch(
             err => {
-                this.alertS.error(this.alertContainer, err.error.error, true, 300);
+                this.alertS.error(this.alertContainer, err.error.error, true, 3000);
             }
-        )
+        );
     }
 
     addToCart() {
@@ -108,7 +107,7 @@ export class PurchaseComponent implements OnInit {
         this.cartS.addtoCart(this.cartItem).then(
             res => {
                 if (res.success === true) {
-                    $("#myForm").trigger("reset");
+                    $('#myForm').trigger('reset');
                     this.alertS.success(this.alertContainer, 'Medicine has been added to cart', true, 3000);
                     this.cartS.saveCartsInlocalStorage(res.data);
                     localStorage.setItem('token', res.data.token);
@@ -133,7 +132,7 @@ export class PurchaseComponent implements OnInit {
             distinctUntilChanged(),
             map(term => term.length < 2 ? []
                 : this.companyList.filter(v => v.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10))
-        );
+        )
 
     search = (text$: Observable<string>) => {
         return text$.pipe(
@@ -147,18 +146,18 @@ export class PurchaseComponent implements OnInit {
                 this.loader_sub = true;
                 this.medicineSearch.company = this.cartItem.company;
                 this.medicineSearch.search = term.trim();
-            
+
                 return this.getMedicineList(this.medicineSearch);
             }),
         );
-    };
+    }
 
     private getMedicineList(params): any {
         if (!params && params === '') {
             this.loader_sub = false;
             return [];
         }
-        
+
         return this.cartS.searchMedicine(params).pipe(
             map(res => {
                 this.loader_sub = false;

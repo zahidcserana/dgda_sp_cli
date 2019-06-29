@@ -82,7 +82,7 @@ export class AlertService {
 
     setLifetime(parent, el, lifetime) {
         setTimeout(_ => {
-            this.renderer.removeChild(parent.nativeElement, el);
+            this.renderer.removeChild(parent, el);
         }, lifetime);
     }
 
