@@ -9,15 +9,15 @@
 </div><!-- /.page-header -->
 
 <div class="row">
-    <div class="col-xs-6">
+    <div class="col-xs-5">
         <div class="custom-alert" #hasAlert></div>
 
         <!-- PAGE CONTENT BEGINS -->
-        <form class="form-horizontal" role="form"  id="myForm" (ngSubmit)="addToCart()">
+        <form class="form-horizontal" role="form" id="myForm" (ngSubmit)="addToCart()">
             <div class="form-group">
                 <label class="col-sm-3 control-label no-padding-right" for="form-field-1"> Company </label>
 
-                <div class="col-sm-5">
+                <div class="col-sm-7">
                     <input id="typeahead-company" name="company" [(ngModel)]="cartItem.company" type="text"
                            class="form-control" [ngbTypeahead]="company_search"/>
                 </div>
@@ -27,7 +27,7 @@
             <div class="form-group">
                 <label class="control-label col-xs-12 col-sm-3 no-padding-right"> Medicine </label>
 
-                <div class="col-xs-12 col-sm-5">
+                <div class="col-xs-12 col-sm-7">
                     <input placeholder="Type Name or ID" id="typeahead-basic" name="search"
                            [(ngModel)]="cartItem.medicine" type="text" class="form-control" [ngbTypeahead]="search"/>
                 </div>
@@ -36,7 +36,7 @@
             <div class="form-group">
                 <label class="col-sm-3 control-label no-padding-right" for="form-field-1-1"> Quantity </label>
 
-                <div class="col-sm-5">
+                <div class="col-sm-7">
                     <input type="number" id="form-field-1-2" name="quantity" [(ngModel)]="cartItem.quantity"
                            placeholder="Quantity" class="form-control"/>
                 </div>
@@ -68,17 +68,17 @@
         </form>
 
     </div><!-- /.col -->
-    <div class="col-xs-6">
+    <div class="col-xs-7">
 
         <table id="cart" class="table table-hover table-condensed">
             <caption>Cart View</caption>
             <thead>
             <tr>
-                <th style="width:50%">Product</th>
+                <th style="width:40%">Product</th>
                 <th style="width:10%">Price</th>
-                <th style="width:8%">Quantity</th>
-                <th style="width:22%" class="text-center">Subtotal</th>
-                <th style="width:10%"></th>
+                <th style="width:30%">Quantity</th>
+                <th style="width:10%" class="text-center">Subtotal</th>
+                <th style="width:10%">Action</th>
             </tr>
             </thead>
             <tbody *ngIf="productList && productList?.cart_items?.length > 0; else NoItem">
@@ -98,27 +98,43 @@
                     </td>
                     <td data-th="Price">&#2547; {{cart.unit_price}}</td>
                     <td data-th="Quantity">
-                        <input type="number" name="quantity" class="form-control text-center" value="{{cart.quantity}}">
+                        <div class="quantity clearfix">
+                            <span style="background: black !important;" [ngClass]="{'block-cursor': increament == i}"
+                                  class="btn btn-sm btn-dark no-m"
+                                  (click)="decreaseQuant(cart, i)">-</span>
+                            <span class="cart-qunt btn btn-sm no-m"
+                                  style="position: relative;background: #ffffff!important;color: black!important;">{{cart.quantity}}
+                                <div *ngIf="increament == i" class="m-loader m-loader--brand"
+                                     style="position: absolute;width: 30px;top:15px; left:10px;"></div>
+                  </span>
+                            <span style="background: black !important;" [ngClass]="{'block-cursor': increament == i}"
+                                  class="btn btn-sm btn-dark  no-m"
+                                  (click)="increaseQuant(cart, i)">+</span>
+                        </div>
+
                     </td>
                     <td data-th="Subtotal" class="text-center">&#2547; {{cart.sub_total}}</td>
                     <td class="actions" data-th="">
-                        <button (click)="removeItem(cart.id)" id="item_id" class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i></button>
+                        <button (click)="removeItem(cart.id)" id="item_id" class="btn btn-danger btn-sm"><i
+                                class="fa fa-trash-o"></i></button>
                     </td>
                 </tr>
             </ng-container>
             </tbody>
             <tfoot>
             <tr class="visible-xs">
-                <td class="text-center"><strong>Total {{productList?productList.sub_total:0}}</strong></td>
+                <td class="text-center"><strong>Total {{productList ? productList.sub_total : 0}}</strong></td>
             </tr>
             <tr>
                 <td colspan="3">&nbsp;</td>
-                <td class="hidden-xs text-center"><strong>Total &#2547; {{productList?productList.sub_total:0}}</strong></td>
+                <td class="hidden-xs text-center"><strong>Total
+                    &#2547; {{productList ? productList.sub_total : 0}}</strong></td>
             </tr>
 
             <tr>
-                <td colspan="5" id="checkout-cart"><a (click)="submitOrder()" class="btn btn-success btn-block">Submit Order <i
-                        class="fa fa-angle-right"></i></a></td>
+                <td colspan="5" id="checkout-cart"><a (click)="submitOrder()" class="btn btn-success btn-block">Submit
+                    Order <i
+                            class="fa fa-angle-right"></i></a></td>
             </tr>
             </tfoot>
 

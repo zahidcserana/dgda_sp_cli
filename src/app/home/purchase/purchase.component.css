@@ -30,3 +30,7 @@ table > caption {
     margin-top: 10%;
 }
 
+caption, th {
+    text-align: center;
+}
+

@@ -36,7 +36,10 @@ export class PurchaseComponent implements OnInit {
     sub: Subscription;
     loading = false;
     productList;
+    increament: number;
+
     @ViewChild('hasAlert') alertContainer: ElementRef;
+    private product: null;
 
     constructor(
         private _script: ScriptLoaderService,
@@ -62,6 +65,73 @@ export class PurchaseComponent implements OnInit {
         if (this.cartItem.token !== '') {
             this.cartS.cartDetails(this.cartItem.token).subscribe((data) => this.productList = data);
         }
+    }
+
+    decreaseQuant(cart, i) {
+        if (cart.quantity > 1) {
+            this.increament = i;
+            const obj = {
+                id: cart.id,
+                token: this.productList.token,
+                sales_tax: cart.sales_tax,
+                increment: 0,
+                price: cart.price,
+                rental_duration: cart.rental_duration
+            };
+            this.updateCartQunt(obj);
+        }
+    }
+
+    increaseQuant(cart, i) {
+        this.increament = i;
+        const obj = {
+            id: cart.id,
+            token: this.productList.token,
+            increment: 1,
+            sales_tax: cart.sales_tax,
+            price: cart.price,
+            rental_duration: cart.rental_duration
+        };
+        this.updateCartQunt(obj);
+    }
+
+    updateCartQunt(data) {
+        this.product = null;
+        this.cartS
+            .updateCart(data)
+            .then(res => {
+                if (res.success === true) {
+                    this.productList = res.data;
+                    this.cartS.saveCartsInlocalStorage(res.data);
+                    $('custom-alert').css('display', 'block');
+                    this.alertS.success(
+                        this.alertContainer,
+                        'Cart Updated Successfully',
+                        true,
+                        3000
+                    );
+                } else {
+                    $('custom-alert').css('display', 'block');
+                    this.alertS.error(
+                        this.alertContainer,
+                        'Something wrong !! Please try again ',
+                        true,
+                        3000
+                    );
+                }
+                this.increament = null;
+            })
+            .catch(err => {
+                console.log(err);
+                $('custom-alert').css('display', 'block');
+                this.alertS.error(
+                    this.alertContainer,
+                    'Something wrong !! Please try again',
+                    true,
+                    3000
+                );
+                this.increament = null;
+            });
     }
 
     removeItem(itemId) {
@@ -132,7 +202,7 @@ export class PurchaseComponent implements OnInit {
             distinctUntilChanged(),
             map(term => term.length < 2 ? []
                 : this.companyList.filter(v => v.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10))
-        )
+        );
 
     search = (text$: Observable<string>) => {
         return text$.pipe(
@@ -150,7 +220,7 @@ export class PurchaseComponent implements OnInit {
                 return this.getMedicineList(this.medicineSearch);
             }),
         );
-    }
+    };
 
     private getMedicineList(params): any {
         if (!params && params === '') {
