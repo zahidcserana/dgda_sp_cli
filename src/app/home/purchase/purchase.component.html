@@ -25,9 +25,13 @@
             </div>
 
             <div class="form-group">
-                <label class="control-label col-xs-12 col-sm-3 no-padding-right"> Medicine </label>
+                <div *ngIf="loader_sub" class="search-loader"></div>
 
-                <div class="col-xs-12 col-sm-7">
+                <label class="control-label col-xs-12 col-sm-3 no-padding-right">
+                    Medicine </label>
+
+
+                <div class="col-xs-12 col-sm-6">
                     <input placeholder="Type Name or ID" id="typeahead-basic" name="search"
                            [(ngModel)]="cartItem.medicine" type="text" class="form-control" [ngbTypeahead]="search"/>
                 </div>

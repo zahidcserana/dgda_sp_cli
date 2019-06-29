@@ -1,16 +1,18 @@
-import { Injectable, Optional, EventEmitter } from '@angular/core';
-import { CartServiceConfig, CartItem } from './cart.model';
-import { BehaviorSubject, Observer, of } from 'rxjs';
-import { HttpService } from '../../modules/http-with-injector/http.service';
-import { map, catchError } from 'rxjs/operators';
-import { FormatPrice, FormateAttribute, GET_USER, isJson, GETTIME, singleOrNot } from '../../globals/_classes/functions';
+import {Injectable, Optional, EventEmitter} from '@angular/core';
+import {CartServiceConfig, CartItem} from './cart.model';
+import {BehaviorSubject, Observer, of} from 'rxjs';
+import {HttpService} from '../../modules/http-with-injector/http.service';
+import {map, catchError} from 'rxjs/operators';
+import {FormatPrice, FormateAttribute, GET_USER, isJson, GETTIME, singleOrNot} from '../../globals/_classes/functions';
 import {AuthService} from '../../auth/auth.service';
+
 export interface CartDiscountConfig {
     reload: boolean;
     cart?: any;
 }
 
 declare let $: any;
+
 export interface CartviewSubjectConfig {
     reload?: boolean;
     items?: CartItem[];
@@ -21,28 +23,29 @@ export class CartService {
 
     /** add to cart */
 
-    private cartsubject: CartviewSubjectConfig = { reload: false };
+    private cartsubject: CartviewSubjectConfig = {reload: false};
     cartReload = new BehaviorSubject(this.cartsubject);
 
     addtoCart(data: any) {
-        return this.http.post("carts/add-to-cart", data).toPromise();
+        return this.http.post('carts/add-to-cart', data).toPromise();
     }
 
     makeOrder(data: any) {
-        return this.http.post("orders", data).toPromise();
+        return this.http.post('orders', data).toPromise();
     }
 
     cartDetails(token: any) {
-        return this.http.get(`carts/${token}`).pipe(map( res => res));
+        return this.http.get(`carts/${token}`).pipe(map(res => res));
     }
 
     saveCartsInlocalStorage(data) {
-        localStorage.setItem("user_cart", JSON.stringify(data));
+        localStorage.setItem('user_cart', JSON.stringify(data));
     }
+
     /** *** *** *** */
 
     config: CartServiceConfig;
-    private discountSubject: CartDiscountConfig = { reload: false };
+    private discountSubject: CartDiscountConfig = {reload: false};
     cartDiscount = new BehaviorSubject(this.discountSubject);
     private CARTCOUNT = new BehaviorSubject<any>(null);
     cartNo = this.CARTCOUNT.asObservable();
@@ -109,7 +112,7 @@ export class CartService {
         });
         $('#Renterl-date-cart').datepicker({
             todayHighlight: true,
-            orientation: "bottom right",
+            orientation: 'bottom right',
             format: 'yyyy-mm-dd',
             templates: {
                 leftArrow: '<i class="la la-angle-left"></i>',
@@ -117,7 +120,7 @@ export class CartService {
             },
             startDate: new Date()
         });
-        $("#Renterl-date-cart").datepicker("setDate", date);
+        $('#Renterl-date-cart').datepicker('setDate', date);
     }
 
     private formateData(data, prop) {
@@ -131,7 +134,7 @@ export class CartService {
         if (data && data.length > 0) {
             return FormatPrice(data);
         }
-        return { base: {}, rent: [] };
+        return {base: {}, rent: []};
     }
 
     formateAttribute(data) {
@@ -139,7 +142,7 @@ export class CartService {
     }
 
     getCurrentDateTime(date) {
-        let obj = { date: '', time: '' };
+        let obj = {date: '', time: ''};
         obj['date'] = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
         obj['time'] = date.getHours() + ':' + date.getMinutes();
         return obj;
@@ -161,9 +164,9 @@ export class CartService {
 
     formatUpdateCart(item) {
         const data = new CartItem();
-        const prop = ['id','token','product_id','price','quantity','rent_start','rental_duration','rental_type','term','sales_tax',
-            'deposit_amount','deposite_tax','driving_license_required','variants_products_id', 'location'];
-        for( const key of prop) {
+        const prop = ['id', 'token', 'product_id', 'price', 'quantity', 'rent_start', 'rental_duration', 'rental_type', 'term', 'sales_tax',
+            'deposit_amount', 'deposite_tax', 'driving_license_required', 'variants_products_id', 'location'];
+        for (const key of prop) {
             data[key] = item[key] ? item[key] : '';
         }
         return data;
@@ -247,7 +250,7 @@ export class CartService {
             const chain = `<div class="colorPurpel"><small style="font-style: italic">${r.chain}</small></div>`;
             const buy = `<button class="btn btn-sm btn-xsm btn-outline-dark buy-search" data-attr="${r.variants_products_id}" style="margin-right: 10px;">Buy</button>`;
             const rent = `<button class="btn btn-sm btn-xsm btn-outline-danger rent-search" data-attr="${r.variants_products_id}">Rent</button>`;
-            const notAdded = `<small>(Price not added)</small>`
+            const notAdded = `<small>(Price not added)</small>`;
             replacement.innerHTML = `<div>${r.brand_name}</div>${r.generic_name ? chain : ''}`;
 
             original.parentNode.replaceChild(replacement, original);
@@ -260,26 +263,26 @@ export class CartService {
 
     getMonth() {
         return [
-            { text: '-Select Month-', value: null },
-            { text: '01 January', value: '01' },
-            { text: '02 February', value: '02' },
-            { text: '03 March', value: '03' },
-            { text: '04 April', value: '04' },
-            { text: '05 May', value: '05' },
-            { text: '06 June', value: '06' },
-            { text: '07 July', value: '07' },
-            { text: '08 August ', value: '08' },
-            { text: '09 September ', value: '09' },
-            { text: '10 October ', value: '10' },
-            { text: '11 November', value: '11' },
-            { text: '12 December', value: '12' },
-        ]
+            {text: '-Select Month-', value: null},
+            {text: '01 January', value: '01'},
+            {text: '02 February', value: '02'},
+            {text: '03 March', value: '03'},
+            {text: '04 April', value: '04'},
+            {text: '05 May', value: '05'},
+            {text: '06 June', value: '06'},
+            {text: '07 July', value: '07'},
+            {text: '08 August ', value: '08'},
+            {text: '09 September ', value: '09'},
+            {text: '10 October ', value: '10'},
+            {text: '11 November', value: '11'},
+            {text: '12 December', value: '12'},
+        ];
     }
 
     getYears() {
         let y = new Date().getFullYear();
         let arr = [];
-        arr.push({ text: '-Select Year-', value: null });
+        arr.push({text: '-Select Year-', value: null});
         for (let i = 0; i < 15; i++) {
             let obj = {};
             obj['text'] = y + i;
@@ -302,16 +305,16 @@ export class CartService {
     // Api integration
 
     getShipping() {
-        return this.http.get(`stores/delivery-settings`).pipe(map(res => res.result), catchError(err =>  of(null))).toPromise();
+        return this.http.get(`stores/delivery-settings`).pipe(map(res => res.result), catchError(err => of(null))).toPromise();
     }
 
-     searchMedicine(search) {
+    searchMedicine(search) {
         const loc = GET_USER().location_id;
-        return this.http.get('medicines/search',{params:search});
+        return this.http.get('medicines/search', {params: search});
     }
 
     getProduct(attr_id) {
-        return this.http.get(`products/view/variant-product/${attr_id}`).pipe(map( res => res.result));
+        return this.http.get(`products/view/variant-product/${attr_id}`).pipe(map(res => res.result));
     }
 
     addCart(data) {
@@ -319,7 +322,7 @@ export class CartService {
     }
 
     deleteCart(item_id, token) {
-        return this.http.post('carts/delete-item', { token: token, item_id: item_id}).toPromise();
+        return this.http.post('carts/delete-item', {token: token, item_id: item_id}).toPromise();
     }
 
     addPayment(paymnet) {
@@ -367,11 +370,11 @@ export class CartService {
     }
 
     getGateways() {
-        return this.http.get(`payments/gateway`).pipe(map (m => m.result.data), catchError ( err => of([])));
+        return this.http.get(`payments/gateway`).pipe(map(m => m.result.data), catchError(err => of([])));
     }
 
     getShippingList() {
-        return this.http.get(`shipping-carrier-list`).pipe(map(res => res.result.data), catchError( e => of([])));
+        return this.http.get(`shipping-carrier-list`).pipe(map(res => res.result.data), catchError(e => of([])));
     }
 
 
