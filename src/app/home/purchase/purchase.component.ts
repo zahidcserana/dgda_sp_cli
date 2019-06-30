@@ -87,16 +87,13 @@ export class PurchaseComponent implements OnInit {
         const obj = {
             id: cart.id,
             token: this.productList.token,
-            increment: 1,
-            sales_tax: cart.sales_tax,
-            price: cart.price,
-            rental_duration: cart.rental_duration
+            increment: 1
         };
         this.updateCartQunt(obj);
     }
 
     updateCartQunt(data) {
-        this.product = null;
+        console.log(data);
         this.cartS
             .updateCart(data)
             .then(res => {

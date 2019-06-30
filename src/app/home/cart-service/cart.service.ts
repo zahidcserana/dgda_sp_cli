@@ -329,10 +329,6 @@ export class CartService {
         return this.http.post('orders', paymnet).toPromise();
     }
 
-    updateCart(data) {
-        return this.http.post('carts/update', data).toPromise();
-    }
-
     applyCoupon(code) {
         return this.http.post('carts/apply-coupon', code).pipe(map(res => res));
     }
@@ -377,5 +373,9 @@ export class CartService {
         return this.http.get(`shipping-carrier-list`).pipe(map(res => res.result.data), catchError(e => of([])));
     }
 
+    /** Medicine Cart */
+    updateCart(data) {
+        return this.http.post('carts/quantity-update', data).toPromise();
+    }
 
 }
