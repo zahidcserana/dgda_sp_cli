@@ -53,12 +53,12 @@ export class LoginComponent implements OnInit {
         this.authService.login(this.model).subscribe(
             data => {
                 console.log(data);
-                if (data.status === '200') {
-                    const user = data.data;
+                if (data.status == '200') {
+                    let user = data.data;
                     this.authService.setUser(user);
                     // Helpers.setLoading(true);
                     this.loading = false;
-                    setTimeout(() => {
+                    setTimeout(function() {
                         $('#spinner-load').css('display', 'block');
                     }, 3000);
                     this.router.navigate(['/']);
