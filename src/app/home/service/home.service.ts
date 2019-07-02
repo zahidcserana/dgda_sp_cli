@@ -1,12 +1,12 @@
-import { Injectable } from "@angular/core";
-import { HttpService } from '../../modules/http-with-injector/http.service';
-import { map } from 'rxjs/operators';
+import {Injectable} from '@angular/core';
+import {HttpService} from '../../modules/http-with-injector/http.service';
+import {map} from 'rxjs/operators';
 
 @Injectable()
 export class HomeService {
 
-    constructor(private http: HttpService){
-    
+    constructor(private http: HttpService) {
+
     }
 
     getCompanies() {
