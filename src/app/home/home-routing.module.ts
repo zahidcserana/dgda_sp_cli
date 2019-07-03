@@ -20,6 +20,11 @@ const routes: Routes = [
                 resolve: {companies: HomeResolveService}
             },
             {
+                path: 'manual-purchase',
+                loadChildren: './manual-purchase/manual-purchase.module#ManualPurchaseModule',
+                resolve: {companies: HomeResolveService}
+            },
+            {
                 path: 'sale',
                 loadChildren: './sale/sale.module#SaleModule',
             },
