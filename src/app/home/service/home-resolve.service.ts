@@ -1,8 +1,6 @@
-
 import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot} from '@angular/router';
-import { HomeService } from './home.service';
-
+import {HomeService} from './home.service';
 
 
 @Injectable()
@@ -16,7 +14,9 @@ export class HomeResolveService implements Resolve<any> {
         switch (router.routeConfig.path) {
             case 'purchase':
                 return this.service.getCompanies();
-        
+            case 'manual-purchase':
+                return this.service.getCompanies();
+
         }
     }
 

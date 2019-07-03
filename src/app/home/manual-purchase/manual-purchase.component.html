@@ -9,96 +9,115 @@
 </div><!-- /.page-header -->
 
 <div class="row">
-    <div class="col-md-10 col-md-offset-1">
-        <form class="form-horizontal" role="form" id="myForm" (ngSubmit)="makeOrder()">
-            <div class="form-group">
-                <label class="col-sm-2 control-label no-padding-right" for="form-field-1"> Company Invoice </label>
+    <div class="col-md-12">
 
-                <div class="col-sm-3">
-                    <input id="company_invoice" name="company_invoice" type="text" class="form-control"/>
-                </div>
-
-                <label class="col-sm-2 control-label no-padding-right" for="form-field-1"> Purchase Date</label>
-
-                <div class="col-sm-3">
-                    <input id="purchase_date" name="purchase_date" type="text" class="form-control"/>
-                </div>
+        <div class="form-group">
+            <label class="col-sm-1 control-label no-padding-right" for="form-field-1"> Company</label>
+            <div class="col-sm-3">
+                <input id="typeahead-company" name="company" type="text" [(ngModel)]="manualOrder.company"
+                       class="form-control" [ngbTypeahead]="company_search"/>
             </div>
 
-            <div class="form-group">
-                <label class="col-sm-2 control-label no-padding-right" for="form-field-1"> Discount </label>
-
-                <div class="col-sm-3">
-                    <input id="discount" name="discount" type="text" class="form-control"/>
-                </div>
+            <label class="col-sm-1 control-label no-padding-right" for="form-field-1"> Invoice </label>
+            <div class="col-sm-3">
+                <input id="company_invoice" [(ngModel)]="manualOrder.company_invoice" name="company_invoice" type="text"
+                       class="form-control"/>
             </div>
 
-            <div class="form-group">
-                <table id="purchase-manual" class="table table-hover table-condensed">
-                    <thead>
-                    <tr>
-                        <th style="width:25%">Company</th>
-                        <th style="width:20%">Medicine</th>
-                        <th style="width:20%">Batch</th>
-                        <th style="width:10%">B.Q.</th>
-                        <th style="width:10%">Vat</th>
-                        <th style="width:10%">Total</th>
-                        <th style="width:5%">
-                            <div class="others_info"><p id="addTakeGiver" class="fa fa-plus btn blue"></p></div>
-                        </th>
-                    </tr>
-                    </thead>
-                    <tbody id="taker_giver_info">
-                    <tr >
-                        <td>
-                            <input id="typeahead-company" name="company" type="text"
-                                   class="form-control" [ngbTypeahead]="company_search"/>
-                        </td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    </tbody>
-                </table>
+            <label class="col-sm-1 control-label no-padding-right" for="form-field-1"> Date</label>
+            <div class="col-sm-3">
+                <input id="purchase_date" [(ngModel)]="manualOrder.purchase_date" name="purchase_date" type="date"
+                       class="form-control"/>
             </div>
-        </form>
+        </div>
     </div>
-</div><!-- /.row -->
+</div>
+<div class="space-10"></div>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<div class="row">
+    <div class="col-md-12">
+        <div class="form-group">
+            <label class="col-sm-1 control-label no-padding-right" for="form-field-1"> Discount </label>
 
-<script>
-    var takerGiverId = 0;
-    $("#addTakeGiver").click(function(e) {
-        console.log('addTakeGiver');
-        takerGiverId++;
-        var items = '<tr><td>\n' +
-            '                            <input id="typeahead-company" name="company" type="text"\n' +
-            '                                   class="form-control" [ngbTypeahead]="company_search"/>\n' +
-            '                        </td>\n' +
-            '                        <td></td>\n' +
-            '                        <td></td>\n' +
-            '                        <td></td>\n' +
-            '                        <td></td>\n' +
-            '                        <td></td>\n' +
-            '                        <td></td></tr>';
-        // items+= '<div class="takerGiver'+takerGiverId+'">';
-        // items+='<div  class="form-group record_owner" style="margin-left: 5%;"><label style="margin-left: -10%;color: black;" for="formGroupExampleInput2"><i class="fa fa-cog" aria-hidden="true">&nbsp;&nbsp;Taker(Grohita) / Giver(Data)</i></label><br><label class="radio"><input type="radio" name="taker_giver_'+takerGiverId+'" id="radio3" value="1" > Taker (Grohita)</label><label class="radio"><input type="radio" name="taker_giver_'+takerGiverId+'" id="radio4" value="2" > Giver (Data)</label></div>';
-        // items+= '<div class="record_owner" style="width:100%;"><h5 class="green"><i class="ace-icon fa bigger-110"></i>Taker/ Giver Information (More)</h5></div>';
-        // items+= '<div class="form-group record_owner"><label class="col-sm-3 control-label no-padding-right" for="form-field-1"> Name </label><div class="col-sm-9"><input type="text" id="name" placeholder="Enter Your Name" class="col-xs-10 col-sm-5" name="name_di[]"/></div></div>';
-        // items+= '<div class="form-group others_info"><label class="col-sm-3 control-label no-padding-right" for="form-field-1"> Father/Husband </label><div class="col-sm-9"><input type="text" name="f_name_di[]" placeholder="Father/Husband" class="col-xs-10 col-sm-5" /></div></div>';
-        // items+= '<div class="form-group record_owner"><label class="col-sm-3 control-label no-padding-right" for="form-field-1"> Mother </label><div class="col-sm-9"><input type="text" name="m_name_di[]" placeholder="Mother" class="col-xs-10 col-sm-5" /></div></div>';
-        // items+= '<div class="form-group others_info"><label class="col-sm-3 control-label no-padding-right" for="form-field-1"> Address </label><div class="col-sm-9"><input type="text" name="address_di[]" placeholder="Address" class="col-xs-10 col-sm-5" /></div></div>';
-        // items+= '<div class="form-group record_owner"><label class="col-sm-3 control-label no-padding-right" for="form-field-1"> Mobile </label><div class="col-sm-9"><input type="text" name="mobile_di[]" placeholder="Mobile" class="col-xs-10 col-sm-5" /></div></div>';
-        // items+= '<div class="form-group others_info"><label class="col-sm-3 control-label no-padding-right" for="form-field-select-1">ID Card</label><div class="col-sm-9"><select style="width: 41.5%;" class="form-control" name="id_card_di[]"><option value="">Select</option><option value="1">NID</option><option value="2">Birth</option></select></div></div>';
-        // items+= '<div class="form-group record_owner" style="margin-left: 3%;"><label class="col-sm-3 control-label no-padding-right" for="form-field-1"> ID # </label><div class="col-sm-9"><input type="text" name="id_no_di[]" placeholder="ID #" class="col-xs-10 col-sm-5" /></div></div>';
-        //
-        // items+= '<div class="others_info"><p onclick="removeTakerGiver('+takerGiverId+')" class="fa fa-minus btn blue"></p></div>';
-        // items+= '</div>';
-        //items+= '</tr>';
-        $("#taker_giver_info").append(items);
-    });
-</script>
+            <div class="col-sm-3">
+                <input id="discount" [(ngModel)]="manualOrder.discount" name="discount" type="text"
+                       class="form-control"/>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="space-10"></div>
+<div class="row">
+    <label class="col-md-2">
+        Medicine
+    </label>
+    <label class="col-md-2">
+        Batch
+    </label>
+    <label class="col-md-2">
+        Quantity
+    </label>
+    <label class="col-md-2">
+        Vat
+    </label>
+    <label class="col-md-2">
+        Power
+    </label>
+    <label class="col-md-2">
+        Total
+    </label>
+
+</div>
+<form [formGroup]="form" (ngSubmit)="onSubmit()" id="myForm">
+    <div class="row">
+        <div formArrayName="medicines" class="col-md-2">
+            <div *ngFor="let medicine of medicines.controls; index as i">
+                <input formControlName="{{i}}" placeholder="Type Name or ID" type="text" class="form-control"
+                       [ngbTypeahead]="search"/>
+            </div>
+        </div>
+        <div formArrayName="batches" class="col-md-2">
+            <div *ngFor="let batch of batches.controls; index as i">
+                <input formControlName="{{i}}" placeholder="Batch" class="form-control">
+            </div>
+        </div>
+        <div formArrayName="quantities" class="col-md-2">
+            <div *ngFor="let quantity of quantities.controls; index as i">
+                <input formControlName="{{i}}" placeholder="Quantity" class="form-control">
+            </div>
+        </div>
+        <div formArrayName="vats" class="col-md-2">
+            <div *ngFor="let vat of vats.controls; index as i">
+                <input formControlName="{{i}}" placeholder="Vat" class="form-control">
+            </div>
+        </div>
+        <div formArrayName="powers" class="col-md-2">
+            <div *ngFor="let power of powers.controls; index as i">
+                <input formControlName="{{i}}" placeholder="Power" class="form-control">
+            </div>
+        </div>
+        <div formArrayName="totals" class="col-md-2">
+            <div *ngFor="let total of totals.controls; index as i">
+                <input formControlName="{{i}}" placeholder="Total" class="form-control">
+            </div>
+        </div>
+
+    </div>
+    <div class="space-10"></div>
+
+    <div class="row">
+        <div class="col-md-2">
+            <a class="btn btn-default" (click)="addItem()"><i class="fa fa-plus"></i>&nbsp;Add More</a>
+        </div>
+        <div class="col-md-2 col-md-offset-1">
+            <button class="btn btn-primary">Submit</button>
+        </div>
+
+        <div class="col-md-4">
+            <div class="custom-alert" #hasAlert></div>
+        </div>
+
+    </div>
+</form>
+
+

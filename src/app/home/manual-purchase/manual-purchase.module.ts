@@ -3,8 +3,9 @@ import { CommonModule } from '@angular/common';
 
 import { ManualPurchaseRoutingModule } from './manual-purchase-routing.module';
 import { ManualPurchaseComponent } from './manual-purchase.component';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {CartService} from '../cart-service/cart.service';
 
 @NgModule({
   declarations: [ManualPurchaseComponent],
@@ -13,6 +14,8 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
     ManualPurchaseRoutingModule,
     FormsModule,
     NgbModule,
-  ]
+    ReactiveFormsModule
+  ],
+  providers:[CartService]
 })
 export class ManualPurchaseModule { }

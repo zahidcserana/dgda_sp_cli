@@ -34,6 +34,10 @@ export class CartService {
         return this.http.post('orders', data).toPromise();
     }
 
+    manualOrder(data: any) {
+        return this.http.post('orders/manual', data).toPromise();
+    }
+
     cartDetails(token: any) {
         return this.http.get(`carts/${token}`).pipe(map(res => res));
     }
