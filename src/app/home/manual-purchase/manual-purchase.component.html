@@ -93,7 +93,7 @@
         </div>
         <div formArrayName="powers" class="col-md-2">
             <div *ngFor="let power of powers.controls; index as i">
-                <input formControlName="{{i}}" placeholder="Power" class="form-control">
+                <input type="date" formControlName="{{i}}" placeholder="Power" class="form-control">
             </div>
         </div>
         <div formArrayName="totals" class="col-md-2">
