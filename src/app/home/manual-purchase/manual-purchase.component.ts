@@ -39,10 +39,10 @@ export class ManualPurchaseComponent implements OnInit {
         quantities: new FormArray([
             new FormControl(),
         ]),
-        vats: new FormArray([
+        mfgs: new FormArray([
             new FormControl(),
         ]),
-        powers: new FormArray([
+        exps: new FormArray([
             new FormControl(),
         ]),
         totals: new FormArray([
@@ -73,25 +73,25 @@ export class ManualPurchaseComponent implements OnInit {
         return this.form.get('quantities') as FormArray;
     }
 
-    get vats(): FormArray {
-        return this.form.get('vats') as FormArray;
+    get mfgs(): FormArray {
+        return this.form.get('mfgs') as FormArray;
     }
 
     get totals(): FormArray {
         return this.form.get('totals') as FormArray;
     }
 
-    get powers(): FormArray {
-        return this.form.get('powers') as FormArray;
+    get exps(): FormArray {
+        return this.form.get('exps') as FormArray;
     }
 
     addItem() {
         this.medicines.push(new FormControl());
         this.batches.push(new FormControl());
         this.quantities.push(new FormControl());
-        this.vats.push(new FormControl());
+        this.mfgs.push(new FormControl());
         this.totals.push(new FormControl());
-        this.powers.push(new FormControl());
+        this.exps.push(new FormControl());
     }
 
     onSubmit() {

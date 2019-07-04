@@ -29,7 +29,7 @@
 
 /* Add animation to "page content" */
 .animate-bottom {
-  position: relative;
+  position: inherit;
   -webkit-animation-name: animatebottom;
   -webkit-animation-duration: 1s;
   animation-name: animatebottom;
@@ -65,4 +65,5 @@
   justify-content: space-between;
   padding: .5rem 1rem;
 }
+
 

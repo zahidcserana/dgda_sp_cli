@@ -12,7 +12,7 @@
     <div class="col-md-12">
 
         <div class="form-group">
-            <label class="col-sm-1 control-label no-padding-right" for="form-field-1"> Company</label>
+            <label class="col-sm-1 control-label no-padding-right" for="form-field-1"> Company Name</label>
             <div class="col-sm-3">
                 <input id="typeahead-company" name="company" type="text" [(ngModel)]="manualOrder.company"
                        class="form-control" [ngbTypeahead]="company_search"/>
@@ -24,7 +24,7 @@
                        class="form-control"/>
             </div>
 
-            <label class="col-sm-1 control-label no-padding-right" for="form-field-1"> Date</label>
+            <label class="col-sm-1 control-label no-padding-right" for="form-field-1"> Purchase Date</label>
             <div class="col-sm-3">
                 <input id="purchase_date" [(ngModel)]="manualOrder.purchase_date" name="purchase_date" type="date"
                        class="form-control"/>
@@ -47,38 +47,48 @@
     </div>
 </div>
 <div class="space-10"></div>
-<div class="row">
-    <label class="col-md-3">
-        Medicine
+<div class="row" >
+    <label class="col-md-1 my-table-header">
+        SI
     </label>
-    <label class="col-md-2">
-        Batch
+    <label class="col-md-3 my-table-header">
+        Medicine Brand Name
     </label>
-    <label class="col-md-1">
-        Quantity
+    <label class="col-md-2 my-table-header">
+        Batch No
     </label>
-    <label class="col-md-2">
-        Vat
+    <label class="col-md-1 my-table-header">
+        Quantity(Box)
     </label>
-    <label class="col-md-2">
+    <label class="col-md-2 my-table-header">
+        MFG Date
+    </label>
+    <label class="col-md-2 my-table-header">
         Exp Date
     </label>
-    <label class="col-md-2">
-        Total
+    <label class="col-md-1 my-table-header">
+        Total Value(tk)
     </label>
 
 </div>
 <form [formGroup]="form" (ngSubmit)="onSubmit()" id="myForm">
     <div class="row">
+        <div formArrayName="medicines" class="col-md-1">
+            <div *ngFor="let medicine of medicines.controls; index as i">
+                <input class="form-control" value="{{i+1}}"
+                       />
+
+            </div>
+        </div>
         <div formArrayName="medicines" class="col-md-3">
             <div *ngFor="let medicine of medicines.controls; index as i">
-                <input formControlName="{{i}}" placeholder="Type Name or ID" type="text" class="form-control"
+                <input formControlName="{{i}}" placeholder="Type Medicine Name" type="text" class="form-control"
                        [ngbTypeahead]="search"/>
             </div>
         </div>
         <div formArrayName="batches" class="col-md-2">
             <div *ngFor="let batch of batches.controls; index as i">
-                <input formControlName="{{i}}" placeholder="Batch" class="form-control">
+                <input formControlName="{{i}}" placeholder="Batch No" class="form-control">
             </div>
         </div>
         <div formArrayName="quantities" class="col-md-1">
@@ -86,17 +96,17 @@
                 <input formControlName="{{i}}" placeholder="Quantity" class="form-control">
             </div>
         </div>
-        <div formArrayName="vats" class="col-md-2">
-            <div *ngFor="let vat of vats.controls; index as i">
-                <input formControlName="{{i}}" placeholder="Vat" class="form-control">
+        <div formArrayName="mfgs" class="col-md-2">
+            <div *ngFor="let mfg of mfgs.controls; index as i">
+                <input type="date" formControlName="{{i}}" placeholder="MFG" class="form-control">
             </div>
         </div>
-        <div formArrayName="powers" class="col-md-2">
-            <div *ngFor="let power of powers.controls; index as i">
-                <input type="date" formControlName="{{i}}" placeholder="Power" class="form-control">
+        <div formArrayName="exps" class="col-md-2">
+            <div *ngFor="let exp of exps.controls; index as i">
+                <input type="date" formControlName="{{i}}" placeholder="EXP" class="form-control">
             </div>
         </div>
-        <div formArrayName="totals" class="col-md-2">
+        <div formArrayName="totals" class="col-md-1">
             <div *ngFor="let total of totals.controls; index as i">
                 <input formControlName="{{i}}" placeholder="Total" class="form-control">
             </div>
@@ -107,7 +117,7 @@
 
     <div class="row">
         <div class="col-md-2">
-            <a class="btn btn-default" (click)="addItem()"><i class="fa fa-plus"></i>&nbsp;Add More</a>
+            <a class="btn btn-danger" (click)="addItem()"><i class="fa fa-plus"></i>&nbsp;Add More</a>
         </div>
         <div class="col-md-2 col-md-offset-1">
             <button class="btn btn-primary">Submit</button>

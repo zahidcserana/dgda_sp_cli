@@ -9,6 +9,7 @@ import { MenuModule } from './home-modules/menu/menu.module';
 import { LoginModule } from '../auth/login/login.module';
 import { AuthService } from '../auth/auth.service';
 import { AuthGuard } from '../auth/auth-guard.service';
+import {PurchaseService} from './report-manual-purchase/purchase-service/purchase.service';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,7 @@ import { AuthGuard } from '../auth/auth-guard.service';
     MenuModule,
     LoginModule
   ],
-  providers: [ AuthService, AuthGuard]
+  providers: [ AuthService, AuthGuard, PurchaseService]
 })
 
 export class HomeModule { }

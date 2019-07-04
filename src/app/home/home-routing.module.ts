@@ -25,6 +25,11 @@ const routes: Routes = [
                 resolve: {companies: HomeResolveService}
             },
             {
+                path: 'report-manual-purchase',
+                loadChildren: './report-manual-purchase/report-manual-purchase.module#ReportManualPurchaseModule',
+                resolve: {companies: HomeResolveService}
+            },
+            {
                 path: 'sale',
                 loadChildren: './sale/sale.module#SaleModule',
             },
