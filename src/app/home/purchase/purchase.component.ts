@@ -190,7 +190,7 @@ export class PurchaseComponent implements OnInit {
         this.cartS.addtoCart(this.cartItem).then(
             res => {
                 if (res.success === true) {
-                    $('#myForm').trigger('reset');
+                   // $('#myForm').trigger('reset');
                     this.alertS.success(this.alertContainer, 'Medicine has been added to cart', true, 3000);
                     this.cartS.saveCartsInlocalStorage(res.data);
                     localStorage.setItem('token', res.data.token);
