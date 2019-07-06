@@ -65,8 +65,22 @@ export class PurchaseComponent implements OnInit {
         this.cartItem.token = token ? token : '';
         console.log('token');
         if (this.cartItem.token !== '') {
-            this.cartS.cartDetails(this.cartItem.token).subscribe((data) => this.productList = data);
+            this.checkToken(this.cartItem.token);
         }
+    }
+
+    checkToken(token) {
+        this.cartS.checkCart(this.cartItem.token)
+            .subscribe(res => {
+                if (res.status === true) {
+                    this.cartS.cartDetails(this.cartItem.token).subscribe((data) => this.productList = data);
+
+                } else {
+                    localStorage.removeItem('user_cart');
+                    localStorage.removeItem('token');
+                    this.productList = [];
+                }
+            });
     }
 
     decreaseQuant(cart, i) {

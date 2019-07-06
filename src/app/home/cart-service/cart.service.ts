@@ -42,6 +42,10 @@ export class CartService {
         return this.http.get(`carts/${token}`).pipe(map(res => res));
     }
 
+    checkCart(token: any) {
+        return this.http.get(`carts/${token}/check`).pipe(map(res => res));
+    }
+
     saveCartsInlocalStorage(data) {
         localStorage.setItem('user_cart', JSON.stringify(data));
     }
