@@ -55,11 +55,17 @@
             </th>
         </tr>
         </thead>
-
-        <tbody *ngIf="purchaseItemList?.length > 0; else NoItem">
-        <ng-container *ngFor="let item of purchaseItemList; let i = 'index'; trackBy: trackList">
-
-            <tr role="row" class="odd selected">
+        <tbody *ngIf="purchaseItemList.length<1; else table">
+        <tr *ngIf="!loader">
+            <td colspan="11">
+                <h4 class="text-center">No Item Found</h4>
+            </td>
+        </tr>
+        </tbody>
+        <ng-template #table>
+            <tbody>
+            <tr role="row" *ngFor="let item of purchaseItemList; let i='index'; trackBy: tarckProduct; let o='odd'; let e='even'"
+                [ngClass]="{'odd':o, 'even':e}">
 
                 <td> {{item.company.name}} </td>
                 <td> {{item.invoice}} </td>
@@ -68,20 +74,13 @@
                 <td> {{item.quantity}} </td>
                 <td> {{item.mfg_date}} </td>
                 <td> {{item.exp_date}} </td>
-                <td> {{item.status}} </td>
-            </tr>
-
-        </ng-container>
-        </tbody>
-        <ng-template #NoItem>
-            <tbody>
-            <tr>
-                <td colspan="7">
-                    <h5 class="text-center">No Item Found</h5>
+                <td>
+                    <span class="" [ngClass]="checkStatus(item.status)">{{item.status}}</span>
                 </td>
             </tr>
             </tbody>
         </ng-template>
+
     </table>
     <!--<div class="row">
         <div class="col-xs-6">

@@ -15,4 +15,45 @@ export class PurchaseService {
         const params = query ? query : '';
         return this.http.get(`reports/purchase-manual?page_no=${p ? p : 1}&limit=${l ? l : 20}${params}`).pipe(map(res => res));
     }
+
+    changeStatus(id, s_id) {
+        return this.http.get(`orders/${id}/status/${s_id}`).toPromise();
+    }
+
+    checkStatus(s) {
+        if (s) {
+            switch (s) {
+                case 'OK':
+                    return 'label label-sm label-info';
+                case 'SOLD':
+                    return 'label label-sm label-success';
+                case 'RETURNED':
+                    return 'label label-sm label-danger';
+                case 'REMOVED':
+                    return 'label label-sm label-warning';
+                default:
+                    return 'label label-sm label-info';
+            }
+        }
+        return '';
+    }
+
+
+    getStatus(data) {
+        if (data) {
+            switch (data) {
+                case 1:
+                    return 'Active';
+                case 2:
+                    return 'Inactive';
+                case 3:
+                    return 'Out of Stock';
+                case 4:
+                    return 'Faulty';
+                case 5:
+                    return 'Delete';
+            }
+        }
+        return '';
+    }
 }

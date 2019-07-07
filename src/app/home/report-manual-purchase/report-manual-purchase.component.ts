@@ -36,6 +36,14 @@ export class ReportManualPurchaseComponent implements OnInit {
         );
     }
 
+    checkStatus(s) {
+        return this.purchaseS.checkStatus(s);
+    }
+
+    getStatus(s) {
+        return this.purchaseS.getStatus(s);
+    }
+
     getSettings() {
         Helpers.loadStyles('head', 'https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css');
         this._script.loadScripts('body', [
