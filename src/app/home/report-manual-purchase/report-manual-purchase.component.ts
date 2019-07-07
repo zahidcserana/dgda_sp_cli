@@ -19,10 +19,11 @@ export class ReportManualPurchaseComponent implements OnInit {
         private purchaseS: PurchaseService
     ) {
         this.getManualPurchaseList();
-        this.getSettings();
     }
 
     ngOnInit() {
+        this.getSettings();
+
     }
 
     getManualPurchaseList() {
@@ -45,9 +46,11 @@ export class ReportManualPurchaseComponent implements OnInit {
     }
 
     getSettings() {
-        Helpers.loadStyles('head', 'https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css');
+        Helpers.loadStyles('head', 'assets/css/bootstrap.min.css');
         this._script.loadScripts('body', [
-            'https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js'
+            'assets/js/jquery-2.1.4.min.js',
+            'assets/js/ace-elements.min.js',
+            'assets/js/wizard.min.js'
         ])
             .then(result => {
                 // Helpers.setLoading(false);

@@ -64,7 +64,8 @@
         </tbody>
         <ng-template #table>
             <tbody>
-            <tr role="row" *ngFor="let item of purchaseItemList; let i='index'; trackBy: tarckProduct; let o='odd'; let e='even'"
+            <tr role="row"
+                *ngFor="let item of purchaseItemList; let i='index'; trackBy: tarckProduct; let o='odd'; let e='even'"
                 [ngClass]="{'odd':o, 'even':e}">
 
                 <td> {{item.company.name}} </td>
@@ -75,7 +76,10 @@
                 <td> {{item.mfg_date}} </td>
                 <td> {{item.exp_date}} </td>
                 <td>
-                    <span class="" [ngClass]="checkStatus(item.status)">{{item.status}}</span>
+                    <a href="#modal-wizard" data-toggle="modal" class="pink">
+                        <span class="" [ngClass]="checkStatus(item.status)">{{item.status}}</span>
+                    </a>
+
                 </td>
             </tr>
             </tbody>
@@ -104,4 +108,52 @@
             </div>
         </div>
     </div>-->
+</div>
+
+<div id="modal-wizard" class="modal in" style="display: none; padding-right: 17px;">
+    <div style="width: 20%;" class="modal-dialog">
+        <div class="modal-content">
+            <div id="modal-wizard-container" class="no-steps-container">
+                <div class="modal-header">
+                    Change Status
+                </div>
+
+                <div class="modal-body step-content">
+                    <div class="widget-body">
+                        <div class="widget-main">
+                            <div>
+<!--                                <label for="form-field-select-1">Default</label>-->
+
+                                <select class="form-control" id="form-field-select-1">
+                                    <option value="RETURNED">RETURNED</option>
+                                    <option value="SOLD">SOLD</option>
+                                    <option value="REMOVED">REMOVED</option>
+                                    <option value="OK">OK</option>
+                                </select>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer wizard-actions">
+               <!-- <button class="btn btn-sm btn-prev" disabled="disabled">
+                    <i class="ace-icon fa fa-arrow-left"></i>
+                    Prev
+                </button>-->
+
+                <button class="btn btn-success btn-sm btn-next" data-last="Finish">
+                    Submit
+                    <i class="ace-icon fa fa-arrow-right icon-on-right"></i>
+                </button>
+
+                <!--<button class="btn btn-danger btn-sm pull-left" data-dismiss="modal">
+                    <i class="ace-icon fa fa-times"></i>
+                    Cancel
+                </button>-->
+            </div>
+        </div>
+    </div>
 </div>
