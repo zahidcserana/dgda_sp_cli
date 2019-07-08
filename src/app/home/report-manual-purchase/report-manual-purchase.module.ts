@@ -4,13 +4,18 @@ import { CommonModule } from '@angular/common';
 import { ReportManualPurchaseRoutingModule } from './report-manual-purchase-routing.module';
 import { ReportManualPurchaseComponent } from './report-manual-purchase.component';
 import {PurchaseService} from './purchase-service/purchase.service';
+import {PaginationModule} from '../../modules/pagination/pagination.module';
+import {FilterComponent} from './filter/filter.component';
+import {FormsModule} from '@angular/forms';
 
 @NgModule({
-  declarations: [ReportManualPurchaseComponent],
-  imports: [
-    CommonModule,
-    ReportManualPurchaseRoutingModule
-  ],
+    declarations: [ReportManualPurchaseComponent, FilterComponent],
+    imports: [
+        CommonModule,
+        ReportManualPurchaseRoutingModule,
+        PaginationModule,
+        FormsModule
+    ],
   providers: [PurchaseService]
 })
 export class ReportManualPurchaseModule { }

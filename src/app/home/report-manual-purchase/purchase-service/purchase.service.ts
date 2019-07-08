@@ -10,10 +10,11 @@ export class PurchaseService {
         private http: HttpService,
         private router: Router) {
     }
-
     getAllManualPurchase(p, l, query?) {
         const params = query ? query : '';
-        return this.http.get(`reports/purchase-manual?page_no=${p ? p : 1}&limit=${l ? l : 20}${params}`).pipe(map(res => res));
+        return this.http
+            .get(`reports/purchase-manual?page_no=${p ? p : 1}&limit=${l ? l : 20}${params}`)
+            .pipe(map(res => res));
     }
 
     changeStatus(id, s_id) {
