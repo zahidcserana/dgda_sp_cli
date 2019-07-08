@@ -63,7 +63,13 @@ export class ReportManualPurchaseComponent implements OnInit {
         this.filter = e;
         this.getManualPurchaseList(1, 20, this.filter);
     }
-
+    removeItem(itemId) {
+        this.purchaseS.deleteItem(itemId).then(
+            res => {
+                this.getManualPurchaseList(this.pagi.page, this.pagi.limit, this.filter);
+            }
+        );
+    }
     getManualPurchaseList(p, l, q) {
         this.loader = true;
         this.purchaseS.getAllManualPurchase(p, l, q).pipe(map(res => {

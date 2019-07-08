@@ -80,7 +80,7 @@
         </div>
         <div formArrayName="quantities" class="col-md-1">
             <div *ngFor="let quantity of quantities.controls; index as i">
-                <input formControlName="{{i}}" placeholder="Quantity" class="form-control">
+                <input type="number" formControlName="{{i}}" placeholder="Quantity" class="form-control">
             </div>
         </div>
         <div formArrayName="mfgs" class="col-md-2">

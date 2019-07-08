@@ -79,10 +79,12 @@
                 <td> {{item.mfg_date}} </td>
                 <td> {{item.exp_date}} </td>
                 <td>
-                    <a href="#modal-wizard_{{item.id}}" data-toggle="modal" class="pink">
+                    <a style="float: left" href="#modal-wizard_{{item.id}}" data-toggle="modal" class="pink">
                         <span class="" [ngClass]="checkStatus(item.status)">{{item.status}}</span>
                     </a>
-
+                    &nbsp;
+                    <a style="float: right" (click)="removeItem(item.id)" id="item_id" class="btn btn-danger btn-sm"><i
+                            class="fa fa-trash-o"></i></a>
                 </td>
 
                 <div id="modal-wizard_{{item.id}}" class="modal in" style="display: none; padding-right: 17px;">
@@ -124,7 +126,6 @@
                                         Submit
                                         <i class="ace-icon fa fa-arrow-right icon-on-right"></i>
                                     </button>
-
                                     <!--<button class="btn btn-danger btn-sm pull-left" data-dismiss="modal">
                                         <i class="ace-icon fa fa-times"></i>
                                         Cancel

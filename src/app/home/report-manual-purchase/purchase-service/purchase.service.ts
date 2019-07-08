@@ -24,6 +24,9 @@ export class PurchaseService {
     dataSyncToServe() {
         return this.http.get('data-sync').toPromise();
     }
+    deleteItem(item_id) {
+        return this.http.post('orders/delete-item', {item_id: item_id}).toPromise();
+    }
 
     checkStatus(s) {
         if (s) {
