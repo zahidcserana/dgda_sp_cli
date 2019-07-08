@@ -95,23 +95,25 @@ export class ManualPurchaseComponent implements OnInit {
     }
 
     onSubmit() {
-        console.log(this.form.value);
-        this.manualOrder.items = this.form.value;
-        this.cartS.manualOrder(this.manualOrder).then(
-            res => {
-                if (res.success === true) {
-                    this.alertS.success(this.alertContainer, 'Orders successfully submitted.', true, 3000);
-                    $('#myForm').trigger('reset');
-                } else {
-                    this.alertS.error(this.alertContainer, res.error, true, 3000);
+        if (confirm('Submit!')) {
+            console.log(this.form.value);
+            this.manualOrder.items = this.form.value;
+            this.cartS.manualOrder(this.manualOrder).then(
+                res => {
+                    if (res.success === true) {
+                        this.alertS.success(this.alertContainer, 'Orders successfully submitted.', true, 3000);
+                        $('#myForm').trigger('reset');
+                    } else {
+                        this.alertS.error(this.alertContainer, res.error, true, 3000);
+                    }
                 }
-            }
-        ).catch(
-            err => {
-                console.log(err);
-                this.alertS.error(this.alertContainer, err.error.error, true, 3000);
-            }
-        );
+            ).catch(
+                err => {
+                    console.log(err);
+                    this.alertS.error(this.alertContainer, err.error.error, true, 3000);
+                }
+            );
+        }
     }
 
     ngOnInit() {
