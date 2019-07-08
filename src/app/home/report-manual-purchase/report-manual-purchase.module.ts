@@ -7,6 +7,7 @@ import {PurchaseService} from './purchase-service/purchase.service';
 import {PaginationModule} from '../../modules/pagination/pagination.module';
 import {FilterComponent} from './filter/filter.component';
 import {FormsModule} from '@angular/forms';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
     declarations: [ReportManualPurchaseComponent, FilterComponent],
@@ -14,7 +15,8 @@ import {FormsModule} from '@angular/forms';
         CommonModule,
         ReportManualPurchaseRoutingModule,
         PaginationModule,
-        FormsModule
+        FormsModule,
+        NgbModule
     ],
   providers: [PurchaseService]
 })

@@ -17,8 +17,8 @@ export class PurchaseService {
             .pipe(map(res => res));
     }
 
-    changeStatus(id, s_id) {
-        return this.http.get(`orders/${id}/status/${s_id}`).toPromise();
+    changeStatus(data) {
+        return this.http.post('orders/update-status', data).toPromise();
     }
 
     checkStatus(s) {

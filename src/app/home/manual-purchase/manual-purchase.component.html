@@ -32,20 +32,7 @@
         </div>
     </div>
 </div>
-<div class="space-10"></div>
 
-<div class="row">
-    <div class="col-md-12">
-        <div class="form-group">
-            <label class="col-sm-1 control-label no-padding-right" for="form-field-1"> Discount </label>
-
-            <div class="col-sm-3">
-                <input id="discount" [(ngModel)]="manualOrder.discount" name="discount" type="text"
-                       class="form-control"/>
-            </div>
-        </div>
-    </div>
-</div>
 <div class="space-10"></div>
 <div class="row" >
     <label class="col-md-1 my-table-header">
@@ -75,7 +62,7 @@
     <div class="row">
         <div formArrayName="medicines" class="col-md-1">
             <div *ngFor="let medicine of medicines.controls; index as i">
-                <input class="form-control" value="{{i+1}}"
+                <input readonly class="form-control" value="{{i+1}}"
                        />
 
             </div>

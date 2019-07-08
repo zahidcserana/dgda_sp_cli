@@ -15,3 +15,8 @@ export class AccountReport {
     date_start: string;
     date_end: string;
 }
+
+export class ChangeStatus {
+    item_id: number;
+    status: string;
+}

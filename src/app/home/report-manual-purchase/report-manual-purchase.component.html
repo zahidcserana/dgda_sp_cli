@@ -20,7 +20,7 @@
         </div>
     </div>-->
 
-<!--    <app-filter [status]="status" [type]="type" (loadList)="filterList($event)"></app-filter>-->
+    <!--    <app-filter [status]="status" [type]="type" (loadList)="filterList($event)"></app-filter>-->
 
     <table id="dynamic-table" class="table table-striped table-bordered table-hover dataTable no-footer" role="grid"
            aria-describedby="dynamic-table_info">
@@ -79,11 +79,63 @@
                 <td> {{item.mfg_date}} </td>
                 <td> {{item.exp_date}} </td>
                 <td>
-                    <a href="#modal-wizard" data-toggle="modal" class="pink">
+                    <a href="#modal-wizard_{{item.id}}" data-toggle="modal" class="pink">
                         <span class="" [ngClass]="checkStatus(item.status)">{{item.status}}</span>
                     </a>
 
                 </td>
+
+                <div id="modal-wizard_{{item.id}}" class="modal in" style="display: none; padding-right: 17px;">
+                    <div style="width: 20%;" class="modal-dialog">
+                        <div class="modal-content">
+                            <form #f (ngSubmit)="statusChange(f)">
+                                <div id="modal-wizard-container" class="no-steps-container">
+                                    <div class="modal-header">
+                                        Change Status
+                                    </div>
+
+                                    <div class="modal-body step-content">
+                                        <div class="widget-body">
+                                            <div class="widget-main">
+                                                <input type="hidden" name="item_id" value="{{item.id}}">
+                                                    <div>
+
+                                                    <select name="status" class="form-control"
+                                                            id="form-field-select-1">
+                                                        <option value="RETURNED">RETURNED</option>
+                                                        <option value="SOLD">SOLD</option>
+                                                        <option value="REMOVED">REMOVED</option>
+                                                        <option value="OK">OK</option>
+                                                    </select>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="modal-footer wizard-actions">
+                                    <!-- <button class="btn btn-sm btn-prev" disabled="disabled">
+                                         <i class="ace-icon fa fa-arrow-left"></i>
+                                         Prev
+                                     </button>-->
+
+                                    <button type="submit" class="btn btn-success btn-sm btn-next" data-last="Finish">
+                                        Submit
+                                        <i class="ace-icon fa fa-arrow-right icon-on-right"></i>
+                                    </button>
+
+                                    <!--<button class="btn btn-danger btn-sm pull-left" data-dismiss="modal">
+                                        <i class="ace-icon fa fa-times"></i>
+                                        Cancel
+                                    </button>-->
+                                </div>
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+
             </tr>
             </tbody>
         </ng-template>
@@ -91,7 +143,8 @@
     </table>
 
     <!-- pagination Start-->
-    <boot-pagination [totalSize]="pagi.total" [listSize]="pagi.limit" (pageChange)="reloadTable($event)"></boot-pagination>
+    <boot-pagination [totalSize]="pagi.total" [listSize]="pagi.limit"
+                     (pageChange)="reloadTable($event)"></boot-pagination>
     <!-- pagination End-->
 
     <!--<div class="row">
@@ -118,50 +171,3 @@
     </div>-->
 </div>
 
-<div id="modal-wizard" class="modal in" style="display: none; padding-right: 17px;">
-    <div style="width: 20%;" class="modal-dialog">
-        <div class="modal-content">
-            <div id="modal-wizard-container" class="no-steps-container">
-                <div class="modal-header">
-                    Change Status
-                </div>
-
-                <div class="modal-body step-content">
-                    <div class="widget-body">
-                        <div class="widget-main">
-                            <div>
-<!--                                <label for="form-field-select-1">Default</label>-->
-
-                                <select class="form-control" id="form-field-select-1">
-                                    <option value="RETURNED">RETURNED</option>
-                                    <option value="SOLD">SOLD</option>
-                                    <option value="REMOVED">REMOVED</option>
-                                    <option value="OK">OK</option>
-                                </select>
-                            </div>
-
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="modal-footer wizard-actions">
-               <!-- <button class="btn btn-sm btn-prev" disabled="disabled">
-                    <i class="ace-icon fa fa-arrow-left"></i>
-                    Prev
-                </button>-->
-
-                <button class="btn btn-success btn-sm btn-next" data-last="Finish">
-                    Submit
-                    <i class="ace-icon fa fa-arrow-right icon-on-right"></i>
-                </button>
-
-                <!--<button class="btn btn-danger btn-sm pull-left" data-dismiss="modal">
-                    <i class="ace-icon fa fa-times"></i>
-                    Cancel
-                </button>-->
-            </div>
-        </div>
-    </div>
-</div>

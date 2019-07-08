@@ -1,5 +1,5 @@
-import {Component, OnInit} from '@angular/core';
-import {PurchaseModel} from '../report-models/purchase.model';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {ChangeStatus, PurchaseModel} from '../report-models/purchase.model';
 import {PurchaseService} from './purchase-service/purchase.service';
 import * as $ from 'jquery';
 import {Helpers} from '../../helpers';
@@ -10,7 +10,6 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {map, catchError} from 'rxjs/operators';
 import {of} from 'rxjs';
 
-
 @Component({
     selector: 'app-report-manual-purchase',
     templateUrl: './report-manual-purchase.component.html',
@@ -18,30 +17,28 @@ import {of} from 'rxjs';
 })
 export class ReportManualPurchaseComponent implements OnInit {
     filter: string;
-    // accounts: Accounts[] = [];
-    // account: Accounts = new Accounts();
-    // accountReport: AccountReport = new AccountReport();
     sideBaropen: boolean;
-    sideBarName: string = null;
     loader: boolean;
     pagi: Pagi = new Pagi();
     status = [];
+    changeStatus = new ChangeStatus();
     type = [];
     loaderExport: boolean;
     purchaseItemList: PurchaseModel[] = [];
     purchaseItem: PurchaseModel = new PurchaseModel();
 
+    @ViewChild('hasAlert') alertContainer: ElementRef;
+
     /**
      * Pagination stat
      */
     constructor(
-               // private settingS: SettingService,
-                private alertS: AlertService,
-               // private adminS: AdminService,
-                private modalService: NgbModal,
-
-                private _script: ScriptLoaderService,
-                private purchaseS: PurchaseService
+        // private settingS: SettingService,
+        private alertS: AlertService,
+        // private adminS: AdminService,
+        private modalService: NgbModal,
+        private _script: ScriptLoaderService,
+        private purchaseS: PurchaseService
     ) {
         this.filter = this.filter ? this.filter : '';
         this.pagi.limit = this.pagi.limit ? this.pagi.limit : 20;
@@ -57,14 +54,16 @@ export class ReportManualPurchaseComponent implements OnInit {
         this.getSettings();
 
     }
+
     reloadTable(e) {
-         this.getManualPurchaseList(e.page, e.limit, e.filter);
+        this.getManualPurchaseList(e.page, e.limit, e.filter);
     }
 
-    filterList(e){
+    filterList(e) {
         this.filter = e;
         this.getManualPurchaseList(1, 20, this.filter);
     }
+
     getManualPurchaseList(p, l, q) {
         this.loader = true;
         this.purchaseS.getAllManualPurchase(p, l, q).pipe(map(res => {
@@ -82,6 +81,7 @@ export class ReportManualPurchaseComponent implements OnInit {
         });
         this.executeAction();
     }
+
     private dataList(res) {
         // this.accounts = res.data;
         this.purchaseItemList = res.data;
@@ -91,6 +91,7 @@ export class ReportManualPurchaseComponent implements OnInit {
         this.pagi.page = parseInt(res['page_no']) || 1;
         this.pagi.limit = parseInt(res['limit']) || 20;
     }
+
     executeAction() {
         this.sideBaropen = null;
         $('.native-routing').css('display', 'none');
@@ -98,6 +99,27 @@ export class ReportManualPurchaseComponent implements OnInit {
 
     checkStatus(s) {
         return this.purchaseS.checkStatus(s);
+    }
+
+    statusChange(f) {
+        this.changeStatus.status = f.status.value;
+        this.changeStatus.item_id = f.item_id.value;
+
+
+        this.purchaseS.changeStatus(this.changeStatus).then(
+            res => {
+                if (res.success === true) {
+                    this.getManualPurchaseList(this.pagi.page, this.pagi.limit, this.filter);
+                }
+
+
+                $('.modal-backdrop').remove();
+            }
+        ).catch(
+            err => {
+                this.alertS.error(this.alertContainer, err.error.error, true, 3000);
+            }
+        );
     }
 
     getStatus(s) {
@@ -109,7 +131,8 @@ export class ReportManualPurchaseComponent implements OnInit {
         this._script.loadScripts('body', [
             'assets/js/jquery-2.1.4.min.js',
             'assets/js/ace-elements.min.js',
-            'assets/js/wizard.min.js'
+            'assets/js/wizard.min.js',
+            'assets/js/purchase.js',
         ])
             .then(result => {
                 // Helpers.setLoading(false);
