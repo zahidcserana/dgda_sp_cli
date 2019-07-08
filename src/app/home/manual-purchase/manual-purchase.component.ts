@@ -95,7 +95,7 @@ export class ManualPurchaseComponent implements OnInit {
     }
 
     onSubmit() {
-        if (confirm('Submit!')) {
+        if (confirm('Are you sure to submit.')) {
             console.log(this.form.value);
             this.manualOrder.items = this.form.value;
             this.cartS.manualOrder(this.manualOrder).then(

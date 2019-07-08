@@ -40,7 +40,7 @@ export class AuthService {
 
     get storeUser(): boolean {
         const user = this.getUser();
-        const type = ['ADMIN'];
+        const type = ['ADMIN', 'PHARMACYADMIN', 'PHARMACYSUPERADMIN'];
         return (user && type.includes(user.user_type)) ? true : false;
     }
 

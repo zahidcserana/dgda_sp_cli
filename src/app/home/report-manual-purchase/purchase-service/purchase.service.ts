@@ -21,6 +21,10 @@ export class PurchaseService {
         return this.http.post('orders/update-status', data).toPromise();
     }
 
+    dataSyncToServe() {
+        return this.http.get('data-sync').toPromise();
+    }
+
     checkStatus(s) {
         if (s) {
             switch (s) {
