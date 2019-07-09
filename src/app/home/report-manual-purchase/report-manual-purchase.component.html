@@ -20,7 +20,7 @@
         </div>
     </div>-->
 
-    <!--    <app-filter [status]="status" [type]="type" (loadList)="filterList($event)"></app-filter>-->
+        <app-filter [status]="status" [type]="type" (loadList)="filterList($event)"></app-filter>
 
     <table id="dynamic-table" class="table table-striped table-bordered table-hover dataTable no-footer" role="grid"
            aria-describedby="dynamic-table_info">
@@ -102,8 +102,7 @@
                                                 <input type="hidden" name="item_id" value="{{item.id}}">
                                                     <div>
 
-                                                    <select name="status" class="form-control"
-                                                            id="form-field-select-1">
+                                                    <select name="status" class="form-control" id="form-field-select-1">
                                                         <option value="RETURNED">RETURNED</option>
                                                         <option value="SOLD">SOLD</option>
                                                         <option value="REMOVED">REMOVED</option>

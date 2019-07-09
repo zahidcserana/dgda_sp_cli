@@ -14,6 +14,9 @@ export class AccountReport {
     account_type: number = null;
     date_start: string;
     date_end: string;
+    invoice: string;
+    batch_no: string;
+    exp_type = '';
 }
 
 export class ChangeStatus {

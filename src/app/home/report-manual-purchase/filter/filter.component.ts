@@ -30,9 +30,10 @@ export class FilterComponent implements OnInit {
         );
     }
 
-    ngOnInit() {}
+    ngOnInit() {
+    }
     ngAfterViewInit() {
-        this._dateRange();
+       // this._dateRange();
     }
 
     ngOnDestroy() {

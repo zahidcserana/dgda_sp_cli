@@ -1,12 +1,12 @@
 <div class="m-portlet m-portlet--mobile">
   <div class="m-portlet__head">
     <div class="m-portlet__head-caption">
-      <div class="m-portlet__head-title">
+      <!--<div class="m-portlet__head-title">
         <h3 class="m-portlet__head-text">
           <i class="la la-search"></i>
           Search
         </h3>
-      </div>
+      </div>-->
     </div>
   </div>
   <div class="m-portlet__body search-panel">
@@ -16,41 +16,50 @@
       <div class="row">
         <div class="col-md-3 col-sm-6">
           <div class="form-group m-form__group">
-            <select class="form-control m-input" name="type" [(ngModel)] ="accountReport.account_type">
-              <option value='null'>-Account Type-</option>
-              <option value="1">Income</option>
-              <option value="2">Expenditure</option>
+            <label for="Exp Type">Exp Type</label>
+            <select class="form-control m-input" name="type" [(ngModel)] ="accountReport.exp_type">
+              <option value=''>-Select Type-</option>
+              <option value="1">OK</option>
+              <option value="2">Expired in 1 Month</option>
+              <option value="3">Expired in 3 Month</option>
+              <option value="4">Expired</option>
             </select>
           </div>
         </div>
         <div class="col-md-3 col-sm-6">
           <div class="form-group m-form__group">
-            <select class="form-control m-input" name="order_status" [(ngModel)] ="accountReport.account_status">
-              <option value='null'>-Account Status-</option>
-              <option value="1">Active</option>
-              <option value="0">Inactive</option>
-            </select>
+            <label for="invoice">Invoice</label>
+            <input type="text" class="form-control m-input" name="order_status" [(ngModel)] ="accountReport.invoice" placeholder="Invoice">
           </div>
         </div>
+
         <div class="col-md-3 col-sm-6">
+          <div class="form-group m-form__group">
+            <label for="invoice">Batch</label>
+            <input type="text" class="form-control m-input" name="order_status" [(ngModel)] ="accountReport.batch_no" placeholder="Batch No">
+          </div>
+        </div>
+        <!--<div class="col-md-3 col-sm-6">
           <div class="form-group m-form__group">
             <div class="m-input-icon pull-right" id="m_daterangepicker_3">
               <input type="text" class="form-control m-input" placeholder="Select Date Range" autocomplete="off" readonly>
-              <span class="m-input-icon__icon m-input-icon__icon--right">
+              <span class="m-input-icon__icon m-input-icon__icon&#45;&#45;right">
                 <span>
                   <i class="la la-calendar-check-o"></i>
                 </span>
               </span>
             </div>
           </div>
-        </div>
+        </div>-->
         <div class="col-md-3 col-sm-6">
-          <div class="form-group m-form__group">
+          <div class="col-md-6 form-group m-form__group">
             <button type="submit" class="btn m-btn--pill m-btn--air btn-brand btn-sm"
                     style="margin-right:10px">
               <i class="fa fa-calendar-check-o"></i>
               Search
             </button>
+          </div>
+          <div class="col-md-6 form-group m-form__group">
             <button type="reset" class="btn m-btn--pill m-btn--air btn-danger btn-sm"
                     (click)="resetSearch()">
               <i class="fa fa-history"></i>
