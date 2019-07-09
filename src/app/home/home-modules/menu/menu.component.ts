@@ -31,4 +31,8 @@ export class MenuComponent implements OnInit {
             }
         );
     }
+
+    reloadPage() {
+        window.location.reload();
+    }
 }

@@ -118,7 +118,6 @@ export class ReportManualPurchaseComponent implements OnInit {
                     this.getManualPurchaseList(this.pagi.page, this.pagi.limit, this.filter);
                 }
 
-
                 $('.modal-backdrop').remove();
             }
         ).catch(
