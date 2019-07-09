@@ -15,6 +15,7 @@ export class AccountReport {
     date_start: string;
     date_end: string;
     invoice: string;
+    company_invoice: string;
     batch_no: string;
     exp_type = '';
 }
