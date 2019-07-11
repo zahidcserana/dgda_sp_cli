@@ -8,6 +8,7 @@ import {PaginationModule} from '../../modules/pagination/pagination.module';
 import {FilterComponent} from './filter/filter.component';
 import {FormsModule} from '@angular/forms';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {SweetAlert2Module} from '@sweetalert2/ngx-sweetalert2';
 
 @NgModule({
     declarations: [ReportManualPurchaseComponent, FilterComponent],
@@ -16,7 +17,8 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
         ReportManualPurchaseRoutingModule,
         PaginationModule,
         FormsModule,
-        NgbModule
+        NgbModule,
+        SweetAlert2Module
     ],
   providers: [PurchaseService]
 })

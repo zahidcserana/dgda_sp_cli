@@ -63,6 +63,7 @@ export class ReportManualPurchaseComponent implements OnInit {
         this.filter = e;
         this.getManualPurchaseList(1, 20, this.filter);
     }
+
     removeItem(itemId) {
         this.purchaseS.deleteItem(itemId).then(
             res => {
@@ -70,6 +71,7 @@ export class ReportManualPurchaseComponent implements OnInit {
             }
         );
     }
+
     getManualPurchaseList(p, l, q) {
         this.loader = true;
         this.purchaseS.getAllManualPurchase(p, l, q).pipe(map(res => {
@@ -103,6 +105,10 @@ export class ReportManualPurchaseComponent implements OnInit {
         $('.native-routing').css('display', 'none');
     }
 
+    expStatus(s) {
+        return this.purchaseS.expStatus(s);
+    }
+
     checkStatus(s) {
         return this.purchaseS.checkStatus(s);
     }
@@ -117,8 +123,9 @@ export class ReportManualPurchaseComponent implements OnInit {
                 if (res.success === true) {
                     this.getManualPurchaseList(this.pagi.page, this.pagi.limit, this.filter);
                 }
+                window.location.reload();
 
-                $('.modal-backdrop').remove();
+                // $('.modal-backdrop').remove();
             }
         ).catch(
             err => {
