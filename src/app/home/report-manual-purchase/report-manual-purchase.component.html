@@ -77,71 +77,20 @@
                     <td> {{item.batch_no}} </td>
                     <td> {{item.quantity}} </td>
                     <td> {{item.mfg_date}} </td>
+
                     <td>
                         <div class="blink">
                             <span [ngClass]="expStatus(item.exp_status)" class="exp_date">{{item.exp_date}}</span>
                         </div>
                     </td>
                     <td>
-                        <a style="float: left" href="#modal-wizard_{{item.id}}" data-toggle="modal" class="pink">
+                        <a class="pink" style="float: left" (click)="purchaseStatus(item)">
                             <span class="status" [ngClass]="checkStatus(item.status)">{{item.status}}</span>
                         </a>
                         &nbsp;
                         <a style="float: right" (click)="removeItem(item.id)" id="item_id"
                             class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i></a>
                     </td>
-
-                    <div id="modal-wizard_{{item.id}}" class="modal in" style="display: none; padding-right: 17px;">
-                        <div style="width: 20%;" class="modal-dialog">
-                            <div class="modal-content">
-                                <form #f (ngSubmit)="statusChange(f)">
-                                    <div id="modal-wizard-container" class="no-steps-container">
-                                        <div class="modal-header">
-                                            Change Status
-                                        </div>
-
-                                        <div class="modal-body step-content">
-                                            <div class="widget-body">
-                                                <div class="widget-main">
-                                                    <input type="hidden" name="item_id" value="{{item.id}}">
-                                                    <div>
-
-                                                        <select name="status" class="form-control"
-                                                            id="form-field-select-1">
-                                                            <option value="RETURNED">RETURNED</option>
-                                                            <option value="SOLD">SOLD</option>
-                                                            <option value="REMOVED">REMOVED</option>
-                                                            <option value="OK">OK</option>
-                                                        </select>
-                                                    </div>
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="modal-footer wizard-actions">
-                                        <!-- <button class="btn btn-sm btn-prev" disabled="disabled">
-                                         <i class="ace-icon fa fa-arrow-left"></i>
-                                         Prev
-                                     </button>-->
-
-                                        <button type="submit" class="btn btn-success btn-sm btn-next"
-                                            data-last="Finish">
-                                            Submit
-                                            <i class="ace-icon fa fa-arrow-right icon-on-right"></i>
-                                        </button>
-                                        <!--<button class="btn btn-danger btn-sm pull-left" data-dismiss="modal">
-                                        <i class="ace-icon fa fa-times"></i>
-                                        Cancel
-                                    </button>-->
-                                    </div>
-                                </form>
-                            </div>
-
-                        </div>
-                    </div>
-
                 </tr>
             </tbody>
         </ng-template>
