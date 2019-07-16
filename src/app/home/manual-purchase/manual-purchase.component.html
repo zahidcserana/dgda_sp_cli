@@ -15,30 +15,30 @@
             <label class="col-sm-1 control-label no-padding-right" for="form-field-1"> Company Name</label>
             <div class="col-sm-3">
                 <input id="typeahead-company" name="company" type="text" [(ngModel)]="manualOrder.company"
-                       class="form-control" [ngbTypeahead]="company_search"/>
+                    class="form-control" [ngbTypeahead]="company_search" />
             </div>
 
             <label class="col-sm-1 control-label no-padding-right" for="form-field-1"> Invoice </label>
             <div class="col-sm-3">
                 <input id="company_invoice" [(ngModel)]="manualOrder.company_invoice" name="company_invoice" type="text"
-                       class="form-control"/>
+                    class="form-control" />
             </div>
 
             <label class="col-sm-1 control-label no-padding-right" for="form-field-1"> Purchase Date</label>
             <div class="col-sm-3">
                 <input id="purchase_date" [(ngModel)]="manualOrder.purchase_date" name="purchase_date" type="date"
-                       class="form-control"/>
+                    class="form-control" />
             </div>
         </div>
     </div>
 </div>
 
 <div class="space-10"></div>
-<div class="row" >
+<div class="row">
     <label class="col-md-1 my-table-header">
         SI
     </label>
-    <label class="col-md-3 my-table-header">
+    <label class="col-md-2 my-table-header">
         Medicine Brand Name
     </label>
     <label class="col-md-2 my-table-header">
@@ -56,21 +56,21 @@
     <label class="col-md-1 my-table-header">
         Total Value(tk)
     </label>
-
+    <label class="col-md-1 my-table-header">
+        Action
+    </label>
 </div>
-<form [formGroup]="form" (ngSubmit)="onSubmit()" id="myForm">
+<form [formGroup]="form" id="myForm" (keydown.enter)="$event.preventDefault()">
     <div class="row">
         <div formArrayName="medicines" class="col-md-1">
             <div *ngFor="let medicine of medicines.controls; index as i">
-                <input readonly class="form-control" value="{{i+1}}"
-                       />
-
+                <input readonly class="form-control" value="{{i+1}}" />
             </div>
         </div>
-        <div formArrayName="medicines" class="col-md-3">
+        <div formArrayName="medicines" class="col-md-2">
             <div *ngFor="let medicine of medicines.controls; index as i">
                 <input formControlName="{{i}}" placeholder="Type Medicine Name" type="text" class="form-control"
-                       [ngbTypeahead]="search"/>
+                    [ngbTypeahead]="search" />
             </div>
         </div>
         <div formArrayName="batches" class="col-md-2">
@@ -99,15 +99,26 @@
             </div>
         </div>
 
+        <div formArrayName="medicines" class="col-md-1">
+            <div *ngFor="let medicine of medicines.controls; index as i">
+                <button (click)="addItem()" *ngIf="i == 0" class="btn btn-white btn-info btn-bold">
+                    <i class="ace-icon fa fa-plus bigger-120 orange"></i>
+                    Add
+                </button>
+                <button *ngIf="i > 0" (click)="removeItem(i)" class="btn btn-white btn-warning btn-bold">
+                    <i class="ace-icon fa fa-trash-o bigger-120 orange"></i>
+                    Delete
+                </button>
+
+            </div>
+        </div>
+
     </div>
     <div class="space-10"></div>
 
     <div class="row">
-        <div class="col-md-2">
-            <a class="btn btn-danger" (click)="addItem()"><i class="fa fa-plus"></i>&nbsp;Add More</a>
-        </div>
         <div class="col-md-2 col-md-offset-1">
-            <button class="btn btn-primary">Submit</button>
+            <button class="btn btn-primary" (click)="onSubmit()">Submit</button>
         </div>
 
         <div class="col-md-4">
@@ -116,5 +127,3 @@
 
     </div>
 </form>
-
-

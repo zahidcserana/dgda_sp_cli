@@ -87,6 +87,10 @@
                         <a class="pink" style="float: left" (click)="purchaseStatus(item)">
                             <span class="status" [ngClass]="checkStatus(item.status)">{{item.status}}</span>
                         </a>
+
+                        <span *ngIf="item.is_sync" class="badge badge-success"><i
+                                class="ace-icon glyphicon glyphicon-ok"></i></span>
+                        <span *ngIf="!item.is_sync" class="badge badge-warning">...</span>
                         &nbsp;
                         <a style="float: right" (click)="removeItem(item.id)" id="item_id"
                             class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i></a>

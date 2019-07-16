@@ -90,17 +90,22 @@ export class ReportManualPurchaseComponent implements OnInit {
                             res => {
                                 if (res.success === true) {
                                     this.getManualPurchaseList(this.pagi.page, this.pagi.limit, this.filter);
-                                    Swal.fire(
-                                        'Good job!',
-                                        'Status successfully changed.',
-                                        'success'
-                                    )
+
+                                    Swal.fire({
+                                        position: 'center',
+                                        type: 'success',
+                                        title: 'Status successfully changed.',
+                                        showConfirmButton: false,
+                                        timer: 1500
+                                    })
 
                                 } else {
                                     Swal.fire({
+                                        position: 'center',
                                         type: 'warning',
-                                        title: 'Oops...',
-                                        text: 'Already changed!',
+                                        title: 'Already changed!',
+                                        showConfirmButton: false,
+                                        timer: 1500
                                     })
                                 }
 
