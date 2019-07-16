@@ -73,6 +73,10 @@ export class ReportManualPurchaseComponent implements OnInit {
             },
             inputPlaceholder: 'Select a status',
             showCancelButton: true,
+            customClass: {
+                confirmButton: 'confirm-button-class',
+                cancelButton: 'cancel-button-class',
+            },
             inputValidator: (value) => {
                 return new Promise((resolve) => {
                     if (value === '') {

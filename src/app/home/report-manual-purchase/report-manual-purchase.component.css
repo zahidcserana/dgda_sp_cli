@@ -54,3 +54,8 @@ span.status {
     opacity: 1;
   }
 }
+
+.confirm-button-class {
+  width: 50%;
+  text-align: center;
+}
