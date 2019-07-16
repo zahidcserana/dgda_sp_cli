@@ -45,6 +45,19 @@ export class PurchaseService {
         }
         return '';
     }
+    expStatus(s) {
+        if (s) {
+            switch (s) {
+                case 'EXP':
+                    return 'expired';
+                case '1M':
+                    return 'expired1';
+                case '3M':
+                    return 'expired3';
+            }
+        }
+        return '';
+    }
 
 
     getStatus(data) {

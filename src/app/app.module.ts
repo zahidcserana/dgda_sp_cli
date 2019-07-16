@@ -12,6 +12,8 @@ import {HttpWithInjectorModule} from './modules/http-with-injector/http-with-inj
 import {AlertModule} from './modules/alert/alert.module';
 import { HomeService } from './home/service/home.service';
 import { HomeResolveService } from './home/service/home-resolve.service';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -23,7 +25,8 @@ import { HomeResolveService } from './home/service/home-resolve.service';
     AppRoutingModule,
     LoginModule,
     AlertModule.forRoot({main: 'something'}),
-    HttpWithInjectorModule.forRoot({endPoint: ''})
+    HttpWithInjectorModule.forRoot({endPoint: ''}),
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [ScriptLoaderService, AuthService, AuthGuard, HomeService, HomeResolveService],
   bootstrap: [AppComponent]

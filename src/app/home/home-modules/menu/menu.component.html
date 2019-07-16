@@ -37,6 +37,14 @@
     </div><!-- /.sidebar-shortcuts -->
 
     <ul class="nav nav-list">
+        <li class="hover" class="logout-menu">
+            <a (click)="dataSync()" class="router-link">
+                <i class="menu-icon fa fa-refresh"></i>
+                <span class="menu-text"> Sync </span>
+            </a>
+
+            <b class="arrow"></b>
+        </li>
         <li class="hover">
             <a routerLink="/">
                 <i class="menu-icon fa fa-tachometer"></i>
@@ -150,7 +158,7 @@
         </li>
 
         <li class="hover" class="logout-menu">
-            <img width="70"  src="assets/images/dgda_Logo1.png" alt="">
+            <img width="70" src="assets/images/dgda_Logo1.png" alt="">
 
         </li>
     </ul><!-- /.nav-list -->
