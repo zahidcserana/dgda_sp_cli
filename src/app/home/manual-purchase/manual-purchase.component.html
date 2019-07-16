@@ -85,12 +85,17 @@
         </div>
         <div formArrayName="mfgs" class="col-md-2">
             <div *ngFor="let mfg of mfgs.controls; index as i">
-                <input type="date" formControlName="{{i}}" placeholder="MFG" class="form-control">
+
+                <input formControlName="{{i}}" autocomplete="off" class="form-control" name="date" bsDatepicker
+                    [bsConfig]="{dateInputFormat: 'MM/YYYY'}" (onShown)="onOpenCalendar($event)">
+                <!-- <input type="date" formControlName="{{i}}" placeholder="MFG" class="form-control"> -->
             </div>
         </div>
         <div formArrayName="exps" class="col-md-2">
             <div *ngFor="let exp of exps.controls; index as i">
-                <input type="date" formControlName="{{i}}" placeholder="EXP" class="form-control">
+                <input formControlName="{{i}}" autocomplete="off" class="form-control" name="date" bsDatepicker
+                    [bsConfig]="{dateInputFormat: 'MM/YYYY'}" (onShown)="onOpenCalendar($event)">
+                <!-- <input type="date" formControlName="{{i}}" placeholder="EXP" class="form-control"> -->
             </div>
         </div>
         <div formArrayName="totals" class="col-md-1">
