@@ -1,6 +1,18 @@
 .router-link {
-    cursor: pointer;
+  cursor: pointer;
 }
+
 .logout-menu {
-    float: right !important;
+  float: right !important;
+}
+
+.swal2-styled.swal2-confirm {
+  border: 0;
+  border-radius: .25em;
+  background: initial;
+  background-color: #3085d6;
+  color: #fff;
+  font-size: 1.0625em;
+  width: 50% !important;
+  text-align: center !important;
 }

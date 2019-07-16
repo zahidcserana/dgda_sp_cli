@@ -1,10 +1,10 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {Observable, Subscription} from 'rxjs';
-import {catchError, debounceTime, distinctUntilChanged, map, switchMap, tap} from 'rxjs/operators';
-import {FormArray, FormBuilder, FormControl, FormGroup} from '@angular/forms';
-import {CartService} from '../cart-service/cart.service';
-import {AlertService} from '../../modules/alert/alert.service';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Observable, Subscription } from 'rxjs';
+import { catchError, debounceTime, distinctUntilChanged, map, switchMap, tap } from 'rxjs/operators';
+import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { CartService } from '../cart-service/cart.service';
+import { AlertService } from '../../modules/alert/alert.service';
 import * as $ from 'jquery';
 
 @Component({
@@ -16,6 +16,7 @@ export class ManualPurchaseComponent implements OnInit {
     companyList: any[] = [];
     sub: Subscription;
     searchData: any[] = [];
+    selectedFeatures: any = [];
 
     medicineSearch: any = {
         company: '',
@@ -25,7 +26,7 @@ export class ManualPurchaseComponent implements OnInit {
         company: '',
         company_invoice: '',
         discount: '',
-        purchase_date: '',
+        purchase_date: new Date().toISOString().split('T')[0],
         items: []
     };
 
@@ -60,7 +61,15 @@ export class ManualPurchaseComponent implements OnInit {
     ) {
 
     }
+    name = 'Angular';
+    modelDate = '';
 
+    onOpenCalendar(container) {
+        container.monthSelectHandler = (event: any): void => {
+            container._store.dispatch(container._actions.select(event.date));
+        };
+        container.setViewMode('month');
+    }
     get medicines(): FormArray {
         return this.form.get('medicines') as FormArray;
     }
@@ -92,6 +101,14 @@ export class ManualPurchaseComponent implements OnInit {
         this.mfgs.push(new FormControl());
         this.totals.push(new FormControl());
         this.exps.push(new FormControl());
+    }
+    removeItem(i) {
+        this.medicines.removeAt(i);
+        this.batches.removeAt(i);
+        this.quantities.removeAt(i);
+        this.mfgs.removeAt(i);
+        this.totals.removeAt(i);
+        this.exps.removeAt(i);
     }
 
     onSubmit() {

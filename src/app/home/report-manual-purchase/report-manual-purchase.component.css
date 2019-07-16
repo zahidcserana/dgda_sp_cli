@@ -1,0 +1,61 @@
+.blink {
+  width: 200px;
+  height: 50px;
+  background-color: #00BE67;
+  padding: 0;
+  text-align: center;
+  line-height: 50px;
+}
+
+span.exp_date {
+  font-size: 20px;
+  font-family: cursive;
+  color: white;
+}
+
+span.expired {
+  font-size: 20px;
+  font-family: cursive;
+  color: red;
+  animation: blink 0.6s linear infinite;
+}
+
+span.expired1 {
+  font-size: 20px;
+  font-family: cursive;
+  color: orange;
+  animation: blink 0.6s linear infinite;
+}
+
+span.expired3 {
+  font-size: 20px;
+  font-family: cursive;
+  color: yellow;
+  animation: blink 0.6s linear infinite;
+}
+
+span.status {
+  font-size: 15px;
+  font-family: cursive;
+  color: white;
+  cursor: pointer;
+}
+
+@keyframes blink {
+  0% {
+    opacity: 0;
+  }
+
+  50% {
+    opacity: .5;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+.confirm-button-class {
+  width: 50%;
+  text-align: center;
+}

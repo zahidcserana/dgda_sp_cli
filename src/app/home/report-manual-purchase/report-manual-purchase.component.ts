@@ -1,14 +1,15 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {ChangeStatus, PurchaseModel} from '../report-models/purchase.model';
-import {PurchaseService} from './purchase-service/purchase.service';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { ChangeStatus, PurchaseModel } from '../report-models/purchase.model';
+import { PurchaseService } from './purchase-service/purchase.service';
 import * as $ from 'jquery';
-import {Helpers} from '../../helpers';
-import {ScriptLoaderService} from '../../_services/script-loader.service';
-import {Pagi} from '../../modules/pagination/pagi.model';
-import {AlertService} from '../../modules/alert/alert.service';
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {map, catchError} from 'rxjs/operators';
-import {of} from 'rxjs';
+import { Helpers } from '../../helpers';
+import { ScriptLoaderService } from '../../_services/script-loader.service';
+import { Pagi } from '../../modules/pagination/pagi.model';
+import { AlertService } from '../../modules/alert/alert.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { map, catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
+import Swal from 'sweetalert2';
 
 @Component({
     selector: 'app-report-manual-purchase',
@@ -59,10 +60,73 @@ export class ReportManualPurchaseComponent implements OnInit {
         this.getManualPurchaseList(e.page, e.limit, e.filter);
     }
 
+    async purchaseStatus(item) {
+        console.log(item);
+        await Swal.fire({
+            title: 'Change Status',
+            input: 'select',
+            inputOptions: {
+                'RETURNED': 'RETURNED',
+                'SOLD': 'SOLD',
+                'REMOVED': 'REMOVED',
+                'OK': 'OK'
+            },
+            inputPlaceholder: 'Select a status',
+            showCancelButton: true,
+            customClass: {
+                confirmButton: 'confirm-button-class',
+                cancelButton: 'cancel-button-class',
+            },
+            inputValidator: (value) => {
+                return new Promise((resolve) => {
+                    if (value === '') {
+                        resolve('You need to select one status !');
+
+                    } else {
+
+                        this.changeStatus.status = value;
+                        this.changeStatus.item_id = item.id;
+                        this.purchaseS.changeStatus(this.changeStatus).then(
+                            res => {
+                                if (res.success === true) {
+                                    this.getManualPurchaseList(this.pagi.page, this.pagi.limit, this.filter);
+
+                                    Swal.fire({
+                                        position: 'center',
+                                        type: 'success',
+                                        title: 'Status successfully changed.',
+                                        showConfirmButton: false,
+                                        timer: 1500
+                                    })
+
+                                } else {
+                                    Swal.fire({
+                                        position: 'center',
+                                        type: 'warning',
+                                        title: 'Already changed!',
+                                        showConfirmButton: false,
+                                        timer: 1500
+                                    })
+                                }
+
+                            }
+                        ).catch(
+                            err => {
+                                this.alertS.error(this.alertContainer, err.error.error, true, 3000);
+                            }
+                        );
+
+                    }
+                })
+            }
+        })
+    }
+
     filterList(e) {
         this.filter = e;
         this.getManualPurchaseList(1, 20, this.filter);
     }
+
     removeItem(itemId) {
         this.purchaseS.deleteItem(itemId).then(
             res => {
@@ -70,6 +134,7 @@ export class ReportManualPurchaseComponent implements OnInit {
             }
         );
     }
+
     getManualPurchaseList(p, l, q) {
         this.loader = true;
         this.purchaseS.getAllManualPurchase(p, l, q).pipe(map(res => {
@@ -103,6 +168,10 @@ export class ReportManualPurchaseComponent implements OnInit {
         $('.native-routing').css('display', 'none');
     }
 
+    expStatus(s) {
+        return this.purchaseS.expStatus(s);
+    }
+
     checkStatus(s) {
         return this.purchaseS.checkStatus(s);
     }
@@ -117,8 +186,9 @@ export class ReportManualPurchaseComponent implements OnInit {
                 if (res.success === true) {
                     this.getManualPurchaseList(this.pagi.page, this.pagi.limit, this.filter);
                 }
+                window.location.reload();
 
-                $('.modal-backdrop').remove();
+                // $('.modal-backdrop').remove();
             }
         ).catch(
             err => {

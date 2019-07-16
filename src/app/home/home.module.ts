@@ -9,7 +9,9 @@ import { MenuModule } from './home-modules/menu/menu.module';
 import { LoginModule } from '../auth/login/login.module';
 import { AuthService } from '../auth/auth.service';
 import { AuthGuard } from '../auth/auth-guard.service';
-import {PurchaseService} from './report-manual-purchase/purchase-service/purchase.service';
+import { PurchaseService } from './report-manual-purchase/purchase-service/purchase.service';
+
+
 
 @NgModule({
   declarations: [
@@ -21,9 +23,9 @@ import {PurchaseService} from './report-manual-purchase/purchase-service/purchas
     FooterModule,
     HeaderModule,
     MenuModule,
-    LoginModule
+    LoginModule,
   ],
-  providers: [ AuthService, AuthGuard, PurchaseService]
+  providers: [AuthService, AuthGuard, PurchaseService]
 })
 
 export class HomeModule { }
