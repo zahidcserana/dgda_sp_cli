@@ -14,6 +14,8 @@ import { HomeService } from './home/service/home.service';
 import { HomeResolveService } from './home/service/home-resolve.service';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -26,7 +28,9 @@ import { environment } from '../environments/environment';
     LoginModule,
     AlertModule.forRoot({main: 'something'}),
     HttpWithInjectorModule.forRoot({endPoint: ''}),
-    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
+    BsDatepickerModule.forRoot(),
+    BrowserAnimationsModule
   ],
   providers: [ScriptLoaderService, AuthService, AuthGuard, HomeService, HomeResolveService],
   bootstrap: [AppComponent]

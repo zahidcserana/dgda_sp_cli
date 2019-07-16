@@ -1,7 +1,7 @@
-import {Component, OnInit} from '@angular/core';
-import {Helpers} from '../helpers';
-import {ScriptLoaderService} from '../_services/script-loader.service';
-import {Router} from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { Helpers } from '../helpers';
+import { ScriptLoaderService } from '../_services/script-loader.service';
+import { Router } from '@angular/router';
 import * as $ from 'jquery';
 
 @Component({
@@ -27,6 +27,7 @@ export class HomeComponent implements OnInit {
     }
 
     getSettings() {
+        Helpers.loadStyles('head', 'https://unpkg.com/ngx-bootstrap/datepicker/bs-datepicker.css');
         Helpers.loadStyles('head', 'assets/css/select2.min.css');
         Helpers.loadStyles('head', 'assets/css/jquery-ui.custom.min.css');
         Helpers.loadStyles('head', 'assets/css/chosen.min.css');

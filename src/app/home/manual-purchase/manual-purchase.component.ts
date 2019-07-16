@@ -61,7 +61,15 @@ export class ManualPurchaseComponent implements OnInit {
     ) {
 
     }
+    name = 'Angular';
+    modelDate = '';
 
+    onOpenCalendar(container) {
+        container.monthSelectHandler = (event: any): void => {
+            container._store.dispatch(container._actions.select(event.date));
+        };
+        container.setViewMode('month');
+    }
     get medicines(): FormArray {
         return this.form.get('medicines') as FormArray;
     }
