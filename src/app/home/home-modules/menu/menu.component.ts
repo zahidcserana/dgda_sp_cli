@@ -37,6 +37,8 @@ export class MenuComponent implements OnInit {
                     showConfirmButton: false,
                     timer: 1500
                 })
+
+                window.location.reload();
             }
         );
     }

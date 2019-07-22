@@ -1,134 +1,132 @@
 <div class="page-header">
-    <h1>
-        DGDA Smart Pharmacy
-        <small>
-            <i class="ace-icon fa fa-angle-double-right"></i>
-            Manual Purchase
-        </small>
-    </h1>
+  <h1>
+    DGDA Smart Pharmacy
+    <small>
+      <i class="ace-icon fa fa-angle-double-right"></i>
+      Manual Purchase
+    </small>
+  </h1>
 </div><!-- /.page-header -->
 
 <div class="row">
-    <div class="col-md-12">
+  <div class="col-md-12">
 
-        <div class="form-group">
-            <label class="col-sm-1 control-label no-padding-right" for="form-field-1"> Company Name</label>
-            <div class="col-sm-3">
-                <input id="typeahead-company" name="company" type="text" [(ngModel)]="manualOrder.company"
-                    class="form-control" [ngbTypeahead]="company_search" />
-            </div>
+    <div class="form-group">
+      <label class="col-sm-1 control-label no-padding-right" for="form-field-1"> Company Name</label>
+      <div class="col-sm-3">
+        <input id="typeahead-company" name="company" type="text" [(ngModel)]="manualOrder.company" class="form-control validation-input"
+          [ngbTypeahead]="company_search" />
+      </div>
 
-            <label class="col-sm-1 control-label no-padding-right" for="form-field-1"> Invoice </label>
-            <div class="col-sm-3">
-                <input id="company_invoice" [(ngModel)]="manualOrder.company_invoice" name="company_invoice" type="text"
-                    class="form-control" />
-            </div>
+      <label class="col-sm-1 control-label no-padding-right" for="form-field-1"> Invoice </label>
+      <div class="col-sm-3">
+        <input id="company_invoice" [(ngModel)]="manualOrder.company_invoice" name="company_invoice" type="text"
+          class="form-control validation-input" />
+      </div>
 
-            <label class="col-sm-1 control-label no-padding-right" for="form-field-1"> Purchase Date</label>
-            <div class="col-sm-3">
-                <input id="purchase_date" [(ngModel)]="manualOrder.purchase_date" name="purchase_date" type="date"
-                    class="form-control" />
-            </div>
-        </div>
+      <label class="col-sm-1 control-label no-padding-right" for="form-field-1"> Purchase Date</label>
+      <div class="col-sm-3">
+        <input id="purchase_date" [(ngModel)]="manualOrder.purchase_date" name="purchase_date" type="date"
+          class="form-control" />
+      </div>
     </div>
+  </div>
 </div>
 
-<div class="space-10"></div>
+<div class="space-10 invoice-div"></div>
 <div class="row">
-    <label class="col-md-1 my-table-header">
-        SI
-    </label>
-    <label class="col-md-2 my-table-header">
-        Medicine Brand Name
-    </label>
-    <label class="col-md-2 my-table-header">
-        Batch No
-    </label>
-    <label class="col-md-1 my-table-header">
-        Quantity(Box)
-    </label>
-    <label class="col-md-2 my-table-header">
-        MFG Date
-    </label>
-    <label class="col-md-2 my-table-header">
-        Exp Date
-    </label>
-    <label class="col-md-1 my-table-header">
-        Total Value(tk)
-    </label>
-    <label class="col-md-1 my-table-header">
-        Action
-    </label>
+  <label class="col-md-1 my-table-header">
+    SI
+  </label>
+  <label class="col-md-2 my-table-header">
+    Medicine Brand Name
+  </label>
+  <label class="col-md-2 my-table-header">
+    Batch No
+  </label>
+  <label class="col-md-1 my-table-header">
+    Quantity(Box)
+  </label>
+  <label class="col-md-2 my-table-header">
+    MFG Date
+  </label>
+  <label class="col-md-2 my-table-header">
+    Exp Date
+  </label>
+  <label class="col-md-1 my-table-header">
+    Total Value(tk)
+  </label>
+  <label class="col-md-1 my-table-header">
+    Action
+  </label>
 </div>
 <form [formGroup]="form" id="myForm" (keydown.enter)="$event.preventDefault()">
-    <div class="row">
-        <div formArrayName="medicines" class="col-md-1">
-            <div *ngFor="let medicine of medicines.controls; index as i">
-                <input readonly class="form-control" value="{{i+1}}" />
-            </div>
-        </div>
-        <div formArrayName="medicines" class="col-md-2">
-            <div *ngFor="let medicine of medicines.controls; index as i">
-                <input formControlName="{{i}}" placeholder="Type Medicine Name" type="text" class="form-control"
-                    [ngbTypeahead]="search" />
-            </div>
-        </div>
-        <div formArrayName="batches" class="col-md-2">
-            <div *ngFor="let batch of batches.controls; index as i">
-                <input formControlName="{{i}}" placeholder="Batch No" class="form-control">
-            </div>
-        </div>
-        <div formArrayName="quantities" class="col-md-1">
-            <div *ngFor="let quantity of quantities.controls; index as i">
-                <input type="number" formControlName="{{i}}" placeholder="Quantity" class="form-control">
-            </div>
-        </div>
-        <div formArrayName="mfgs" class="col-md-2">
-            <div *ngFor="let mfg of mfgs.controls; index as i">
-
-                <input formControlName="{{i}}" autocomplete="off" class="form-control" name="date" bsDatepicker
-                    [bsConfig]="{dateInputFormat: 'MM/YYYY'}" (onShown)="onOpenCalendar($event)">
-                <!-- <input type="date" formControlName="{{i}}" placeholder="MFG" class="form-control"> -->
-            </div>
-        </div>
-        <div formArrayName="exps" class="col-md-2">
-            <div *ngFor="let exp of exps.controls; index as i">
-                <input formControlName="{{i}}" autocomplete="off" class="form-control" name="date" bsDatepicker
-                    [bsConfig]="{dateInputFormat: 'MM/YYYY'}" (onShown)="onOpenCalendar($event)">
-                <!-- <input type="date" formControlName="{{i}}" placeholder="EXP" class="form-control"> -->
-            </div>
-        </div>
-        <div formArrayName="totals" class="col-md-1">
-            <div *ngFor="let total of totals.controls; index as i">
-                <input formControlName="{{i}}" placeholder="Total" class="form-control">
-            </div>
-        </div>
-
-        <div formArrayName="medicines" class="col-md-1">
-            <div *ngFor="let medicine of medicines.controls; index as i">
-                <button (click)="addItem()" *ngIf="i == 0" class="btn btn-white btn-info btn-bold">
-                    <i class="ace-icon fa fa-plus bigger-120 orange"></i>
-                    Add
-                </button>
-                <button *ngIf="i > 0" (click)="removeItem(i)" class="btn btn-white btn-warning btn-bold">
-                    <i class="ace-icon fa fa-trash-o bigger-120 orange"></i>
-                    Delete
-                </button>
-
-            </div>
-        </div>
-
+  <div class="row">
+    <div formArrayName="medicines" class="col-md-1">
+      <div *ngFor="let medicine of medicines.controls; index as i">
+        <input readonly class="form-control" value="{{i+1}}" />
+      </div>
     </div>
-    <div class="space-10"></div>
-
-    <div class="row">
-        <div class="col-md-2 col-md-offset-1">
-            <button class="btn btn-primary" (click)="onSubmit()">Submit</button>
-        </div>
-
-        <div class="col-md-4">
-            <div class="custom-alert" #hasAlert></div>
-        </div>
-
+    <div formArrayName="medicines" class="col-md-2">
+      <div *ngFor="let medicine of medicines.controls; index as i">
+        <input id="medicine_{{i}}" formControlName="{{i}}" placeholder="Type Medicine Name" type="text"
+          class="form-control validation-input" [ngbTypeahead]="search" />
+      </div>
     </div>
+    <div formArrayName="batches" class="col-md-2">
+      <div *ngFor="let batch of batches.controls; index as i">
+        <input id="batch_{{i}}" formControlName="{{i}}" placeholder="Batch No" class="form-control validation-input">
+      </div>
+    </div>
+    <div formArrayName="quantities" class="col-md-1">
+      <div *ngFor="let quantity of quantities.controls; index as i">
+        <input type="number" formControlName="{{i}}" placeholder="Quantity" class="form-control">
+      </div>
+    </div>
+    <div formArrayName="mfgs" class="col-md-2">
+      <div *ngFor="let mfg of mfgs.controls; index as i">
+
+        <input formControlName="{{i}}" autocomplete="off" class="form-control" name="date" bsDatepicker
+          [bsConfig]="{dateInputFormat: 'MM/YYYY'}" (onShown)="onOpenCalendar($event)">
+      </div>
+    </div>
+    <div formArrayName="exps" class="col-md-2">
+      <div *ngFor="let exp of exps.controls; index as i">
+        <input id="exp_{{i}}" formControlName="{{i}}" autocomplete="off" class="form-control validation-input" name="date" bsDatepicker
+          [bsConfig]="{dateInputFormat: 'MM/YYYY'}" (onShown)="onOpenCalendar($event)">
+      </div>
+    </div>
+    <div formArrayName="totals" class="col-md-1">
+      <div *ngFor="let total of totals.controls; index as i">
+        <input formControlName="{{i}}" placeholder="Total" class="form-control">
+      </div>
+    </div>
+
+    <div formArrayName="medicines" class="col-md-1">
+      <div *ngFor="let medicine of medicines.controls; index as i">
+        <button (click)="addItem()" *ngIf="i == 0" class="btn btn-white btn-info btn-bold">
+          <i class="ace-icon fa fa-plus bigger-120 orange"></i>
+          Add
+        </button>
+        <button *ngIf="i > 0" (click)="removeItem(i)" class="btn btn-white btn-warning btn-bold">
+          <i class="ace-icon fa fa-trash-o bigger-120 orange"></i>
+          Delete
+        </button>
+
+      </div>
+    </div>
+
+  </div>
+  <div class="space-10"></div>
+
+  <div class="row">
+    <div class="col-md-2 col-md-offset-1">
+      <button class="btn btn-primary" (click)="onSubmit()">Submit</button>
+    </div>
+
+    <div class="col-md-4">
+      <div class="custom-alert" #hasAlert></div>
+    </div>
+
+  </div>
 </form>

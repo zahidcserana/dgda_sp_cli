@@ -1,3 +1,12 @@
 .my-table-header {
     font-weight: bold !important;
 }
+
+.invalid-input {
+    border-style: solid;
+    border-color: red;
+}
+
+.invoice-div {
+    background: green;
+}
