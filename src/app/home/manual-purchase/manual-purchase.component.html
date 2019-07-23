@@ -14,8 +14,8 @@
     <div class="form-group">
       <label class="col-sm-1 control-label no-padding-right" for="form-field-1"> Company Name</label>
       <div class="col-sm-3">
-        <input id="typeahead-company" name="company" type="text" [(ngModel)]="manualOrder.company" class="form-control validation-input"
-          [ngbTypeahead]="company_search" />
+        <input id="typeahead-company" name="company" type="text" [(ngModel)]="manualOrder.company"
+          class="form-control validation-input" [ngbTypeahead]="company_search" />
       </div>
 
       <label class="col-sm-1 control-label no-padding-right" for="form-field-1"> Invoice </label>
@@ -64,7 +64,7 @@
   <div class="row">
     <div formArrayName="medicines" class="col-md-1">
       <div *ngFor="let medicine of medicines.controls; index as i">
-        <input readonly class="form-control" value="{{i+1}}" />
+        <div class="form-control"> {{i+1}} </div>
       </div>
     </div>
     <div formArrayName="medicines" class="col-md-2">
@@ -92,8 +92,8 @@
     </div>
     <div formArrayName="exps" class="col-md-2">
       <div *ngFor="let exp of exps.controls; index as i">
-        <input id="exp_{{i}}" formControlName="{{i}}" autocomplete="off" class="form-control validation-input" name="date" bsDatepicker
-          [bsConfig]="{dateInputFormat: 'MM/YYYY'}" (onShown)="onOpenCalendar($event)">
+        <input id="exp_{{i}}" formControlName="{{i}}" autocomplete="off" class="form-control validation-input"
+          name="date" bsDatepicker [bsConfig]="{dateInputFormat: 'MM/YYYY'}" (onShown)="onOpenCalendar($event)">
       </div>
     </div>
     <div formArrayName="totals" class="col-md-1">

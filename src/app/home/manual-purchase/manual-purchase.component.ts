@@ -1,17 +1,24 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Observable, Subscription } from 'rxjs';
-import { catchError, debounceTime, distinctUntilChanged, map, switchMap, tap } from 'rxjs/operators';
-import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { CartService } from '../cart-service/cart.service';
-import { AlertService } from '../../modules/alert/alert.service';
-import * as $ from 'jquery';
-import Swal from 'sweetalert2';
+import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
+import { ActivatedRoute, Router } from "@angular/router";
+import { Observable, Subscription } from "rxjs";
+import {
+  catchError,
+  debounceTime,
+  distinctUntilChanged,
+  map,
+  switchMap,
+  tap
+} from "rxjs/operators";
+import { FormArray, FormBuilder, FormControl, FormGroup } from "@angular/forms";
+import { CartService } from "../cart-service/cart.service";
+import { AlertService } from "../../modules/alert/alert.service";
+import * as $ from "jquery";
+import Swal from "sweetalert2";
 
 @Component({
-  selector: 'app-manual-purchase',
-  templateUrl: './manual-purchase.component.html',
-  styleUrls: ['./manual-purchase.component.css']
+  selector: "app-manual-purchase",
+  templateUrl: "./manual-purchase.component.html",
+  styleUrls: ["./manual-purchase.component.css"]
 })
 export class ManualPurchaseComponent implements OnInit {
   companyList: any[] = [];
@@ -20,38 +27,26 @@ export class ManualPurchaseComponent implements OnInit {
   selectedFeatures: any = [];
   validationStatus = true;
   medicineSearch: any = {
-    company: '',
-    search: ''
+    company: "",
+    search: ""
   };
   manualOrder: any = {
-    company: '',
-    company_invoice: '',
-    discount: '',
-    purchase_date: new Date().toISOString().split('T')[0],
+    company: "",
+    company_invoice: "",
+    discount: "",
+    purchase_date: new Date().toISOString().split("T")[0],
     items: []
   };
 
   form = new FormGroup({
-    medicines: new FormArray([
-      new FormControl(),
-    ]),
-    batches: new FormArray([
-      new FormControl(),
-    ]),
-    quantities: new FormArray([
-      new FormControl(),
-    ]),
-    mfgs: new FormArray([
-      new FormControl(),
-    ]),
-    exps: new FormArray([
-      new FormControl(),
-    ]),
-    totals: new FormArray([
-      new FormControl(),
-    ]),
+    medicines: new FormArray([new FormControl()]),
+    batches: new FormArray([new FormControl()]),
+    quantities: new FormArray([new FormControl()]),
+    mfgs: new FormArray([new FormControl()]),
+    exps: new FormArray([new FormControl()]),
+    totals: new FormArray([new FormControl()])
   });
-  @ViewChild('hasAlert') alertContainer: ElementRef;
+  @ViewChild("hasAlert") alertContainer: ElementRef;
 
   constructor(
     private route: ActivatedRoute,
@@ -59,40 +54,38 @@ export class ManualPurchaseComponent implements OnInit {
     private router: Router,
     private cartS: CartService,
     private alertS: AlertService
-  ) {
-
-  }
-  name = 'Angular';
-  modelDate = '';
+  ) {}
+  name = "Angular";
+  modelDate = "";
 
   onOpenCalendar(container) {
     container.monthSelectHandler = (event: any): void => {
       container._store.dispatch(container._actions.select(event.date));
     };
-    container.setViewMode('month');
+    container.setViewMode("month");
   }
   get medicines(): FormArray {
-    return this.form.get('medicines') as FormArray;
+    return this.form.get("medicines") as FormArray;
   }
 
   get batches(): FormArray {
-    return this.form.get('batches') as FormArray;
+    return this.form.get("batches") as FormArray;
   }
 
   get quantities(): FormArray {
-    return this.form.get('quantities') as FormArray;
+    return this.form.get("quantities") as FormArray;
   }
 
   get mfgs(): FormArray {
-    return this.form.get('mfgs') as FormArray;
+    return this.form.get("mfgs") as FormArray;
   }
 
   get totals(): FormArray {
-    return this.form.get('totals') as FormArray;
+    return this.form.get("totals") as FormArray;
   }
 
   get exps(): FormArray {
-    return this.form.get('exps') as FormArray;
+    return this.form.get("exps") as FormArray;
   }
 
   addItem() {
@@ -113,51 +106,60 @@ export class ManualPurchaseComponent implements OnInit {
   }
 
   onSubmit() {
-    if (confirm('Are you sure to submit.')) {
+    if (confirm("Are you sure to submit.")) {
       console.log(this.form.value.medicines.length);
       this.validationCheck();
       this.emptyCheck(this.form.value);
       this.manualOrder.items = this.form.value;
       if (this.validationStatus) {
-        this.cartS.manualOrder(this.manualOrder).then(
-          res => {
+        this.cartS
+          .manualOrder(this.manualOrder)
+          .then(res => {
             if (res.success === true) {
-              this.alertS.success(this.alertContainer, 'Orders successfully submitted.', true, 3000);
+              Swal.fire({
+                position: "center",
+                type: "success",
+                title: "Orders successfully submitted.",
+                showConfirmButton: false,
+                timer: 1500
+              });
+              // this.alertS.success(this.alertContainer, 'Orders successfully submitted.', true, 3000);
               $(".validation-input").removeClass("invalid-input");
-              $('#myForm').trigger('reset');
+              // window.location.reload();
+              $("#myForm").trigger("reset");
+              $("input[name=company").val("");
+              $("input[name=company_invoice").val("");
             } else {
               this.alertS.error(this.alertContainer, res.error, true, 3000);
             }
-          }
-        ).catch(
-          err => {
+          })
+          .catch(err => {
             console.log(err);
             this.alertS.error(this.alertContainer, err.error.error, true, 3000);
-          }
-        );
+          });
       } else {
         Swal.fire({
-          type: 'warning',
-          title: 'Oops...',
-          text: 'Please enter all required field!',
+          type: "warning",
+          title: "Oops...",
+          text: "Please enter all required field!"
         });
       }
     }
   }
   /** Validation Start */
-  validationCheck(){
+  validationCheck() {
     const invoice = $("#company_invoice").val();
     console.log(invoice);
     if (!!invoice) {
-        this.validationStatus = true;
-      } else {
-        this.validationStatus = false;
-        $("#company_invoice").addClass("invalid-input");
-      }
+      this.validationStatus = true;
+    } else {
+      this.validationStatus = false;
+      $("#company_invoice").addClass("invalid-input");
+    }
   }
 
-  checkMedicine(items){
-     this.validationStatus = true;
+  checkMedicine(items) {
+    this.validationStatus = true;
     for (let i = 0; i < items.length; i++) {
       if (!!items[i]) {
         console.log(items[i]);
@@ -168,8 +170,8 @@ export class ManualPurchaseComponent implements OnInit {
     }
   }
 
-  checkBatch(items){
-     this.validationStatus = true;
+  checkBatch(items) {
+    this.validationStatus = true;
     for (let i = 0; i < items.length; i++) {
       if (!!items[i]) {
         console.log(items[i]);
@@ -179,8 +181,8 @@ export class ManualPurchaseComponent implements OnInit {
       }
     }
   }
-  checkExp(items){
-     this.validationStatus = true;
+  checkExp(items) {
+    this.validationStatus = true;
     for (let i = 0; i < items.length; i++) {
       if (!!items[i]) {
         console.log(items[i]);
@@ -192,31 +194,31 @@ export class ManualPurchaseComponent implements OnInit {
   }
 
   emptyCheck(data) {
-   this.checkMedicine(data.medicines);
-   this.checkBatch(data.batches);
-   this.checkExp(data.exps);
+    this.checkMedicine(data.medicines);
+    this.checkBatch(data.batches);
+    this.checkExp(data.exps);
   }
-/** Validation End */
+  /** Validation End */
   ngOnInit() {
-    this.sub = this.route.data.subscribe(
-      val => {
-        this.companyList = val && val['companies'] ? val['companies'] : [];
-      }
-    );
+    this.sub = this.route.data.subscribe(val => {
+      this.companyList = val && val["companies"] ? val["companies"] : [];
+    });
   }
 
   company_search = (company$: Observable<string>) =>
     company$.pipe(
       debounceTime(200),
       distinctUntilChanged(),
-      map(term => term.length < 2 ? []
-        : this.companyList.filter(v => v.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10))
+      map(term =>
+        term.length < 2
+          ? []
+          : this.companyList
+              .filter(v => v.toLowerCase().indexOf(term.toLowerCase()) > -1)
+              .slice(0, 10)
+      )
     );
 
   search = (text$: Observable<string>) => {
-
-    
-   
     return text$.pipe(
       debounceTime(300),
       distinctUntilChanged(),
@@ -225,22 +227,21 @@ export class ManualPurchaseComponent implements OnInit {
         // this.loader_sub = true;
       }),
       switchMap(term => {
-        if (!!this.manualOrder.company) 
-        {
+        if (!!this.manualOrder.company) {
           $("#typeahead-company").removeClass("invalid-input");
           this.medicineSearch.company = this.manualOrder.company;
           this.medicineSearch.search = term.trim();
           return this.getMedicineList(this.medicineSearch);
-      } else {
-        this.validationStatus = false;
-        $("#typeahead-company").addClass("invalid-input");
-      }       
-      }),
+        } else {
+          this.validationStatus = false;
+          $("#typeahead-company").addClass("invalid-input");
+        }
+      })
     );
   };
 
   private getMedicineList(params): any {
-    if (!params && params === '') {
+    if (!params && params === "") {
       // this.loader_sub = false;
       return [];
     }
@@ -257,5 +258,4 @@ export class ManualPurchaseComponent implements OnInit {
       })
     );
   }
-
 }
