@@ -5,6 +5,8 @@ import {RouterModule, Routes} from '@angular/router';
 import { CartService } from '../../cart-service/cart.service';
 import { FormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+
 const routes: Routes = [
   {
     path: '',
@@ -18,6 +20,7 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     FormsModule,
     NgbModule,
+    BsDatepickerModule.forRoot()
   ],
   exports: [RouterModule],
   providers: [CartService]
