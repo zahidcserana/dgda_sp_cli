@@ -33,8 +33,8 @@ export class ManualComponent implements OnInit {
     search: ''
   };
   purchaseOrder;
-
   items;
+  
   cartLoad: boolean;
   public model: any;
   loader_sub: boolean;
@@ -69,17 +69,18 @@ export class ManualComponent implements OnInit {
         this.companyList = val && val['companies'] ? val['companies'] : [];
       }
     );
-    this.purchaseOrder = localStorage.getItem('purchaseOrder');
-    if (this.purchaseOrder !== '') {
-      this.purchaseOrder = JSON.parse(this.purchaseOrder);
-     // this.order = this.purchaseOrder;
+    const myPurchaseOrder = localStorage.getItem('purchaseOrder');
+    console.log(myPurchaseOrder);
+    if (myPurchaseOrder !== null) {
+      this.purchaseOrder = JSON.parse(myPurchaseOrder);
+     this.order = this.purchaseOrder;
     }
-    this.items = localStorage.getItem('purchaseItem');
-    if (this.items !== '') {
-      this.items = JSON.parse(this.items);
+    const dataItem = localStorage.getItem('purchaseItem');
+    if (dataItem !== null) {
+      this.items = (JSON.parse(dataItem));
     }
 
-
+    console.log(this.items);
 
 
   }
@@ -139,23 +140,21 @@ export class ManualComponent implements OnInit {
 
   addToCart() {
     console.log(this.orderItem);
-    // console.log(this.orderItem);
-    // this.orderItem.batches.push(this.item.batch_no);
-    // this.orderItem.exps.push(this.item.exp_date);
-    // this.orderItem.quantities.push(this.item.quantity);
-    // this.orderItem.medicines.push(this.item.medicine);
-    // this.orderItem.mfgs.push('');
-    // this.orderItem.totals.push('');
+    let aItem = [];
+    const dataItem = localStorage.getItem('purchaseItem');
+    if (dataItem !== null) {
+     
+      aItem = (JSON.parse(dataItem));
+      aItem.push(this.orderItem);
 
-    // console.log(this.orderItem);
-    // this.order.items.push(this.item);
-
-    // console.log(this.order);
-    //this.purchaseOrder.items.push(this.item);
-    this.items.push(this.orderItem);
+      
+    }
+    
     this.cartS.saveOrderInlocalStorage(this.order);
-    this.cartS.savePurchaseItemInlocalStorage(this.items);
-    // $('#myForm').trigger('reset');
+    this.cartS.savePurchaseItemInlocalStorage(aItem);
+    this.items = JSON.parse(localStorage.getItem('purchaseItem'));
+
+     $('#myForm').trigger('reset');
     // const token = localStorage.getItem('token');
     // this.cartItem.token = token ? token : '';
 
