@@ -14,7 +14,7 @@
     <div class="form-group">
       <label class="col-sm-1 control-label no-padding-right" for="form-field-1"> Company Name</label>
       <div class="col-sm-3">
-        <input id="typeahead-company" name="company" [(ngModel)]="cartItem.company" type="text"
+        <input id="typeahead-company" name="company" [(ngModel)]="order.company" type="text"
           class="form-control validation-input" [ngbTypeahead]="company_search" />
       </div>
 
@@ -39,30 +39,31 @@
     <div class="col-md-12">
       <!-- PAGE CONTENT BEGINS -->
       <form class="form-horizontal" role="form" id="myForm" (ngSubmit)="addToCart()">
+        <!-- <input type="hidden" name="orderItem.company" value="{{ order.company }}"> -->
         <div class="form-group">
 
           <div *ngIf="loader_sub" class="search-loader"></div>
           <label class="control-label col-xs-6 col-sm-1 no-padding-right">Medicine </label>
           <div class="col-xs-6 col-sm-2">
-            <input placeholder="Type Name or ID" id="typeahead-basic" name="search" [(ngModel)]="cartItem.medicine"
-              type="text" class="form-control" [ngbTypeahead]="search" />
+
+              <input placeholder="Type Name or ID" id="typeahead-basic" name="search"
+                        [(ngModel)]="orderItem.medicine" type="text" class="form-control" [ngbTypeahead]="search" />
           </div>
 
           <label class="control-label col-xs-6 col-sm-1 no-padding-right">Batch</label>
           <div class="col-xs-6 col-sm-2">
-              <input id="batch_no" class="form-control" placeholder="Batch No">
+              <input class="form-control" name="batch_no" [(ngModel)]="orderItem.batch_no" placeholder="Batch No">
           </div>
 
           <label class="col-sm-1 control-label no-padding-right" for="form-field-1-1"> Quantity </label>
           <div class="col-sm-2">
-            <input type="number" id="quantity" name="quantity" [(ngModel)]="cartItem.quantity"
+            <input type="number" id="quantity" name="quantity" [(ngModel)]="orderItem.quantity"
               placeholder="Quantity" class="form-control" />
           </div>
 
           <label class="col-sm-1 control-label no-padding-right" for="form-field-1-1"> EXP </label>
           <div class="col-sm-2">
-              <input id="exp_date" class="form-control"
-              name="date" bsDatepicker [bsConfig]="{dateInputFormat: 'MM/YYYY'}" (onShown)="onOpenCalendar($event)">
+              <input id="exp_date" class="form-control" [(ngModel)]="orderItem.exp_date" name="exp_date" bsDatepicker [bsConfig]="{dateInputFormat: 'MM/YYYY'}" (onShown)="onOpenCalendar($event)">
           </div>
         </div>
 
@@ -78,7 +79,7 @@
           <div class="col-md-offset-1 col-md-9">
             <button class="btn btn-info add-to-cart" type="submit">
               <i class="ace-icon fa fa-check bigger-110"></i>
-              Add to Cart
+              Add to Order
             </button>
 
             &nbsp; &nbsp; &nbsp;
@@ -99,43 +100,21 @@
       <thead>
         <tr>
           <th style="width:40%">Product</th>
-          <th style="width:10%">Price</th>
-          <th style="width:30%">Quantity</th>
-          <th style="width:10%" class="text-center">Subtotal</th>
+          <th style="width:10%">Quantity</th>
+          <th style="width:30%" class="text-center">Exp</th>
           <th style="width:10%">Action</th>
         </tr>
       </thead>
-      <tbody *ngIf="productList && productList?.cart_items?.length > 0; else NoItem">
-        <ng-container *ngFor="let cart of productList?.cart_items; let i = 'index'; trackBy: trackList">
+      <tbody *ngIf="items && items?.length > 0; else NoItem">
+        <ng-container *ngFor="let cart of items; let i = 'index'; trackBy: trackList">
 
           <tr>
             <td data-th="Product">
-              <div class="row">
-                <div class="col-sm-2 hidden-xs"><img
-                    src="https://www.netmeds.com/pub/media/catalog/product/cache/image/57453768b1c789093496adaa9e415a9d/f/a/fast-up-vegan-sports-energy-gel-chocolate-flavour-5x-30-gm-839458366.jpg"
-                    alt="..." class="img-responsive" /></div>
-                <div class="col-sm-10">
-                  <p class="nomargin">{{cart.medicine.brand_name}}</p>
-                  <small>{{cart.batch_no}}</small>
-                </div>
-              </div>
+                <p class="nomargin">{{cart.medicine}}</p>
+                <small>(Batch No: {{cart.batch_no}})</small>
             </td>
-            <td data-th="Price">&#2547; {{cart.unit_price}}</td>
-            <td data-th="Quantity">
-              <div class="quantity clearfix">
-                <span style="background: black !important;" [ngClass]="{'block-cursor': increament == i}"
-                  class="btn btn-sm btn-dark no-m" (click)="decreaseQuant(cart, i)">-</span>
-                <span class="cart-qunt btn btn-sm no-m"
-                  style="position: relative;background: #ffffff!important;color: black!important;">{{cart.quantity}}
-                  <div *ngIf="increament == i" class="m-loader m-loader--brand"
-                    style="position: absolute;width: 30px;top:15px; left:10px;"></div>
-                </span>
-                <span style="background: black !important;" [ngClass]="{'block-cursor': increament == i}"
-                  class="btn btn-sm btn-dark  no-m" (click)="increaseQuant(cart, i)">+</span>
-              </div>
-
-            </td>
-            <td data-th="Subtotal" class="text-center">&#2547; {{cart.sub_total}}</td>
+            <td data-th="Price"> {{cart.quantity}}</td>
+            <td data-th="Subtotal" class="text-center">{{cart.exp_date}}</td>
             <td class="actions" data-th="">
               <button (click)="removeItem(cart.id)" id="item_id" class="btn btn-danger btn-sm"><i
                   class="fa fa-trash-o"></i></button>
@@ -144,15 +123,6 @@
         </ng-container>
       </tbody>
       <tfoot>
-        <tr class="visible-xs">
-          <td class="text-center"><strong>Total {{productList ? productList.sub_total : 0}}</strong></td>
-        </tr>
-        <tr>
-          <td colspan="3">&nbsp;</td>
-          <td class="hidden-xs text-center"><strong>Total
-              &#2547; {{productList ? productList.sub_total : 0}}</strong></td>
-        </tr>
-
         <tr>
           <td colspan="5" id="checkout-cart"><a (click)="submitOrder()" class="btn btn-success btn-block">Submit
               Order <i class="fa fa-angle-right"></i></a></td>

@@ -6,6 +6,8 @@ import { CartService } from '../../cart-service/cart.service';
 import { AlertService } from '../../../modules/alert/alert.service';
 import * as $ from 'jquery';
 import { debounceTime, distinctUntilChanged, map, tap, switchMap, catchError } from 'rxjs/operators';
+import { OrderModel, OrderItemModel } from '../models/order.model';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-manual',
@@ -13,22 +15,26 @@ import { debounceTime, distinctUntilChanged, map, tap, switchMap, catchError } f
   styleUrls: ['./manual.component.css']
 })
 export class ManualComponent implements OnInit {
-
-  cartItem: any = {
+  order: OrderModel = new OrderModel();
+  orderItem: OrderItemModel = new OrderItemModel();
+  item: any = {
     medicine: '',
-    company: '',
+    exp_date: '',
     quantity: '',
-    token: ''
+    batch_no: ''
   };
-  order: any = {
-    token: '',
-    company_invoice: '',
-    purchase_date: ''
-  };
+  // order: any = {
+  //   token: '',
+  //   company_invoice: '',
+  //   purchase_date: ''
+  // };
   medicineSearch: any = {
     company: '',
     search: ''
   };
+  purchaseOrder;
+
+  items;
   cartLoad: boolean;
   public model: any;
   loader_sub: boolean;
@@ -39,6 +45,7 @@ export class ManualComponent implements OnInit {
   loading = false;
   productList;
   increament: number;
+  validationStatus = true;
 
   @ViewChild('hasAlert') alertContainer: ElementRef;
   private product: null;
@@ -56,19 +63,25 @@ export class ManualComponent implements OnInit {
 
   ngOnInit() {
     console.log('purchase');
-
+    this.order.purchase_date = new Date().toISOString().split("T")[0];
     this.sub = this.route.data.subscribe(
       val => {
         this.companyList = val && val['companies'] ? val['companies'] : [];
       }
     );
-
-    const token = localStorage.getItem('token');
-    this.cartItem.token = token ? token : '';
-    console.log('token');
-    if (this.cartItem.token !== '') {
-      this.checkToken(this.cartItem.token);
+    this.purchaseOrder = localStorage.getItem('purchaseOrder');
+    if (this.purchaseOrder !== '') {
+      this.purchaseOrder = JSON.parse(this.purchaseOrder);
+     // this.order = this.purchaseOrder;
     }
+    this.items = localStorage.getItem('purchaseItem');
+    if (this.items !== '') {
+      this.items = JSON.parse(this.items);
+    }
+
+
+
+
   }
   name = "Angular";
   modelDate = "";
@@ -79,20 +92,94 @@ export class ManualComponent implements OnInit {
     };
     container.setViewMode("month");
   }
-  checkToken(token) {
-    this.cartS.checkCart(this.cartItem.token)
-      .subscribe(res => {
-        if (res.status === true) {
-          this.cartS.cartDetails(this.cartItem.token).subscribe((data) => this.productList = data);
 
-        } else {
-          localStorage.removeItem('user_cart');
-          localStorage.removeItem('token');
-          this.productList = [];
-        }
-      });
+
+  submitOrder() {
+    if (confirm("Are you sure to submit.")) {
+      //console.log(this.form.value.medicines.length);
+      // this.validationCheck();
+      // this.emptyCheck(this.form.value);
+      // this.manualOrder.items = this.form.value;
+
+      if (this.validationStatus) {
+        this.cartS
+          .manualOrder(this.order)
+          .then(res => {
+            if (res.success === true) {
+              Swal.fire({
+                position: "center",
+                type: "success",
+                title: "Orders successfully submitted.",
+                showConfirmButton: false,
+                timer: 1500
+              });
+              // this.alertS.success(this.alertContainer, 'Orders successfully submitted.', true, 3000);
+              $(".validation-input").removeClass("invalid-input");
+              // window.location.reload();
+              $("#myForm").trigger("reset");
+              $("input[name=company").val("");
+              $("input[name=company_invoice").val("");
+            } else {
+              this.alertS.error(this.alertContainer, res.error, true, 3000);
+            }
+          })
+          .catch(err => {
+            console.log(err);
+            this.alertS.error(this.alertContainer, err.error.error, true, 3000);
+          });
+      } else {
+        Swal.fire({
+          type: "warning",
+          title: "Oops...",
+          text: "Please enter all required field!"
+        });
+      }
+    }
   }
 
+  addToCart() {
+    console.log(this.orderItem);
+    // console.log(this.orderItem);
+    // this.orderItem.batches.push(this.item.batch_no);
+    // this.orderItem.exps.push(this.item.exp_date);
+    // this.orderItem.quantities.push(this.item.quantity);
+    // this.orderItem.medicines.push(this.item.medicine);
+    // this.orderItem.mfgs.push('');
+    // this.orderItem.totals.push('');
+
+    // console.log(this.orderItem);
+    // this.order.items.push(this.item);
+
+    // console.log(this.order);
+    //this.purchaseOrder.items.push(this.item);
+    this.items.push(this.orderItem);
+    this.cartS.saveOrderInlocalStorage(this.order);
+    this.cartS.savePurchaseItemInlocalStorage(this.items);
+    // $('#myForm').trigger('reset');
+    // const token = localStorage.getItem('token');
+    // this.cartItem.token = token ? token : '';
+
+    // this.cartS.addtoCart(this.cartItem).then(
+    //   res => {
+    //     if (res.success === true) {
+    //       // $('#myForm').trigger('reset');
+    //       this.alertS.success(this.alertContainer, 'Medicine has been added to cart', true, 3000);
+    //       this.cartS.saveCartsInlocalStorage(res.data);
+    //       localStorage.setItem('token', res.data.token);
+
+    //       this.productList = res.data;
+
+    //       // this.cartS.cartReload.next({ reload: true, items: res.result.data.cart_items });
+    //       this.cartLoad = false;
+    //     }
+    //   }
+    // ).catch(
+    //   err => {
+    //     this.cartLoad = false;
+    //     this.alertS.error(this.alertContainer, 'Medicine has not been added to cart', true, 3000);
+    //   }
+    // );
+  }
   decreaseQuant(cart, i) {
     if (cart.quantity > 1) {
       this.increament = i;
@@ -175,49 +262,9 @@ export class ManualComponent implements OnInit {
     );
   }
 
-  submitOrder() {
-    this.order.token = localStorage.getItem('token');
-    this.cartS.makeOrder(this.order).then(
-      res => {
-        if (res.success === true) {
-          this.alertS.success(this.alertContainer, 'Orders successfully submitted.', true, 3000);
-          localStorage.removeItem('user_cart');
-          localStorage.removeItem('token');
-          this.productList = [];
-        }
-      }
-    ).catch(
-      err => {
-        this.alertS.error(this.alertContainer, err.error.error, true, 3000);
-      }
-    );
-  }
 
-  addToCart() {
-    const token = localStorage.getItem('token');
-    this.cartItem.token = token ? token : '';
 
-    this.cartS.addtoCart(this.cartItem).then(
-      res => {
-        if (res.success === true) {
-          // $('#myForm').trigger('reset');
-          this.alertS.success(this.alertContainer, 'Medicine has been added to cart', true, 3000);
-          this.cartS.saveCartsInlocalStorage(res.data);
-          localStorage.setItem('token', res.data.token);
 
-          this.productList = res.data;
-
-          // this.cartS.cartReload.next({ reload: true, items: res.result.data.cart_items });
-          this.cartLoad = false;
-        }
-      }
-    ).catch(
-      err => {
-        this.cartLoad = false;
-        this.alertS.error(this.alertContainer, 'Medicine has not been added to cart', true, 3000);
-      }
-    );
-  }
 
   company_search = (company$: Observable<string>) =>
     company$.pipe(
@@ -237,7 +284,7 @@ export class ManualComponent implements OnInit {
       }),
       switchMap(term => {
         this.loader_sub = true;
-        this.medicineSearch.company = this.cartItem.company;
+        this.medicineSearch.company = this.order.company;
         this.medicineSearch.search = term.trim();
 
         return this.getMedicineList(this.medicineSearch);
