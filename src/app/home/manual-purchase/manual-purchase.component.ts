@@ -197,10 +197,19 @@ export class ManualPurchaseComponent implements OnInit {
     }
   }
 
+  checkMfg(items) {
+    for (let i = 0; i < items.length; i++) {
+      if (!!items[i]) {
+        items[i] = this.datePipe.transform(new Date(items[i]),"yyyy-MM-dd");
+      }
+    }
+  }
+
   emptyCheck(data) {
     this.checkMedicine(data.medicines);
     this.checkBatch(data.batches);
     this.checkExp(data.exps);
+    this.checkMfg(data.mfgs);
   }
   /** Validation End */
   ngOnInit() {
