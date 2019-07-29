@@ -8,6 +8,7 @@ import * as $ from 'jquery';
 import { debounceTime, distinctUntilChanged, map, tap, switchMap, catchError } from 'rxjs/operators';
 import { OrderModel, OrderItemModel } from '../models/order.model';
 import Swal from 'sweetalert2';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-manual',
@@ -23,11 +24,7 @@ export class ManualComponent implements OnInit {
     quantity: '',
     batch_no: ''
   };
-  // order: any = {
-  //   token: '',
-  //   company_invoice: '',
-  //   purchase_date: ''
-  // };
+
   medicineSearch: any = {
     company: '',
     search: ''
@@ -55,7 +52,8 @@ export class ManualComponent implements OnInit {
     private router: Router,
     private cartS: CartService,
     private route: ActivatedRoute,
-    private alertS: AlertService
+    private alertS: AlertService,
+    private datePipe: DatePipe
   ) {
 
 
@@ -70,17 +68,14 @@ export class ManualComponent implements OnInit {
       }
     );
     this.purchaseOrder = localStorage.getItem('purchaseOrder');
-    if (this.purchaseOrder !== '') {
+    if (this.purchaseOrder !== null) {
       this.purchaseOrder = JSON.parse(this.purchaseOrder);
-     // this.order = this.purchaseOrder;
+      this.order = this.purchaseOrder;
     }
     this.items = localStorage.getItem('purchaseItem');
-    if (this.items !== '') {
+    if (this.items !== null) {
       this.items = JSON.parse(this.items);
     }
-
-
-
 
   }
   name = "Angular";
@@ -96,14 +91,20 @@ export class ManualComponent implements OnInit {
 
   submitOrder() {
     if (confirm("Are you sure to submit.")) {
-      //console.log(this.form.value.medicines.length);
-      // this.validationCheck();
-      // this.emptyCheck(this.form.value);
-      // this.manualOrder.items = this.form.value;
+      this.purchaseOrder = localStorage.getItem('purchaseOrder');
+      if (this.purchaseOrder !== null) {
+        this.purchaseOrder = JSON.parse(this.purchaseOrder);
+        this.order = this.purchaseOrder;
+      }
+      this.items = localStorage.getItem('purchaseItem');
+      if (this.items !== null) {
+        this.items = JSON.parse(this.items);
+        this.order.items = this.items;
+      }
 
       if (this.validationStatus) {
         this.cartS
-          .manualOrder(this.order)
+          .manualPurchase(this.order)
           .then(res => {
             if (res.success === true) {
               Swal.fire({
@@ -113,6 +114,9 @@ export class ManualComponent implements OnInit {
                 showConfirmButton: false,
                 timer: 1500
               });
+              localStorage.removeItem('purchaseOrder');
+              localStorage.removeItem('purchaseItem');
+              this.items = [];
               // this.alertS.success(this.alertContainer, 'Orders successfully submitted.', true, 3000);
               $(".validation-input").removeClass("invalid-input");
               // window.location.reload();
@@ -139,132 +143,27 @@ export class ManualComponent implements OnInit {
 
   addToCart() {
     console.log(this.orderItem);
-    // console.log(this.orderItem);
-    // this.orderItem.batches.push(this.item.batch_no);
-    // this.orderItem.exps.push(this.item.exp_date);
-    // this.orderItem.quantities.push(this.item.quantity);
-    // this.orderItem.medicines.push(this.item.medicine);
-    // this.orderItem.mfgs.push('');
-    // this.orderItem.totals.push('');
 
-    // console.log(this.orderItem);
-    // this.order.items.push(this.item);
+    this.orderItem.exp_date = this.datePipe.transform(new Date(this.orderItem.exp_date),"yyyy-MM-dd");
 
-    // console.log(this.order);
-    //this.purchaseOrder.items.push(this.item);
-    this.items.push(this.orderItem);
-    this.cartS.saveOrderInlocalStorage(this.order);
-    this.cartS.savePurchaseItemInlocalStorage(this.items);
-    // $('#myForm').trigger('reset');
-    // const token = localStorage.getItem('token');
-    // this.cartItem.token = token ? token : '';
 
-    // this.cartS.addtoCart(this.cartItem).then(
-    //   res => {
-    //     if (res.success === true) {
-    //       // $('#myForm').trigger('reset');
-    //       this.alertS.success(this.alertContainer, 'Medicine has been added to cart', true, 3000);
-    //       this.cartS.saveCartsInlocalStorage(res.data);
-    //       localStorage.setItem('token', res.data.token);
+    let orderItems = [];
 
-    //       this.productList = res.data;
+    if (localStorage.getItem('purchaseItem') !== null) {
+      orderItems = JSON.parse(localStorage.getItem('purchaseItem'));
 
-    //       // this.cartS.cartReload.next({ reload: true, items: res.result.data.cart_items });
-    //       this.cartLoad = false;
-    //     }
-    //   }
-    // ).catch(
-    //   err => {
-    //     this.cartLoad = false;
-    //     this.alertS.error(this.alertContainer, 'Medicine has not been added to cart', true, 3000);
-    //   }
-    // );
-  }
-  decreaseQuant(cart, i) {
-    if (cart.quantity > 1) {
-      this.increament = i;
-      const obj = {
-        id: cart.id,
-        token: this.productList.token,
-        sales_tax: cart.sales_tax,
-        increment: 0,
-        price: cart.price,
-        rental_duration: cart.rental_duration
-      };
-      this.updateCartQunt(obj);
     }
+    orderItems.push(this.orderItem);
+
+    this.cartS.saveOrderInlocalStorage(this.order);
+    this.cartS.savePurchaseItemInlocalStorage(orderItems);
+
+    this.items = localStorage.getItem('purchaseItem');
+    if (this.items !== null) {
+      this.items = JSON.parse(this.items);
+    }
+    $('#myForm').trigger('reset');
   }
-
-  increaseQuant(cart, i) {
-    this.increament = i;
-    const obj = {
-      id: cart.id,
-      token: this.productList.token,
-      increment: 1
-    };
-    this.updateCartQunt(obj);
-  }
-
-  updateCartQunt(data) {
-    console.log(data);
-    this.cartS
-      .updateCart(data)
-      .then(res => {
-        if (res.success === true) {
-          this.productList = res.data;
-          this.cartS.saveCartsInlocalStorage(res.data);
-          $('custom-alert').css('display', 'block');
-          this.alertS.success(
-            this.alertContainer,
-            'Cart Updated Successfully',
-            true,
-            3000
-          );
-        } else {
-          $('custom-alert').css('display', 'block');
-          this.alertS.error(
-            this.alertContainer,
-            'Something wrong !! Please try again ',
-            true,
-            3000
-          );
-        }
-        this.increament = null;
-      })
-      .catch(err => {
-        console.log(err);
-        $('custom-alert').css('display', 'block');
-        this.alertS.error(
-          this.alertContainer,
-          'Something wrong !! Please try again',
-          true,
-          3000
-        );
-        this.increament = null;
-      });
-  }
-
-  removeItem(itemId) {
-    this.cartS.deleteCart(itemId, localStorage.getItem('token')).then(
-      res => {
-        if (res.success === true) {
-          this.alertS.success(this.alertContainer, 'Item successfull deleted', true, 3000);
-          this.cartS.saveCartsInlocalStorage(res.data);
-          localStorage.setItem('token', res.data.token);
-
-          this.productList = res.data;
-        }
-      }
-    ).catch(
-      err => {
-        this.alertS.error(this.alertContainer, err.error.error, true, 3000);
-      }
-    );
-  }
-
-
-
-
 
   company_search = (company$: Observable<string>) =>
     company$.pipe(

@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 
 import { ManualPurchaseRoutingModule } from './manual-purchase-routing.module';
 import { ManualPurchaseComponent } from './manual-purchase.component';
@@ -21,6 +21,6 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
     BsDatepickerModule.forRoot()
   ],
-  providers: [CartService]
+  providers: [CartService, DatePipe]
 })
 export class ManualPurchaseModule { }

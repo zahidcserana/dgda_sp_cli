@@ -14,6 +14,7 @@ import { CartService } from "../cart-service/cart.service";
 import { AlertService } from "../../modules/alert/alert.service";
 import * as $ from "jquery";
 import Swal from "sweetalert2";
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: "app-manual-purchase",
@@ -53,7 +54,8 @@ export class ManualPurchaseComponent implements OnInit {
     private formBuilder: FormBuilder,
     private router: Router,
     private cartS: CartService,
-    private alertS: AlertService
+    private alertS: AlertService,
+    private datePipe: DatePipe
   ) {}
   name = "Angular";
   modelDate = "";
@@ -185,6 +187,8 @@ export class ManualPurchaseComponent implements OnInit {
     this.validationStatus = true;
     for (let i = 0; i < items.length; i++) {
       if (!!items[i]) {
+        items[i] = this.datePipe.transform(new Date(items[i]),"yyyy-MM-dd");
+
         console.log(items[i]);
       } else {
         this.validationStatus = false;
