@@ -63,7 +63,7 @@
 
           <label class="col-sm-1 control-label no-padding-right" for="form-field-1-1"> EXP </label>
           <div class="col-sm-2">
-              <input id="exp_date" class="form-control" [(ngModel)]="orderItem.exp_date" name="exp_date" bsDatepicker [bsConfig]="{dateInputFormat: 'MM/YYYY'}" (onShown)="onOpenCalendar($event)">
+              <input autocomplete="off" id="exp_date" class="form-control" [(ngModel)]="orderItem.exp_date" name="exp_date" bsDatepicker [bsConfig]="{dateInputFormat: 'MM/YYYY'}" (onShown)="onOpenCalendar($event)">
           </div>
         </div>
 

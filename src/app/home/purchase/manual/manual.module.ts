@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { ManualComponent } from './manual.component';
 import {RouterModule, Routes} from '@angular/router';
 import { CartService } from '../../cart-service/cart.service';
@@ -23,6 +23,6 @@ const routes: Routes = [
     BsDatepickerModule.forRoot()
   ],
   exports: [RouterModule],
-  providers: [CartService]
+  providers: [CartService, DatePipe]
 })
 export class ManualModule { }
